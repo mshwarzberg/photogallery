@@ -1,0 +1,38 @@
+.register--block {
+    justify-content: center;
+    align-items: center;
+    width: 50vw;
+    position: absolute;
+    top:10vw;
+    right: 25vw;
+    background-color: #333333;
+    padding: 1rem;
+}
+
+.register--title {
+    text-align: center;
+    font-size: 3rem;
+    cursor: default;
+}
+
+.register--form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+#register--username, #register--email, #register--password {
+    width: 25rem;
+    height: 3rem;
+    margin: 1rem auto 1rem auto;
+    border-radius: 1rem;
+    border: 1px solid blue;
+}
+
+.register--form > label {
+    font-size: 1.5rem;
+    cursor: default;
+    color: blue;
+}
