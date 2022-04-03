@@ -1,0 +1,14 @@
+.navbar {
+    background-color: #333377;
+    width: 100vw;
+    height: 10vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.navbar > a {
+    color: white;
+    font-size: 2rem;
+    margin-left: 3rem;
+}
