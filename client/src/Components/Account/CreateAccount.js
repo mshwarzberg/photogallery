@@ -13,7 +13,7 @@ function CreateAccount() {
   }
 
   function changeRegisterInput(e) {
-    const { name, value, type } = e.target;
+    const { name, value} = e.target;
     setRegisterInput((prevRegisterInput) => ({
       ...prevRegisterInput,
       [name]: value,
@@ -31,6 +31,7 @@ function CreateAccount() {
           type="text"
           placeholder="Username"
           id="register--username"
+          className="register--input"
           required
         />
         <label htmlFor="register--email">Enter your email:</label>
@@ -40,6 +41,7 @@ function CreateAccount() {
           type="email"
           placeholder="Email"
           id="register--email"
+          className="register--input"
           required
         />
         <label htmlFor="register--password">Create secure password:</label>
@@ -49,9 +51,10 @@ function CreateAccount() {
           type="password"
           placeholder="Password"
           id="register--password"
+          className="register--input"
           required
         />
-        <button type="submit" onClick={registerUser}>
+        <button type="submit" onClick={registerUser} id="register--submit">
           Register
         </button>
       </form>

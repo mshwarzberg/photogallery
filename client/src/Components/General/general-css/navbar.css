@@ -1,14 +1,97 @@
-.navbar {
-    background-color: #333377;
-    width: 100vw;
-    height: 5rem;
-    position: absolute;
-    top: 0;
-    left: 0;
+@keyframes showNav {
+    0% {
+        transform: translateY(-4.5rem);
+    }
+    100% {
+        transform: translateY(0);
+    }
 }
 
-.navbar > a {
+ @keyframes hideNav {
+    0% {
+        transform: translateY(5rem);
+    }
+    100% {
+        transform: translateY(0)
+    }
+}
+
+@keyframes transformNavButton {
+    0% {
+        transform:scaleX(0.2);
+    }
+    100% {
+        transform: scaleX(1.1);
+    }
+}
+
+.navbar--visible, .navbar--hidden {
+    display: flex;
+    flex-direction: column;
+    padding-top: 2rem;
+    height: 5rem;
+    width: 100vw;
+    border-bottom: 4px solid #000;
+}
+.navbar--visible {
+    animation: 400ms linear forwards showNav;
+    background-color: #333377cc;
+    
+}
+
+.navbar--hidden {
+    
+    animation: 400ms linear forwards hideNav;
+    width: 100vw;
+    background-color: #111144cc;
+    position: absolute;
+    top: -4.5rem;
+}
+
+.navbar--links {
     color: white;
     font-size: 2rem;
+}
+
+.navbar--links:hover {
+    color: pink;
+    animation: 100ms forwards scaleButton;
+    text-decoration: underline;
+}
+
+#nav--home-link {
+    float: left;
     margin-left: 3rem;
+    text-decoration: none;
+    font-size: 2.5rem;
+}
+
+#nav--register-link, #nav--login-link, #nav--profile-link {
+    float: right;
+    margin: auto 2rem auto auto;
+    text-decoration: none;
+}
+
+.navbar--bottom {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0;
+}
+
+#navbar--show-hide {
+    cursor: pointer;
+    background-color: #ffffff00;
+    border: none;
+    color: #ffff00;
+    font-size: 1.5rem;
+    padding-bottom: 6px;
+    width: 5rem;
+}
+
+#navbar--show-hide:hover {
+    animation: transformNavButton 500ms forwards;
+    background-color: #8888ff44;
+    font-size: 1.5rem;
+    border-radius: 2rem;
+    width: 10rem;
 }

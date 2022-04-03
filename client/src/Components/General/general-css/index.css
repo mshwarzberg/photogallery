@@ -1,5 +1,19 @@
+@keyframes scaleButton {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+* {
+    font: 1rem arial;
+    margin: 0;
+    padding: 0;
+}
+
 body {
-    background-color: #555555;
-    align-items: center;
-    justify-content: center;
+    background: rgb(101,81,252);
+    background: linear-gradient(90deg, rgba(101,81,252,0.8) 0%, rgba(191,244,245,0.8) 49%, rgba(196,80,246,0.8) 100%);
 }

@@ -1,15 +1,16 @@
 .register--block {
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 50vw;
-    position: absolute;
-    top:10vw;
-    right: 25vw;
-    background-color: #333333;
+    background-color: #33333388;
     padding: 1rem;
+    border-radius: 2rem 1rem 2rem 1rem;
+    max-width: 40vw;
 }
 
 .register--title {
+    color: white;
     text-align: center;
     font-size: 3rem;
     cursor: default;
@@ -23,16 +24,41 @@
     position: relative;
 }
 
-#register--username, #register--email, #register--password {
-    width: 25rem;
+.register--input {
+    width: 80%;
     height: 3rem;
-    margin: 1rem auto 1rem auto;
-    border-radius: 1rem;
-    border: 1px solid blue;
+    margin: 2rem auto 2rem auto;
+    border-radius: 4px;
+    border-style: none;
+    text-indent: 0.5rem;
+    outline: none;
+}
+
+.register--input:focus {
+    border-style: none;
+    border: 4px double black;
 }
 
 .register--form > label {
     font-size: 1.5rem;
     cursor: default;
     color: blue;
+}
+
+#register--submit {
+    cursor: pointer;
+    color: white;
+    width: 8rem;
+    height: 4rem;
+    font-size: 1.5rem;
+    border: 2px solid black;
+    border-radius: 4px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    background-color: #444499;
+}
+
+#register--submit:hover {
+    animation: 200ms forwards scaleButton;
+    background-color: #6666bb;
 }
