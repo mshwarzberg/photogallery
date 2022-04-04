@@ -1,0 +1,21 @@
+const express = require('express')
+const app = express()
+const register = require('./routes/accounts/createaccount')
+const login = require('./routes/accounts/login')
+const db = require('./config/mysql')
+
+app.use(express.json())
+
+db.connect((err) => {
+    if (err) {
+        console.log(err);
+    }
+    console.log('Connected to MYSQL Server');
+})
+
+app.listen(5000, () => {
+    console.log('Now listening on port 5000');
+})
+
+app.use('/register', register)
+app.use('/login', login)

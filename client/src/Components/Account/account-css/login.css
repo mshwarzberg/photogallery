@@ -1,8 +1,8 @@
-.register--parent {
+.login--parent {
     position: relative;
 }
 
-.register--block {
+.login--block {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -16,7 +16,7 @@
     right: 25vw;
 }
 
-.register--title {
+.login--title {
     color: white;
     text-align: center;
     font-size: 3rem;
@@ -24,7 +24,7 @@
     margin: 1rem auto 2rem auto;
 }
 
-.register--error {
+.login--error {
     color: red;
     text-align: center;
     font-size: 2rem;
@@ -34,14 +34,14 @@
     margin: 1.5rem auto 2.5rem auto;
 }
 
-.register--form {
+.login--form {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.register--input {
+.login--input {
     height: 3rem;
     margin: 2rem auto 2rem auto;
     border-radius: 4px;
@@ -51,18 +51,18 @@
     width: 40vw;
 }
 
-.register--input:focus {
+.login--input:focus {
     border-style: none;
     border: 2px solid black;
 }
 
-.register--form > label {
+.login--form > label {
     font-size: 1.5rem;
     cursor: default;
     color: black;
 }
 
-#register--submit {
+#login--submit {
     cursor: pointer;
     color: white;
     width: 8rem;
@@ -75,12 +75,12 @@
     background-color: #444499;
 }
 
-#register--submit:hover {
+#login--submit:hover {
     animation: 200ms forwards scaleButton;
     background-color: #6666bb;
 }
 
-#register--submit:disabled {
+#login--submit:disabled {
     background-color: #555555;
     border: 2px solid #444444;
     cursor: default;

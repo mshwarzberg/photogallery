@@ -9,10 +9,10 @@
 
  @keyframes hideNav {
     0% {
-        transform: translateY(5rem);
+        transform: translateY(0rem);
     }
     100% {
-        transform: translateY(0)
+        transform: translateY(-4.5rem)
     }
 }
 
@@ -30,22 +30,17 @@
     flex-direction: column;
     padding-top: 2rem;
     height: 5rem;
-    width: 100vw;
     border-bottom: 4px solid #000;
 }
+
 .navbar--visible {
     animation: 400ms linear forwards showNav;
     background-color: #333377cc;
-    
 }
 
 .navbar--hidden {
-    
     animation: 400ms linear forwards hideNav;
-    width: 100vw;
     background-color: #111144cc;
-    position: absolute;
-    top: -4.5rem;
 }
 
 .navbar--links {
