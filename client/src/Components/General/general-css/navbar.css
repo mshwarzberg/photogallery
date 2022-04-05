@@ -61,7 +61,7 @@
     font-size: 2.5rem;
 }
 
-#nav--register-link, #nav--login-link, #nav--profile-link, #nav--logout-link {
+#nav--register-link, #nav--login-link, #nav--profile-link, #nav--logout-link, #nav--upload-link {
     float: right;
     margin: auto 2rem auto auto;
     text-decoration: none;
