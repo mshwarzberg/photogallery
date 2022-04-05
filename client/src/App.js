@@ -13,8 +13,8 @@ function App() {
 
   return (
     <UserAuth.Provider value={{ isAuth, setIsAuth }}>
-      <Navbar />
       <BrowserRouter>
+      <Navbar />
         <Routes>
           <Route element={<Home />} path="/" />
           <Route element={<CreateAccount />} path="/register" />

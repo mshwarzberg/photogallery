@@ -1,7 +1,14 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
+  const navigate = useNavigate();
   const [showNav, setShowNav] = useState(true);
+
+  function logOut() {
+    sessionStorage.removeItem("token");
+    navigate("/");
+  }
 
   return (
     <nav className={showNav ? "navbar--visible" : "navbar--hidden"}>
@@ -12,6 +19,13 @@ function Navbar() {
         <a href="/login" id="nav--login-link" className="navbar--links">
           Login
         </a>
+        <button
+          onClick={logOut}
+          className="navbar--links"
+          id="nav--logout-link"
+        >
+          Logout
+        </button>
         <a href="/register" id="nav--register-link" className="navbar--links">
           Register
         </a>

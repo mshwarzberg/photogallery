@@ -1,12 +1,31 @@
-import React, { useContext } from 'react'
-import { UserAuth } from '../../App'
-
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 
 function Profile() {
-  const CheckAuth = useContext(UserAuth)
-  
+  const [userInfo, setUserInfo] = useState({
+    username: '',
+    email: ''
+  })
+
+  function getUser() {
+    return sessionStorage.getItem('token') || null
+  }
+
+  useEffect(() => {
+    axios.post('http://localhost:5000/profile', {token: getUser()})
+          .then(res => {
+            setUserInfo(({
+              username: res.data[0].username,
+              email: res.data[0].email
+            }))
+          })
+          .catch(err => {
+            console.log(err);
+          })
+  }, [])
+
   return (
-    <div className='profile--page'>{localStorage.getItem('log') ? <h1>Logged in</h1> : <h1>Logged Out</h1>}</div>
+    <div className='profile--page'>{userInfo.username}, {userInfo.email}</div>
   )
 }
 
