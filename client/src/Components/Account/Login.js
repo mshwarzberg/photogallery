@@ -20,7 +20,6 @@ function Login() {
   }
 
   function setUserSession(isAuth, token) {
-    sessionStorage.setItem("isAuth", isAuth);
     sessionStorage.setItem("token", token);
   }
 

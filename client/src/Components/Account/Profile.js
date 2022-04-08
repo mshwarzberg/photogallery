@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 function Profile() {
   const navigate = useNavigate()
+
   const [userInfo, setUserInfo] = useState({
     username: '',
     email: ''
@@ -30,7 +31,14 @@ function Profile() {
   }, [])
 
   return (
-    <div className='profile--page'>{userInfo.username}, {userInfo.email}</div>
+    <div className='profile--page'>
+      <h1>
+        {userInfo.username}
+      </h1>, 
+      <h1>
+        {userInfo.email}
+      </h1>
+    </div>
   )
 }
 

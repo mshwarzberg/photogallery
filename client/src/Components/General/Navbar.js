@@ -9,7 +9,6 @@ function Navbar() {
   useEffect(() => {
     function checkAuth() {
       if (sessionStorage.getItem('token') !== null) {
-        console.log('changed to true');
         setIsLoggedIn(true)
       }
     }
@@ -40,10 +39,10 @@ function Navbar() {
           Logout
         </button><a href="/upload" id="nav--upload-link" className="navbar--links">
         Upload
-      </a></div>}
-        <a href="/profile" id="nav--profile-link" className="navbar--links">
+      </a><a href="/profile" id="nav--profile-link" className="navbar--links">
           Profile
-        </a>
+        </a></div>}
+        
       </div>
       <div className="navbar--bottom">
         <button

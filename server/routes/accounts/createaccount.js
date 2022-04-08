@@ -1,7 +1,7 @@
 const express = require("express");
 const db = require("../../config/mysql");
 const bcrypt = require('bcrypt')
-
+const fs = require('fs')
 const router = express.Router();
 
 const generateUUID = (length = 25) => {
@@ -18,22 +18,26 @@ const generateUUID = (length = 25) => {
 };
 
 router.post("/", async (req, res) => {
+  const id = generateUUID()
   const salt = await bcrypt.genSalt()
   const hashedPass = bcrypt.hashSync(req.body.password, salt)
   const newuser =
     "INSERT INTO Credentials(id, username, email, userpass) VALUES(?,?,?,?)";
   db.query(
     newuser,
-    [generateUUID(), req.body.username, req.body.email, hashedPass],
+    [id, req.body.username, req.body.email, hashedPass],
     (err, data) => {
       if (err) {
         if (err.errno === 1062) {
           res.send('duplicate found');
         }
       }
-      console.log(data);
+      console.log('data');
     }
   );
+  fs.mkdir(`./images/${id}`, (err) => {
+    if (err) console.log(err);
+  })
 });
 
 module.exports = router;

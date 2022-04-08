@@ -3,6 +3,8 @@ const app = express()
 const register = require('./routes/accounts/createaccount')
 const login = require('./routes/accounts/login')
 const profile = require('./routes/accounts/profile')
+const upload = require('./routes/gallery/upload')
+
 const db = require('./config/mysql')
 
 app.use(express.json())
@@ -21,3 +23,4 @@ app.listen(5000, () => {
 app.use('/register', register)
 app.use('/login', login)
 app.use('/profile', profile)
+app.use('/upload', upload)

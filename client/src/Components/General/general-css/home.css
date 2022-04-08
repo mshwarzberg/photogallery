@@ -1,0 +1,40 @@
+@keyframes homePageHover {
+    0% {
+        background-color: #ffffff00;
+    }
+    100% {
+        background-color: #44444455;
+    }
+}
+
+.home--page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.home--page:hover {
+    animation: 800ms forwards homePageHover;
+}
+
+.home--title {
+    font-size: 7rem;
+    font-style: italic;
+}
+
+.home--description {
+    line-height: 6rem;
+    margin: 2rem 10rem;
+    text-align: justify;
+    font-size: 3.5rem;
+    cursor: default;
+}
+
+#home--register-link {
+    font-weight: bold;
+    color: blue;
+    cursor: pointer;
+    font-size: 3.5rem;
+    background-color: #ffffff00;
+}
