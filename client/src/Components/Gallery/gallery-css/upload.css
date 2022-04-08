@@ -1,3 +1,7 @@
+@keyframes messageTimer {
+    0% {background-position: 0%}
+    100% {background-position: -100%}
+}
 .upload--page {
     display: flex;
     flex-direction: column;
@@ -22,10 +26,9 @@
     font-size: 4rem;
     text-align: center;
     cursor: pointer;
-    background: rgb(70,252,251);
-    background: radial-gradient(circle, rgba(70,252,251,1) 10%, rgba(63,94,251,1) 90%);
-    color: #884444;
-    text-shadow: 4px 4px 2px black, -1px -1px 2px white;
+    background-color: #0232ff55;
+    color: #111133;
+    text-shadow: 2px 2px 2px #ccccff, -1px -1px 2px white;
     font-weight: bold;
     border-radius: 1rem;
     border: 2px solid black;
@@ -35,4 +38,20 @@
     margin-top: 3rem;
     height: 4rem;
     width: 12rem;
+
+}
+
+#upload--message {
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-top: 3rem;
+    font-size: 4rem;
+    color: white;
+    background: linear-gradient(90deg,#ff0000aa 0%, #ff000055 1%);
+    background-size: 200% 100%;
+    animation: messageTimer 5s linear;
+}
+
+#upload--message:hover {
+    background-color: #66666633;
 }

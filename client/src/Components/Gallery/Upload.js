@@ -1,12 +1,22 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 
 function Upload() {
+  
   const navigate = useNavigate()
+
   const [message, setMessage] = useState('')
   const [filesNotReady, setFilesNotReady] = useState(true);
   const [file, setFiles] = useState();
+
+  useEffect(() => {
+    if (message) {
+      setTimeout(() => {
+        setMessage('')
+      }, 5000);
+    }
+  }, [message, setMessage])
 
   function selectImage(e) {
     setFiles(e.target.files[0]);
@@ -21,6 +31,7 @@ function Upload() {
     if (!sessionStorage.getItem('token')) {
       return navigate('/')
     }
+    
     const formData = new FormData();
     formData.append("image", file);
     axios.post("http://localhost:5000/upload/getid", {id: sessionStorage.getItem('token')})
