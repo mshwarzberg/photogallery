@@ -19,7 +19,7 @@ function Login() {
     }));
   }
 
-  function setUserSession(isAuth, token) {
+  function setUserSession(token) {
     sessionStorage.setItem("token", token);
   }
 
@@ -32,10 +32,9 @@ function Login() {
           res.data.msg === "user not found" ||
           res.data.msg === "incorrect password"
         ) {
-          setMessage(res.data.msg);
-          return console.log(res.data.msg);
+          return setMessage(res.data.msg);
         }
-        setUserSession(true, res.data.token);
+        setUserSession(res.data.token);
         navigate("/profile");
       })
       .catch((err) => {

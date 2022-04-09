@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const { promises: fs } = require("fs");
+const fs = require("fs");
 var sizeOf = require("image-size");
 const db = require("../../config/mysql");
 
@@ -21,9 +21,11 @@ const storage = multer.diskStorage({
     cb(null, `images/${id}`);
   },
   filename: async function (req, file, cb) {
+    if (id === undefined) {
+      return
+    }
     let newname;
-    const files = await fs.readdir(`images/${id}`);
-    
+    const files = await fs.promises.readdir(`images/${id}`);
     newname = files.length;
     for (let i = 0; i < files.length; i++) {
       const name = files[i].split(".")[0]
@@ -38,17 +40,14 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.post("/getid", (req, res) => {
-  if (req.body.id) {
-    return (id = req.body.id);
-  }
-  res.send("damn you");
+router.post("/getid", async (req, res) => {
+  id = req.body.id;
+  res.send(fs.existsSync(`./images/${req.body.id}`));
 });
 
-router.post("/", upload.single("image"), async (req, res) => {
+router.post("/", upload.single("image"), (req, res) => {
   const dimensions = sizeOf(`./images/${id}/${req.file.filename}`);
   const imageID = generateImageID();
-
   const addImageToDB =
     "INSERT INTO Images(imageid, id, originalname, nameinserver) VALUES(?,?,?,?);";
   db.query(

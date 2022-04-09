@@ -6,7 +6,7 @@ import Login from "./Components/Account/Login";
 import Home from "./Components/General/Home";
 import Navbar from "./Components/General/Navbar";
 import Upload from "./Components/Gallery/Upload";
-
+import ViewPhotos from "./Components/Gallery/ViewPhotos";
 
 function App() {
 
@@ -14,6 +14,7 @@ function App() {
       <BrowserRouter>
       <Navbar />
         <Routes>
+          <Route element={<ViewPhotos />} path='/gallery' />
           <Route element={<Upload />} path='/upload' />
           <Route element={<Home />} path="/" />
           <Route element={<CreateAccount />} path="/register" />

@@ -2,26 +2,19 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Navbar() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const [showNav, setShowNav] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   useEffect(() => {
-    function checkAuth() {
+    function authUser() {
       if (sessionStorage.getItem('token') !== null) {
         setIsLoggedIn(true)
       }
     }
-
-    return checkAuth()
-  }, [])
-
-  function logOut() {
-    sessionStorage.removeItem("token");
-    setIsLoggedIn(false)
-    navigate("/");
-  }
-
+    return authUser()
+  })
+  
   return (
     <nav className={showNav ? "navbar--visible" : "navbar--hidden"}>
       <div className="navbar--top">
@@ -32,7 +25,11 @@ function Navbar() {
           Login
         </a> :
         <div><button
-          onClick={logOut}
+          onClick={() => {
+            sessionStorage.removeItem("token");
+            setIsLoggedIn(false)
+            navigate('/')
+          }}
           className="navbar--links"
           id="nav--logout-link"
         >
@@ -49,7 +46,7 @@ function Navbar() {
           onClick={() => {
             setShowNav(!showNav);
           }}
-          title="Show/Hide Navbar"
+          title="Show/Hide navigation bar"
           id="navbar--show-hide"
         >
           {showNav ? "↑" : "↓"}
