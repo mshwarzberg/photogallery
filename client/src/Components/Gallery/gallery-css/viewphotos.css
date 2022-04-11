@@ -1,0 +1,12 @@
+.viewphotos--image {
+    max-width: 100%;
+    max-height: 100%;
+    grid-area: 'image';
+}
+
+#viewphotos--grid {
+    margin: 2rem;
+    display: grid;
+    grid-template-areas: 'image image image';
+    gap: 1rem;
+}

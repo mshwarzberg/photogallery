@@ -2,12 +2,6 @@
     0% {background-position: 0%}
     100% {background-position: -100%}
 }
-.upload--page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
 
 .upload--choose-files {
     margin-top: 5rem;

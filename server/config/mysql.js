@@ -23,14 +23,8 @@ function initialSetup() {
     console.log(res);
   });
   const createImagesTable =
-    `CREATE TABLE IF NOT EXISTS Images(imageid VARCHAR(255) NOT NULL PRIMARY KEY,id VARCHAR(255)NOT NULL, FOREIGN KEY (id) REFERENCES Credentials(id), originalname VARCHAR(255) NOT NULL, nameinserver VARCHAR(255) NOT NULL);`
+    `CREATE TABLE IF NOT EXISTS Images(imageid VARCHAR(255) NOT NULL PRIMARY KEY,id VARCHAR(255)NOT NULL, FOREIGN KEY (id) REFERENCES Credentials(id), originalname VARCHAR(255) NOT NULL, nameinserver VARCHAR(255) NOT NULL, dimensions VARCHAR(255), filesize INT, filelocation VARCHAR(255));`
   config.query(createImagesTable, (err, res) => {
-    if (err) console.log(err);
-    console.log(res);
-  });
-  const createImageDataTable =
-    `CREATE TABLE IF NOT EXISTS ImageData(imageid VARCHAR(255) NOT NULL, FOREIGN KEY (imageid) REFERENCES Images(imageid),dimensions VARCHAR(255),filesize INT);`
-  config.query(createImageDataTable, (err, res) => {
     if (err) console.log(err);
     console.log(res);
   })

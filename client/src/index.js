@@ -9,6 +9,7 @@ import "./Components/Account/account-css/profile.css";
 import "./Components/Account/account-css/register.css";
 import "./Components/Account/account-css/login.css";
 import './Components/Gallery/gallery-css/upload.css'
+import './Components/Gallery/gallery-css/viewphotos.css'
 
 
 const container = document.getElementById("root");

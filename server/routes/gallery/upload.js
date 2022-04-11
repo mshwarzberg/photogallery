@@ -49,23 +49,15 @@ router.post("/", upload.single("image"), (req, res) => {
   const dimensions = sizeOf(`./images/${id}/${req.file.filename}`);
   const imageID = generateImageID();
   const addImageToDB =
-    "INSERT INTO Images(imageid, id, originalname, nameinserver) VALUES(?,?,?,?);";
+    "INSERT INTO Images(imageid, id, originalname, nameinserver, filelocation, dimensions, filesize) VALUES(?,?,?,?,?,?,?);";
   db.query(
     addImageToDB,
-    [imageID, id, req.file.originalname, req.file.filename],
+    [imageID, id, req.file.originalname, req.file.filename, `/images/${id}/${req.file.filename + req.file.originalname.split('.').pop()}`, dimensions.width + "x" + dimensions.height, req.file.size],
     (err, data) => {
       if (err) console.log(err);
+      console.log(data);
     }
-  );
-  const addImageDataToDB =
-    "INSERT INTO ImageData(imageid, dimensions, filesize) VALUES(?,?,?)";
-  db.query(
-    addImageDataToDB,
-    [imageID, dimensions.width + "x" + dimensions.height, req.file.size],
-    (err, data) => {
-      if (err) console.log(err);
-    }
-  );
+  )
 });
 
 module.exports = router;

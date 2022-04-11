@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const app = express()
 const register = require('./routes/accounts/createaccount')
 const login = require('./routes/accounts/login')
@@ -9,6 +10,7 @@ const viewphotos = require('./routes/gallery/viewphotos')
 const db = require('./config/mysql')
 
 app.use(express.json())
+
 
 db.connect((err) => {
     if (err) {

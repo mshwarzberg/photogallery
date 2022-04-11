@@ -1,22 +1,48 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 function ViewPhotos() {
-  const [images, setImages] = useState([])
+  const [images, setImages] = useState([]);
+  const [APIcalls, setAPIcalls] = useState(0);
 
   useEffect(() => {
-    function getImages() {
-      axios.post('http://localhost:5000/gallery', {id: sessionStorage.getItem('token')})
-            .then(res => {setImages(previmage => (
-              [...previmage, res.data]
-            ))})
-    }
-    return getImages()
-  }, [])
+
+    (async () => {
+      await axios
+        .post("http://localhost:5000/gallery/getid", {
+          id: sessionStorage.getItem("token"),
+          reqNum: APIcalls,
+        })
+        .then((res) => {
+          return
+        });
+      axios
+        .get("http://localhost:5000/gallery", { responseType: "blob" })
+        .then((res) => {
+          var imageURL = URL.createObjectURL(res.data);
+          setImages((prevImages) => [...prevImages, { imageURL }]);
+          setAPIcalls(APIcalls + 1);
+        });
+    })();
+
+  }, [APIcalls, setAPIcalls]);
+
+  const renderImages = images.map((image) => (
+    <img
+      className="viewphotos--image"
+      alt="myimg"
+      src={image.imageURL}
+      key={image.imageURL}
+    />
+  ));
 
   return (
-    <div>{images[0]}</div>
-  )
+    <div className="page" id="viewphotos--page">
+      <div id="viewphotos--grid">
+        {renderImages}
+      </div>
+    </div>
+  );
 }
 
-export default ViewPhotos
+export default ViewPhotos;

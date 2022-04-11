@@ -49,7 +49,7 @@ function Upload() {
   }
 
   return (
-    <div className="upload--page">
+    <div className="page">
       <div className="upload--choose-files">
         <label className="upload--choose-button" htmlFor="upload--choose-one">
           Choose An Image

@@ -31,13 +31,16 @@ function Profile() {
   }, [])
 
   return (
-    <div className='profile--page'>
+    <div className='page'>
       <h1>
         {userInfo.username}
-      </h1>, 
+      </h1>
       <h1>
         {userInfo.email}
       </h1>
+      <button onClick={() => {
+        navigate('/gallery')
+      }}>View My Photos</button>
     </div>
   )
 }

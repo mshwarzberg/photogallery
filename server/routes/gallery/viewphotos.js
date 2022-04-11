@@ -3,15 +3,25 @@ const router = express.Router()
 
 const db = require('../../config/mysql')
 
-router.post('/', (req, res) => {
-    let ImagesArr = []
-    const getImages = "SELECT nameinserver from images WHERE id=? LIMIT 3;"
-    db.query(getImages, [req.body.id], (err, data) => {
+let id
+let reqNum
+
+router.post('/getid', (req, res) => {
+    id = req.body.id
+    reqNum = req.body.reqNum
+    res.end()
+})
+
+router.get('/', (req, res) => {
+    const getImages = "SELECT nameinserver from images WHERE id=? ORDER BY nameinserver DESC;"
+    db.query(getImages, [id], (err, data) => {
         if (err) console.log(err);
-        for (let i = 0; i < data.length; i++) {
-            ImagesArr.push(data[i].nameinserver)
+        console.log(data);
+        for (let i = 0; i <= data.length; i++) {
+            if (i === reqNum && data[reqNum]) {
+                res.sendFile(`/images/${id}/${data[reqNum].nameinserver}`, {root: './'})
+            }
         }
-        res.send(ImagesArr)
     })
 })
 
