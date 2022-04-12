@@ -14,6 +14,21 @@ function ViewPhotos() {
     },
   ]);
 
+  function getImageSize(value) {
+    let size
+    if (value > 1000 && value < 950000) {
+      size = value / 1000;
+      size = size.toString().slice(0, 3);
+      size += "KB";
+    }
+    if (value >= 950000 && value < 950000000) {
+      size = value / 1000000;
+      size = size.toString().slice(0, 3);
+      size += "MB";
+    }
+    return size
+  }
+
   useEffect(() => {
     function getImageData() {
       axios
@@ -29,7 +44,7 @@ function ViewPhotos() {
             ...prevImageData,
             {
               isWide: tallOrWideImage > 1 ? true : false,
-              active: focus,
+              active: false,
               value: APIcalls,
               imageid: res.data.imageid,
               name: res.data.name,
@@ -61,7 +76,7 @@ function ViewPhotos() {
   function focusOnImage(value) {
     setImageData((prevImageData) => {
       const newData = prevImageData.map((newImageData) =>
-        newImageData.value + 1 == value
+        newImageData.value + 1 === value
           ? { ...newImageData, active: !focus }
           : { ...newImageData, active: false }
       );
@@ -69,45 +84,69 @@ function ViewPhotos() {
       return newData;
     });
   }
+
   const renderImages = images.map((image) => {
-    let size = imageData[image.value + 1].filesize
-    if (size > 1000 && size < 950000) {
-      size = size / 1000 + 'KB'
+    const size = getImageSize(imageData[image.value + 1].filesize)
+    return (
+      <img
+        className={
+          imageData[image.value + 1].isWide
+            ? "viewphotos--wide"
+            : "viewphotos--tall"
+        }
+        id="viewphotos--image"
+        alt="gallery"
+        src={image.imageURL}
+        key={image.value}
+        title={
+          "Name: " +
+          imageData[image.value + 1].name +
+          "\nDimensions: " +
+          imageData[image.value + 1].dimensions +
+          "\nSize: " +
+          size
+        }
+        onClick={() => {
+          focusOnImage(image.value);
+        }}
+      />
+    );
+  });
+
+  const renderFocus = images.map((image) => {
+    const size = getImageSize(imageData[image.value + 1].filesize)
+    if (imageData[image.value].active) {
+      return (
+        <div
+          key={image.imageURL}
+          id="viewphotos--focus"
+          onClick={() => {
+            focusOnImage(image.value);
+          }}
+        >
+          <img
+            id="viewphotos--focus-image"
+            src={image.imageURL}
+            alt="focus"
+            title={
+              "Name: " +
+              imageData[image.value + 1].name +
+              "\nDimensions: " +
+              imageData[image.value + 1].dimensions +
+              "\nSize: " +
+              size
+            }
+          />
+        </div>
+      );
     }
-    if (size >= 950000 && size < 950000000) {
-      size = size / 1000000 + 'MB'
-    }
-    return <img
-      className={
-        imageData[image.value + 1].isWide
-          ? "viewphotos--wide"
-          : "viewphotos--tall"
-      }
-      id={
-        imageData[image.value].active
-          ? "viewphotos--image-active"
-          : "viewphotos--image-inactive"
-      }
-      alt="myimg"
-      src={image.imageURL}
-      key={image.value}
-      title={
-        "Name: " +
-        imageData[image.value + 1].name +
-        "\nDimensions: " +
-        imageData[image.value + 1].dimensions +
-        '\nSize: ' +
-        size
-      }
-      onClick={() => {
-        focusOnImage(image.value);
-      }}
-    />
-    });
+    return ''
+  });
 
   return (
     <div className="page" id="viewphotos--page">
       <div id="viewphotos--grid">{renderImages}</div>
+      {renderFocus}
     </div>
   );
 }

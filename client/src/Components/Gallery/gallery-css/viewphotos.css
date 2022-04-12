@@ -1,14 +1,21 @@
 @keyframes focusImage {
     0% {
-        transform: scale(100%);
+        transform: scale(40%);
     }
     100% {
-        transform: scale(300%);
+        transform: scale(100%);
     }
 }
 
 #viewphotos--page {
     margin-top: 2rem;
+}
+
+#viewphotos--grid {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-gap: 1rem;
+    margin: 1.5rem;
 }
 
 .viewphotos--wide {
@@ -24,6 +31,8 @@
     max-height: 100%;
     max-width: 100%;
     grid-row: span 2;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .viewphotos--tall:hover {
@@ -35,19 +44,20 @@
     animation: 400ms forwards scaleButton;
 }
 
-#viewphotos--grid {
-    display: grid;
-    grid-template-columns: auto auto auto;
-    grid-gap: 1rem;
-    margin: 1.5rem;
+#viewphotos--focus {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #111111ee;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
 }
 
-.viewphotos--image-active {
-    max-width: 100%;
-    max-height: 100%;
-}
-
-#viewphotos--image-active {
-    animation: focusImage 300ms forwards ease-out;
-    align-self: center;
+#viewphotos--focus-image {
+    animation: focusImage forwards 1s;
+    max-width: 96%;
+    max-height: 96%;
 }
