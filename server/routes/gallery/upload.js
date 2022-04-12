@@ -47,15 +47,16 @@ router.post("/getid", async (req, res) => {
 
 router.post("/", upload.single("image"), (req, res) => {
   const dimensions = sizeOf(`./images/${id}/${req.file.filename}`);
+  console.log(req.file);
   const imageID = generateImageID();
   const addImageToDB =
     "INSERT INTO Images(imageid, id, originalname, nameinserver, filelocation, dimensions, filesize) VALUES(?,?,?,?,?,?,?);";
   db.query(
     addImageToDB,
-    [imageID, id, req.file.originalname, req.file.filename, `/images/${id}/${req.file.filename + req.file.originalname.split('.').pop()}`, dimensions.width + "x" + dimensions.height, req.file.size],
+    [imageID, id, req.file.originalname, req.file.filename, `/images/${id}/${req.file.filename}`, dimensions.width + "x" + dimensions.height, req.file.size],
     (err, data) => {
       if (err) console.log(err);
-      console.log(data);
+      res.send('Complete')
     }
   )
 });

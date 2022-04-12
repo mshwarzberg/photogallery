@@ -13,5 +13,6 @@
             "username": "root",
             "password": "password"
         }
-    ]
+    ],
+    "editor.parameterHints.enabled": false
 }

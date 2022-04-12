@@ -9,6 +9,7 @@ const viewphotos = require('./routes/gallery/viewphotos')
 
 const db = require('./config/mysql')
 
+app.use(cors())
 app.use(express.json())
 
 
