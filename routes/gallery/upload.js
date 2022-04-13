@@ -40,12 +40,13 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.post("/getid", async (req, res) => {
+router.post("/getid", (req, res) => {
   id = req.body.id;
   res.send(fs.existsSync(`./images/${req.body.id}`));
 });
 
 router.post("/one", upload.single("image"), (req, res) => {
+  console.log(req.file);
   const dimensions = sizeOf(`./images/${id}/${req.file.filename}`);
   const imageID = generateImageID();
   const addImageToDB =
@@ -63,13 +64,13 @@ router.post("/one", upload.single("image"), (req, res) => {
     ],
     (err, data) => {
       if (err) console.log(err);
-      console.log(req.file);
-      res.send("Complete");
+      res.send({msg: "Complete"});
     }
   );
 });
 
 router.post("/multiple", upload.array("image", 20), (req, res) => {
+  console.log(req.files);
   for (let i = 0; i < req.files.length; i++) {
     const dimensions = sizeOf(`./images/${id}/${req.files[i].filename}`);
     const imageID = generateImageID();
@@ -92,6 +93,6 @@ router.post("/multiple", upload.array("image", 20), (req, res) => {
       }
       );
     }
-  res.send("Complete");
+  res.send({msg: "Complete"});
 });
 module.exports = router;

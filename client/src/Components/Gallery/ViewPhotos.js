@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 function ViewPhotos() {
@@ -31,35 +30,42 @@ function ViewPhotos() {
 
   useEffect(() => {
     function getImageData() {
-      axios
-        .post("http://localhost:5000/gallery/getid", {
+      fetch("api/gallery/getid", {
+        method: 'POST',
+        headers: { 'Content-Type' : 'application/json'},
+        body: JSON.stringify({
           id: sessionStorage.getItem("token"),
           reqNum: APIcalls,
         })
-        .then((res) => {
+      })
+        .then(async (res) => {
+          const response = await res.json();
           const tallOrWideImage =
-            res.data.dimensions.split("x")[0] /
-            res.data.dimensions.split("x")[1];
+            response.dimensions.split("x")[0] /
+            response.dimensions.split("x")[1];
           setImageData((prevImageData) => [
             ...prevImageData,
             {
               isWide: tallOrWideImage > 1 ? true : false,
               active: false,
               value: APIcalls,
-              imageid: res.data.imageid,
-              name: res.data.name,
-              dimensions: res.data.dimensions,
-              filesize: res.data.filesize,
+              imageid: response.imageid,
+              name: response.name,
+              dimensions: response.dimensions,
+              filesize: response.filesize,
             },
           ]);
         })
         .catch((err) => {
           return;
         });
-      axios
-        .get("http://localhost:5000/gallery", { responseType: "blob" })
-        .then((res) => {
-          const imageURL = URL.createObjectURL(res.data);
+
+      fetch("api/gallery", {
+        method: 'GET',
+      })
+        .then(async (res) => {
+          const response = await res.blob()
+          const imageURL = URL.createObjectURL(response);
           setImages((prevImages) => [
             ...prevImages,
             { imageURL, value: APIcalls },
@@ -76,7 +82,7 @@ function ViewPhotos() {
   function focusOnImage(value) {
     setImageData((prevImageData) => {
       const newData = prevImageData.map((newImageData) =>
-        newImageData.value + 1 === value
+        newImageData.value + 1 === value || value === 0
           ? { ...newImageData, active: !focus }
           : { ...newImageData, active: false }
       );
@@ -86,34 +92,37 @@ function ViewPhotos() {
   }
 
   const renderImages = images.map((image) => {
-    const size = getImageSize(imageData[image.value + 1].filesize)
-    return (
-      <img
-        className={
-          imageData[image.value + 1].isWide
-            ? "viewphotos--wide"
-            : "viewphotos--tall"
-        }
-        id="viewphotos--image"
-        alt="gallery"
-        src={image.imageURL}
-        key={image.value}
-        title={
-          "Name: " +
-          imageData[image.value + 1].name +
-          "\nDimensions: " +
-          imageData[image.value + 1].dimensions +
-          "\nSize: " +
-          size
-        }
-        onClick={() => {
-          focusOnImage(image.value);
-        }}
-      />
-    );
-  });
+    if (imageData[image.value + 1]) {
+      const size = getImageSize(imageData[image.value + 1].filesize)
+      return (
+        <img
+          className={
+            imageData[image.value + 1].isWide
+              ? "viewphotos--wide"
+              : "viewphotos--tall"
+          }
+          id="viewphotos--image"
+          alt="gallery"
+          src={image.imageURL}
+          key={image.value}
+          title={
+            "Name: " +
+            imageData[image.value + 1].name +
+            "\nDimensions: " +
+            imageData[image.value + 1].dimensions +
+            "\nSize: " +
+            size
+          }
+          onClick={() => {
+            focusOnImage(image.value);
+          }}
+        />
+    )}
+    return ''
+  })
 
-  const renderFocus = images.map((image) => {
+  const renderFocus = null || images.map((image) => {
+    if (imageData[image.value + 1]) {
     const size = getImageSize(imageData[image.value + 1].filesize)
     if (imageData[image.value].active) {
       return (
@@ -140,8 +149,9 @@ function ViewPhotos() {
         </div>
       );
     }
-    return ''
-  });
+  }
+  return ''
+  })
 
   return (
     <div className="page" id="viewphotos--page">

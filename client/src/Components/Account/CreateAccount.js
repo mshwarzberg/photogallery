@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom'
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function CreateAccount() {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [allowedToSubmit, setAllowedToSubmit] = useState(true);
-  const [errMessage, setErrMessage] = useState('')
+  const [errMessage, setErrMessage] = useState("");
   const [registerInput, setRegisterInput] = useState({
     username: "",
     email: "",
@@ -37,24 +35,35 @@ function CreateAccount() {
   }
 
   function registerUser(e) {
+    
     e.preventDefault();
+
     validateInp(
       registerInput.username,
       registerInput.email,
       registerInput.password
     );
+
     if (!allowedToSubmit.notallowed) {
-      axios
-        .post("http://localhost:5000/register", registerInput)
-        .then((res) => {
-          if (res.data === 'duplicate found') {
-            return setErrMessage('Username or email already exists')
+      const fetchOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(registerInput),
+      };
+      fetch("/api/register", fetchOptions)
+        .then(async (res) => {
+          const response = await res.json()
+          if (response.err === "duplicate found") {
+            return setErrMessage("Username or email already exists");
+          }
+          if (response.msg === "success!") {
+            navigate("/login");
           }
         })
         .catch((err) => {
           console.log(err);
         });
-      navigate('/login')
+      
     }
   }
 

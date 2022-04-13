@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -17,51 +16,59 @@ function Profile() {
     let data = value;
 
     if (data < 1000000) {
-      data = data / 1000
+      data /= 1000;
       data = data.toString().slice(0, 5);
-      return data += "KB";
+      return (data += "KB");
     } else if (1000000 <= data && data < 950000000) {
-      data = data / 1000000
+      data /= 1000000;
       data = data.toString().slice(0, 5);
-      return data += "MB";
+      return (data += "MB");
     } else if (950000000 <= data) {
-      data = data / 1000000000
+      data /= 1000000000;
       data = data.toString().slice(0, 5);
-      return data += "GB";
+      return (data += "GB");
     }
   }
 
   useEffect(() => {
-    axios
-      .post("http://localhost:5000/profile", {
+    fetch("/api/profile/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
         token: sessionStorage.getItem("token"),
-      })
-      .then((res) => {
-        if (res.data[0] === undefined) {
-          return navigate("/login");
-        }
-        setUserInfo({
-          username: res.data[0].username,
-          email: res.data[0].email,
-        });
+      }),
+    })
+      .then(async (res) => {
+        const response = await res.json();
+          let overall = shortenSizeWord(response.data.username);
+          let average = shortenSizeWord(response.data.email);
+          setUserInfo((prevInfo) => ({
+            ...prevInfo,
+            username: overall,
+            email: average
+          }));
       })
       .catch((err) => {
         console.log(err);
       });
 
-    axios
-      .post("http://localhost:5000/profile/getinfo", {
+    fetch("/api/profile/getinfo", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
         token: sessionStorage.getItem("token"),
-      })
-      .then((res) => {
-        let overall = shortenSizeWord(res.data.dataConsumed);
-        let average = shortenSizeWord(res.data.averagesize);
-        setUserInfo((prevInfo) => ({
-          ...prevInfo,
-          storageused: overall,
-          numberofimages: res.data.amountofphotos,
-          averagesize: average,
-        }));
+      }),
+    })
+      .then(async (res) => {
+        const response = await res.json();
+          let overall = shortenSizeWord(response.dataConsumed);
+          let average = shortenSizeWord(response.averagesize);
+          setUserInfo((prevInfo) => ({
+            ...prevInfo,
+            storageused: overall,
+            numberofimages: response.amountofphotos,
+            averagesize: average,
+          }));
       })
       .catch((err) => console.log(err));
   }, []);
@@ -73,7 +80,7 @@ function Profile() {
       <p>
         You have {userInfo.numberofimages} images stored, a total of{" "}
         {userInfo.storageused} used, with an average image size of{" "}
-        {userInfo.averagesize} ,{" "}
+        {userInfo.averagesize}.
       </p>
       <button
         onClick={() => {

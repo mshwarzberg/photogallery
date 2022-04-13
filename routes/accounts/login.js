@@ -8,7 +8,7 @@ router.post("/", (req, res) => {
   db.query(comparetodb, [req.body.username], (err, data) => {
     if (err) console.log(err);
     if (data.length === 0) {
-      return res.send({msg: "user not found"});
+      res.send({msg: "user not found"});
     }
 
     if (bcrypt.compareSync(req.body.password, data[0].userpass)) {

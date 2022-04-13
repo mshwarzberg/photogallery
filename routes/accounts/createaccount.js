@@ -27,15 +27,17 @@ router.post("/", async (req, res) => {
     (err, data) => {
       if (err) {
         if (err.errno === 1062) {
-          res.send('duplicate found');
+          console.log('error');
+          return res.send({err: 'duplicate found'});
         }
       }
-      console.log('data');
+      res.send({ msg: 'success!'})
+      fs.mkdir(`./images/${id}`, (err) => {
+        if (err) console.log(err);
+      })
     }
   );
-  fs.mkdir(`./images/${id}`, (err) => {
-    if (err) console.log(err);
-  })
+  
 });
 
 module.exports = router;

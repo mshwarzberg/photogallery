@@ -1,15 +1,28 @@
-import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import loadingIcon from '../../images/Loading.gif'
+import loadingIcon from "../../images/Loading.gif";
 
 function Upload() {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [filesNotReady, setFilesNotReady] = useState(true);
   const [files, setFiles] = useState();
 
+  useEffect(() => {
+    (() => {
+      if (files && files.length > 20) {
+        console.log('test');
+        setFilesNotReady(true);
+        setFiles();
+        setMessage("Too many files selected. You may choose up to 20 images");
+        return setTimeout(() => {
+          setMessage("");
+        }, 5000);
+      }
+    })()
+  }, [files, setFiles])
+  
   function selectImage(e) {
     setFiles(e.target.files[0]);
     setFilesNotReady(false);
@@ -17,13 +30,13 @@ function Upload() {
 
   function selectImages(e) {
     setFiles(() => {
-      let imgArr = []
+      let imgArr = [];
       for (let i = 0; i < e.target.files.length; i++) {
-        imgArr.push(e.target.files[i])
+        imgArr.push(e.target.files[i]);
       }
-      return imgArr
+      return imgArr;
     })
-    setFilesNotReady(false)
+    return setFilesNotReady(false);
   }
 
   function uploadFiles() {
@@ -33,54 +46,59 @@ function Upload() {
 
     const formData = new FormData();
 
-    axios
-      .post("http://localhost:5000/upload/getid", {
-        id: sessionStorage.getItem("token"),
-      })
-      .then((res) => {
-        if (res.data === false) {
+    fetch("/api/upload/getid", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: sessionStorage.getItem("token") }),
+    })
+      .then(async (res) => {
+        const response = await res.json();
+        if (response === false) {
           setMessage("Invalid user. Please login to upload");
           return setTimeout(() => {
             navigate("/login");
           }, 5000);
         }
+      })
+      .catch((err) => {
+        console.log(err);
       });
 
-    setIsLoading(true)
+    setIsLoading(true);
     setFilesNotReady(true);
-    
+
     if (files.length === undefined) {
       setFiles();
       formData.append("image", files);
-      axios
-      .post("http://localhost:5000/upload/one", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+      fetch("/api/upload/one", {
+        method: "POST",
+        body: formData,
       })
-      .then(async (res) => {
-        await res.data
-        setMessage("Image successfully uploaded! (Click to view)");
-        setTimeout(() => {
-          setMessage("");
-        }, 5000);
-        setIsLoading(false)
-      });
-    }
-    else {
+        .then(async (res) => {
+          await res.json();
+          setMessage("Image successfully uploaded! (Click to view)");
+          setTimeout(() => {
+            setMessage("");
+          }, 5000);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
       for (let i = 0; i < files.length; i++) {
-        formData.append("image", files[i])
+        formData.append("image", files[i]);
       }
-      axios
-      .post("http://localhost:5000/upload/multiple", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-      .then(async (res) => {
-        console.log(res.data);
-        await res.data
+      fetch("/api/upload/multiple", {
+        method: "POST",
+        body: formData,
+      }).then(async (res) => {
+        await res.json();
         setMessage("Images successfully uploaded! (Click to view)");
         setTimeout(() => {
           setMessage("");
         }, 5000);
-        setIsLoading(false)
+        setIsLoading(false);
       });
     }
   }
@@ -102,6 +120,7 @@ function Upload() {
         <label
           className="upload--choose-button"
           htmlFor="upload--choose-multiple"
+          title="You can choose up to 20 images"
         >
           Choose Multiple Images
         </label>
@@ -132,7 +151,14 @@ function Upload() {
           {message}
         </h3>
       )}
-      {isLoading && <div className="upload--loading"><h1 className="upload--loading-text">Image is uploading. Please be patient...</h1><img className="upload--spinner" src={loadingIcon} alt="loading"/></div>}
+      {isLoading && (
+        <div className="upload--loading">
+          <h1 className="upload--loading-text">
+            Image is uploading. Please be patient...
+          </h1>
+          <img className="upload--spinner" src={loadingIcon} alt="loading" />
+        </div>
+      )}
     </div>
   );
 }

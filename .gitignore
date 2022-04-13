@@ -25,4 +25,4 @@ yarn-error.log*
 
 photogallery.session.sql
 client/src/Components/Gallery/test.js
-server/images/*
+images/*

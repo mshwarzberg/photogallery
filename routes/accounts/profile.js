@@ -3,10 +3,10 @@ const router = express.Router();
 const db = require("../../config/mysql");
 
 router.post("/", (req, res) => {
-  const findbyid = "SELECT username, email FROM Credentials WHERE id = ?;";
+  const findbyid = "SELECT username,email FROM Credentials WHERE id=?;";
   db.query(findbyid, [req.body.token], (err, data) => {
     if (err) console.log(err);
-    res.send(data);
+    res.send({data: data});
   });
 });
 
@@ -29,4 +29,5 @@ router.post("/getinfo", (req, res) => {
     });
   });
 });
+
 module.exports = router;

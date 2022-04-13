@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -25,17 +24,26 @@ function Login() {
 
   function loginUser(e) {
     e.preventDefault();
-    axios
-      .post("http://localhost:5000/login", loginInput)
-      .then((res) => {
+
+    const fetchOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(loginInput),
+      };
+
+    fetch("/api/login", fetchOptions)
+      .then(async (res) => {
+        const {msg, token} = await res.json()
         if (
-          res.data.msg === "user not found" ||
-          res.data.msg === "incorrect password"
+          msg === "user not found" ||
+          msg === "incorrect password"
         ) {
-          return setMessage(res.data.msg);
+          return setMessage(msg);
         }
-        setUserSession(res.data.token);
-        navigate("/profile");
+        if (msg === "logged in successfully") {
+          setUserSession(token);
+          navigate("/profile");
+        }
       })
       .catch((err) => {
         return console.log(err);
