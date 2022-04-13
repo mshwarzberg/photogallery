@@ -22,13 +22,13 @@ const storage = multer.diskStorage({
   },
   filename: async function (req, file, cb) {
     if (id === undefined) {
-      return
+      return;
     }
     let newname;
     const files = await fs.promises.readdir(`images/${id}`);
     newname = files.length;
     for (let i = 0; i < files.length; i++) {
-      const name = files[i].split(".")[0]
+      const name = files[i].split(".")[0];
       if (name > i && name.length === i.length) {
         newname = i;
         break;
@@ -45,20 +45,53 @@ router.post("/getid", async (req, res) => {
   res.send(fs.existsSync(`./images/${req.body.id}`));
 });
 
-router.post("/", upload.single("image"), (req, res) => {
+router.post("/one", upload.single("image"), (req, res) => {
   const dimensions = sizeOf(`./images/${id}/${req.file.filename}`);
-  console.log(req.file);
   const imageID = generateImageID();
   const addImageToDB =
     "INSERT INTO Images(imageid, id, originalname, nameinserver, filelocation, dimensions, filesize) VALUES(?,?,?,?,?,?,?);";
   db.query(
     addImageToDB,
-    [imageID, id, req.file.originalname, req.file.filename, `/images/${id}/${req.file.filename}`, dimensions.width + "x" + dimensions.height, req.file.size],
+    [
+      imageID,
+      id,
+      req.file.originalname,
+      req.file.filename,
+      `/images/${id}/${req.file.filename}`,
+      dimensions.width + "x" + dimensions.height,
+      req.file.size,
+    ],
     (err, data) => {
       if (err) console.log(err);
-      res.send('Complete')
+      console.log(req.file);
+      res.send("Complete");
     }
-  )
+  );
 });
 
+router.post("/multiple", upload.array("image", 20), (req, res) => {
+  for (let i = 0; i < req.files.length; i++) {
+    const dimensions = sizeOf(`./images/${id}/${req.files[i].filename}`);
+    const imageID = generateImageID();
+    const addImageToDB =
+      "INSERT INTO Images(imageid, id, originalname, nameinserver, filelocation, dimensions, filesize) VALUES(?,?,?,?,?,?,?);";
+    db.query(
+      addImageToDB,
+      [
+        imageID,
+        id,
+        req.files[i].originalname,
+        req.files[i].filename,
+        `/images/${id}/${req.files[i].filename}`,
+        dimensions.width + "x" + dimensions.height,
+        req.files[i].size,
+      ],
+      (err, data) => {
+        if (err) console.log(err);
+        console.log(req.files[i]);
+      }
+      );
+    }
+  res.send("Complete");
+});
 module.exports = router;

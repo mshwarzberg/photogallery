@@ -73,3 +73,25 @@
     background-color: #44444433;
     cursor: default;
 }
+
+.upload--loading {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: #44444499;
+}
+
+.upload--loading-text {
+    border-radius: 3rem;
+    padding: 1rem;
+    background-color: #11111177;
+    font-size: 3rem;
+    font-family: 'Roboto Slab', serif;
+    margin-bottom: 3rem;
+    color: white;
+}

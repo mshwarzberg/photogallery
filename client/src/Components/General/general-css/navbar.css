@@ -1,6 +1,6 @@
 @keyframes showNav {
     0% {
-        transform: translateY(-4.5rem);
+        transform: translateY(-4.7rem);
     }
     100% {
         transform: translateY(0);
@@ -12,7 +12,7 @@
         transform: translateY(0rem);
     }
     100% {
-        transform: translateY(-4.5rem)
+        transform: translateY(-4.7rem)
     }
 }
 
@@ -28,8 +28,7 @@
 .navbar--visible, .navbar--hidden {
     display: flex;
     flex-direction: column;
-    padding-top: 2rem;
-    height: 5rem;
+    height: 7rem;
     border-bottom: 4px solid #000;
 }
 
@@ -44,26 +43,27 @@
 }
 
 .navbar--links {
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing: 2px;
     color: white;
-    font-size: 2rem;
+    font-size: 2.5rem;
 }
 
 .navbar--links:hover {
     color: pink;
-    animation: 100ms forwards scaleButton;
-    text-decoration: underline;
+    animation: 50ms forwards scaleButton;
 }
 
 #nav--home-link {
     float: left;
-    margin-left: 3rem;
+    margin: 1.7rem auto auto 3rem;
     text-decoration: none;
-    font-size: 2.5rem;
+    font-size: 3rem;
 }
 
 #nav--register-link, #nav--login-link, #nav--profile-link, #nav--logout-link, #nav--upload-link {
     float: right;
-    margin: auto 2rem auto auto;
+    margin: 2rem 2rem auto auto;
     text-decoration: none;
     cursor: pointer;
     background-color: #00f00000;
@@ -77,6 +77,8 @@
 }
 
 #navbar--show-hide {
+    position: absolute;
+    bottom: 0;
     cursor: pointer;
     background-color: #ffffff00;
     border: none;

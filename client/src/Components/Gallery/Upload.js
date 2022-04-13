@@ -1,21 +1,29 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import loadingIcon from '../../images/Loading.gif'
 
 function Upload() {
   const navigate = useNavigate();
-
+  const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState("");
   const [filesNotReady, setFilesNotReady] = useState(true);
-  const [file, setFiles] = useState();
+  const [files, setFiles] = useState();
 
   function selectImage(e) {
     setFiles(e.target.files[0]);
     setFilesNotReady(false);
   }
 
-  function selectImages() {
-    console.log("images");
+  function selectImages(e) {
+    setFiles(() => {
+      let imgArr = []
+      for (let i = 0; i < e.target.files.length; i++) {
+        imgArr.push(e.target.files[i])
+      }
+      return imgArr
+    })
+    setFilesNotReady(false)
   }
 
   function uploadFiles() {
@@ -24,28 +32,57 @@ function Upload() {
     }
 
     const formData = new FormData();
-    formData.append("image", file);
+
     axios
       .post("http://localhost:5000/upload/getid", {
         id: sessionStorage.getItem("token"),
       })
       .then((res) => {
         if (res.data === false) {
-          setMessage("Invalid user. Please login to upload")
+          setMessage("Invalid user. Please login to upload");
           return setTimeout(() => {
             navigate("/login");
           }, 5000);
         }
-        axios.post("http://localhost:5000/upload", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
+      });
+
+    setIsLoading(true)
+    setFilesNotReady(true);
+    
+    if (files.length === undefined) {
+      setFiles();
+      formData.append("image", files);
+      axios
+      .post("http://localhost:5000/upload/one", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then(async (res) => {
+        await res.data
         setMessage("Image successfully uploaded! (Click to view)");
         setTimeout(() => {
-          setMessage('')
+          setMessage("");
         }, 5000);
-        setFiles();
-        setFilesNotReady(true);
+        setIsLoading(false)
       });
+    }
+    else {
+      for (let i = 0; i < files.length; i++) {
+        formData.append("image", files[i])
+      }
+      axios
+      .post("http://localhost:5000/upload/multiple", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then(async (res) => {
+        console.log(res.data);
+        await res.data
+        setMessage("Images successfully uploaded! (Click to view)");
+        setTimeout(() => {
+          setMessage("");
+        }, 5000);
+        setIsLoading(false)
+      });
+    }
   }
 
   return (
@@ -55,27 +92,27 @@ function Upload() {
           Choose An Image
         </label>
         <input
-          style={{ visibility: "hidden" }}
           onChange={selectImage}
           id="upload--choose-one"
-          type="file"
           accept="image/*"
+          type="file"
+          style={{ visibility: "hidden" }}
         />
 
-        {/* <label
+        <label
           className="upload--choose-button"
           htmlFor="upload--choose-multiple"
         >
           Choose Multiple Images
         </label>
         <input
-          disabled={true}
           multiple
-          style={{ visibility: "hidden" }}
           onChange={selectImages}
           id="upload--choose-multiple"
+          accept="image/*"
           type="file"
-        /> */}
+          style={{ visibility: "hidden" }}
+        />
       </div>
       <button
         id="upload--upload-button"
@@ -85,7 +122,17 @@ function Upload() {
       >
         Upload Your Files
       </button>
-      {message && <h3 id="upload--message" onClick={() => {navigate('/gallery')}}>{message}</h3>}
+      {message && (
+        <h3
+          id="upload--message"
+          onClick={() => {
+            navigate("/gallery");
+          }}
+        >
+          {message}
+        </h3>
+      )}
+      {isLoading && <div className="upload--loading"><h1 className="upload--loading-text">Image is uploading. Please be patient...</h1><img className="upload--spinner" src={loadingIcon} alt="loading"/></div>}
     </div>
   );
 }
