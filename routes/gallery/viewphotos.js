@@ -10,7 +10,7 @@ router.post("/getid", (req, res) => {
   id = req.body.id;
   reqNum = req.body.reqNum;
   const getImages =
-    "SELECT imageid,originalname,dimensions, filesize from images WHERE id=? ORDER BY nameinserver DESC;";
+    "SELECT imageid,originalname,nameinserver,dimensions, filesize from images WHERE id=? ORDER BY nameinserver DESC;";
   db.query(getImages, [id], (err, data) => {
     if (err) console.log(err);
     for (let i = 0; i <= data.length; i++) {
@@ -18,6 +18,7 @@ router.post("/getid", (req, res) => {
           res.send({
             imageid: data[i].imageid,
             name: data[i].originalname,
+            servername: data[i].nameinserver,
             dimensions: data[i].dimensions,
             filesize: data[i].filesize,
           });

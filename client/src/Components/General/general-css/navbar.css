@@ -18,7 +18,7 @@
 
 @keyframes transformNavButton {
     0% {
-        transform:scaleX(0.2);
+        transform:scaleX(0.8);
     }
     100% {
         transform: scaleX(1.1);
@@ -91,7 +91,6 @@
 #navbar--show-hide:hover {
     animation: transformNavButton 500ms forwards;
     background-color: #8888ff44;
-    font-size: 1.5rem;
     border-radius: 2rem;
-    width: 10rem;
+    width: 20%;
 }

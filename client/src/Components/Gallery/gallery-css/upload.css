@@ -29,6 +29,10 @@
     border: 2px solid black;
 }
 
+.upload--choose-button:hover {
+    background-color: pink;
+}
+
 #upload--upload-button {
     padding: 2rem;
     background-color: #5432ff99;
@@ -49,8 +53,8 @@
 }
 
 #upload--upload-button:disabled {
-    background: #33333355;
-    color: #888888;
+    background: #44444455;
+    color: #444444;
     text-shadow: none;
     border: none;
     animation: none;

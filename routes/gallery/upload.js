@@ -2,10 +2,24 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const fs = require("fs");
-var sizeOf = require("image-size");
 const db = require("../../config/mysql");
+const sizeOf = require("image-size");
+const ExifImage = require("exif").ExifImage;
 
 let id;
+
+function addArrToDB(id, originalname, nameinserver, path, dimensions, size) {
+  const imageID = generateImageID();
+  const addImageToDB =
+    "INSERT INTO Images(imageid, id, originalname, nameinserver, filelocation, dimensions, filesize) VALUES(?,?,?,?,?,?,?);";
+  db.query(
+    addImageToDB,
+    [imageID, id, originalname, nameinserver, path, dimensions, size],
+    (err, data) => {
+      if (err) console.log(err);
+    }
+  );
+}
 
 const generateImageID = (length = 50) => {
   let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -24,16 +38,7 @@ const storage = multer.diskStorage({
     if (id === undefined) {
       return;
     }
-    let newname;
-    const files = await fs.promises.readdir(`images/${id}`);
-    newname = files.length;
-    for (let i = 0; i < files.length; i++) {
-      const name = files[i].split(".")[0];
-      if (name > i && name.length === i.length) {
-        newname = i;
-        break;
-      }
-    }
+    const newname = generateImageID()
     cb(null, newname + "." + file.originalname.split(".").pop());
   },
 });
@@ -47,52 +52,120 @@ router.post("/getid", (req, res) => {
 
 router.post("/one", upload.single("image"), (req, res) => {
   console.log(req.file);
-  const dimensions = sizeOf(`./images/${id}/${req.file.filename}`);
-  const imageID = generateImageID();
-  const addImageToDB =
-    "INSERT INTO Images(imageid, id, originalname, nameinserver, filelocation, dimensions, filesize) VALUES(?,?,?,?,?,?,?);";
-  db.query(
-    addImageToDB,
-    [
-      imageID,
-      id,
-      req.file.originalname,
-      req.file.filename,
-      `/images/${id}/${req.file.filename}`,
-      dimensions.width + "x" + dimensions.height,
-      req.file.size,
-    ],
-    (err, data) => {
-      if (err) console.log(err);
-      res.send({msg: "Complete"});
-    }
-  );
+  let dimensions;
+    const getDimensions = function getExif() {
+      return new Promise((resolve, reject) => {
+        new ExifImage(
+          { image: `./images/${id}/${req.file.filename}` },
+          function (error, exifData) {
+            if (error) {
+              reject(error);
+            } else {
+              if (exifData.image.Orientation > 4) {
+                dimensions =
+                  exifData.image.ImageHeight + "x" + exifData.image.ImageWidth;
+              } else if (
+                exifData.image.Orientation < 4 &&
+                exifData.image.ImageHeight &&
+                exifData.image.ImageWidth
+              ) {
+                dimensions =
+                  exifData.image.ImageWidth + "x" + exifData.image.ImageHeight;
+              }
+              resolve(dimensions);
+            }
+          }
+        );
+      });
+    };
+
+    getDimensions()
+      .then((result) => {
+        addArrToDB(
+          id,
+          req.file.originalname,
+          req.file.filename,
+          `/images/${id}/${req.file.filename}`,
+          result,
+          req.file.size
+        );
+      })
+      .catch((err) => {
+        sizeOf(`./images/${id}/${req.file.filename}`, (err, data) => {
+          if (err) console.log(err);
+          else {
+            addArrToDB(
+              id,
+              req.file.originalname,
+              req.file.filename,
+              `/images/${id}/${req.file.filename}`,
+              data.width + "x" + data.height,
+              req.file.size
+            );
+          }
+        });
+      });
 });
 
-router.post("/multiple", upload.array("image", 20), (req, res) => {
-  console.log(req.files);
+router.post("/multiple", upload.array("image", 100), async (req, res) => {
   for (let i = 0; i < req.files.length; i++) {
-    const dimensions = sizeOf(`./images/${id}/${req.files[i].filename}`);
-    const imageID = generateImageID();
-    const addImageToDB =
-      "INSERT INTO Images(imageid, id, originalname, nameinserver, filelocation, dimensions, filesize) VALUES(?,?,?,?,?,?,?);";
-    db.query(
-      addImageToDB,
-      [
-        imageID,
-        id,
-        req.files[i].originalname,
-        req.files[i].filename,
-        `/images/${id}/${req.files[i].filename}`,
-        dimensions.width + "x" + dimensions.height,
-        req.files[i].size,
-      ],
-      (err, data) => {
-        if (err) console.log(err);
-        console.log(req.files[i]);
-      }
-      );
-    }
-  res.send({msg: "Complete"});
+    let dimensions;
+    const getDimensions = function getExif() {
+      return new Promise((resolve, reject) => {
+        new ExifImage(
+          { image: `./images/${id}/${req.files[i].filename}` },
+          function (error, exifData) {
+            if (error) {
+              reject(error);
+            } else {
+              if (!exifData.image.ImageHeight || !exifData.image.ImageWidth) {
+                reject(error)
+              }
+              if (exifData.image.Orientation > 4) {
+                dimensions =
+                  exifData.image.ImageHeight + "x" + exifData.image.ImageWidth;
+              } else if (
+                exifData.image.Orientation < 4 &&
+                exifData.image.ImageHeight &&
+                exifData.image.ImageWidth
+              ) {
+                dimensions =
+                  exifData.image.ImageWidth + "x" + exifData.image.ImageHeight;
+              }
+              resolve(dimensions);
+            }
+          }
+        );
+      });
+    };
+
+    getDimensions()
+      .then((result) => {
+        addArrToDB(
+          id,
+          req.files[i].originalname,
+          req.files[i].filename,
+          `/images/${id}/${req.files[i].filename}`,
+          result,
+          req.files[i].size
+        );
+      })
+      .catch((err) => {
+          sizeOf(`./images/${id}/${req.files[i].filename}`, (err, data) => {
+            if (err) console.log(err);
+            else {
+              addArrToDB(
+                id,
+                req.files[i].originalname,
+                req.files[i].filename,
+                `/images/${id}/${req.files[i].filename}`,
+                data.width + "x" + data.height,
+                req.files[i].size
+              );
+            }
+          });
+      });
+  }
+  res.send({ msg: "Complete" });
 });
 module.exports = router;

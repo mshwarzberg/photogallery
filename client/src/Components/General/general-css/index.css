@@ -14,7 +14,11 @@
 }
 
 body {
-    background: linear-gradient(90deg, rgba(101,81,252,0.8) 0%, rgba(150,130,252,0.8) 49%, rgba(120,120,225,0.8) 100%);
+    height: auto;
+    background: rgb(0,0,0);
+    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(98,126,196,1) 86%, rgba(139,150,213,1) 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 .page {

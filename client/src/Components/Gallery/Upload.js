@@ -11,7 +11,7 @@ function Upload() {
 
   useEffect(() => {
     (() => {
-      if (files && files.length > 20) {
+      if (files && files.length > 100) {
         console.log('test');
         setFilesNotReady(true);
         setFiles();
