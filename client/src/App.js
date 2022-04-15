@@ -10,7 +10,7 @@ import ViewPhotos from "./Components/Gallery/ViewPhotos";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Navbar />
       <Routes>
         <Route element={<ViewPhotos />} path="/gallery" />
