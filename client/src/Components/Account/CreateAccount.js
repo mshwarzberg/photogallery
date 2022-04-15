@@ -1,50 +1,167 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import speechBubble from "../../images/speechbubble.png";
 
 function CreateAccount() {
+  
   const navigate = useNavigate();
 
-  const [allowedToSubmit, setAllowedToSubmit] = useState(true);
-  const [errMessage, setErrMessage] = useState("");
+  const [error, setError] = useState('')
+  const [tooltipMessage, setTooltipMessage] = useState({
+    usernamemsg: {
+      tooshort: "Username must be at least 3 characters long",
+      toolong: "Username can't be longer than 50 characters",
+      valid: false,
+    },
+    emailmsg: {
+      tooshort: "Email must be at least 5 characters long",
+      invalidemail: "Email is not valid",
+      toolong: "Email can't be longer than 50 characters",
+      valid: false,
+    },
+    passwordmsg: {
+      tooshort: "Password must be at least 6 characters long",
+      toolong: "Password can't be longer than 50 characters",
+      valid: false,
+    },
+    confirmpasswordmsg: {
+      doesnotmatch: "Passwords do not match",
+      valid: false,
+    },
+  });
+
   const [registerInput, setRegisterInput] = useState({
     username: "",
     email: "",
     password: "",
+    confirmpassword: "",
   });
 
-  function validateInp() {
-    const username = registerInput.username;
-    const email = registerInput.email;
-    const password = registerInput.password;
+  useEffect(() => {
+    // on every render switch back to the default tooltip so that if a user switches input after being validated the register button will be redisabled.
+    setTooltipMessage({
+      usernamemsg: {
+        tooshort: "Username must be at least 3 characters long",
+        toolong: "Username can't be longer than 50 characters",
+        valid: false,
+        render: false,
+      },
+      emailmsg: {
+        tooshort: "Email must be at least 5 characters long",
+        invalidemail: "Email is not valid",
+        toolong: "Email can't be longer than 50 characters",
+        valid: false,
+        render: false,
+      },
+      passwordmsg: {
+        tooshort: "Password must be at least 6 characters long",
+        toolong: "Password can't be longer than 50 characters",
+        valid: false,
+        render: false,
+      },
+      confirmpasswordmsg: {
+        doesnotmatch: "Passwords do not match",
+        valid: false,
+        render: false,
+      },
+    });
+    function validateInp() {
+      const username = registerInput.username;
+      const email = registerInput.email;
+      const password = registerInput.password;
+      const confirmpassword = registerInput.confirmpassword;
 
-    if (username.length < 3 || email.length < 5 || password.length < 6) {
-      return setAllowedToSubmit(true);
+      let isValid = true;
+
+      if (username.length > 3) {
+        if (username.length > 50) {
+          isValid = false;
+        }
+        setTooltipMessage((prevtooltipMessage) => {
+          const newData = {
+            ...prevtooltipMessage,
+            usernamemsg: {
+              tooshort: "",
+              toolong: isValid
+                ? ""
+                : "Username can't be longer than 50 characters",
+              valid: isValid ? true : false,
+            },
+          };
+          return newData;
+        });
+      }
+      // if the email is valid but too long, set the "tooltip message" so that it'll show that it's too long and not invalid.
+      if (email.length > 3) {
+        let validateEmail;
+        if (
+          // I stole this regex. Not sure who wrote it.
+          !email.match(
+            /^[a-zA-Z0-9][-_.+!#$%&'*/=?^`{|]{0,1}([a-zA-Z0-9][-_.+!#$%&'*/=?^`{|]{0,1})*[a-zA-Z0-9]@[a-zA-Z0-9][-.]{0,1}([a-zA-Z][-.]{0,1})*[a-zA-Z0-9].[a-zA-Z0-9]{1,}([.-]{0,1}[a-zA-Z]){0,}[a-zA-Z0-9]{0,}$/i
+          )
+        ) {
+          validateEmail = "Email is not valid";
+          isValid = false;
+        }
+        if (email.length > 50) {
+          // if the user input is both invalid and too long show invalid error rather than too long error.
+          validateEmail = "";
+          isValid = false;
+        }
+        setTooltipMessage((prevtooltipMessage) => {
+          const newData = {
+            ...prevtooltipMessage,
+            emailmsg: {
+              tooshort: "",
+              invalidemail: validateEmail,
+              toolong: isValid
+                ? ""
+                : "Username can't be longer than 50 characters",
+              valid: isValid ? true : false,
+            },
+          };
+          return newData;
+        });
+      }
+      if (password.length > 5) {
+        if (password.length > 50) {
+          isValid = false;
+        }
+        setTooltipMessage((prevtooltipMessage) => {
+          const newData = {
+            ...prevtooltipMessage,
+            passwordmsg: {
+              tooshort: "",
+              toolong: isValid
+                ? ""
+                : "Password can't be longer than 50 characters",
+              valid: isValid ? true : false,
+            },
+          };
+          return newData;
+        });
+      }
+      if (password === confirmpassword && confirmpassword) {
+        setTooltipMessage((prevtooltipMessage) => {
+          const newData = {
+            ...prevtooltipMessage,
+            confirmpasswordmsg: {
+              doesnotmatch: "",
+              valid: isValid ? true : false,
+            },
+          };
+          return newData;
+        });
+      }
     }
-    if (username.length > 50 || email.length > 50 || password.length > 50) {
-      return setAllowedToSubmit(true);
-    }
-    // I stole this regex. Not sure who wrote it.
-    if (
-      !email.match(
-        /^[a-zA-Z0-9][-_.+!#$%&'*/=?^`{|]{0,1}([a-zA-Z0-9][-_.+!#$%&'*/=?^`{|]{0,1})*[a-zA-Z0-9]@[a-zA-Z0-9][-.]{0,1}([a-zA-Z][-.]{0,1})*[a-zA-Z0-9].[a-zA-Z0-9]{1,}([.-]{0,1}[a-zA-Z]){0,}[a-zA-Z0-9]{0,}$/i
-      )
-    ) {
-      return setAllowedToSubmit(true);
-    }
-    return;
-  }
+    return validateInp();
+  }, [registerInput, setRegisterInput]);
 
   function registerUser(e) {
-    
+
     e.preventDefault();
-
-    validateInp(
-      registerInput.username,
-      registerInput.email,
-      registerInput.password
-    );
-
-    if (!allowedToSubmit.notallowed) {
+    
+    if (notAllowSubmit() === false) {
       const fetchOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -52,9 +169,9 @@ function CreateAccount() {
       };
       fetch("/api/register", fetchOptions)
         .then(async (res) => {
-          const response = await res.json()
+          const response = await res.json();
           if (response.err === "duplicate found") {
-            return setErrMessage("Username or email already exists");
+            return setError('Username or email already exists')
           }
           if (response.msg === "success!") {
             navigate("/login");
@@ -63,7 +180,6 @@ function CreateAccount() {
         .catch((err) => {
           console.log(err);
         });
-      
     }
   }
 
@@ -73,55 +189,232 @@ function CreateAccount() {
       ...prevRegisterInput,
       [name]: value,
     }));
+  }
 
-    setAllowedToSubmit(false);
-    validateInp(name);
+  function notAllowSubmit() {
+    if (tooltipMessage.usernamemsg.valid === false) {
+      return true;
+    }
+    if (tooltipMessage.emailmsg.valid === false) {
+      return true;
+    }
+    if (tooltipMessage.passwordmsg.valid === false) {
+      return true;
+    }
+    if (tooltipMessage.confirmpasswordmsg.valid === false) {
+      return true;
+    }
+    return false;
+  }
+
+  function renderTooltip(inputName) {
+    if (inputName === "username") {
+      return (
+        tooltipMessage.usernamemsg.tooshort ||
+        tooltipMessage.usernamemsg.toolong ||
+        "✔ Username is valid"
+      );
+    }
+    if (inputName === "email") {
+      return (
+        tooltipMessage.emailmsg.tooshort ||
+        tooltipMessage.emailmsg.invalidemail ||
+        tooltipMessage.emailmsg.toolong ||
+        "✔ Email is valid"
+      );
+    }
+    if (inputName === "password") {
+      return (
+        tooltipMessage.passwordmsg.tooshort ||
+        tooltipMessage.passwordmsg.toolong ||
+        "✔ Password is valid"
+      );
+    } else {
+      return (
+        tooltipMessage.confirmpasswordmsg.doesnotmatch ||
+        "✔ Both passwords match"
+      );
+    }
+  }
+
+  function hideShowTooltip(inputName, bool) {
+    setTooltipMessage((prevtooltipMessage) => {
+      return {...prevtooltipMessage,
+      [inputName]: {
+        ...prevtooltipMessage[inputName],
+        render: bool,
+      }}
+    });
   }
 
   return (
-    <div className="register--parent">
+    <div className="page" id="register--page">
       <div className="register--block">
-        {errMessage ? (
-          <h1 className="register--error">{errMessage}</h1>
-        ) : (
-          <h1 className="register--title">Create Account</h1>
-        )}
+        {error ? <h1 className="register--title" id="register--title-error">{error}</h1> : <h1 className="register--title">Create Account</h1>}
         <form onSubmit={registerUser} className="register--form">
           <label htmlFor="register--username">Enter a new username:</label>
-          <input
-            onChange={changeRegisterInput}
-            name="username"
-            type="text"
-            placeholder="Username"
-            id="register--username"
-            className="register--input"
-            required
-          />
+          <div className="register--input-innerdiv">
+            <input
+              onChange={changeRegisterInput}
+              name="username"
+              type="text"
+              placeholder="Username"
+              id="register--username"
+              className="register--input"
+            />
+            <div className="register--tooltip-innerdiv">
+              {tooltipMessage.usernamemsg.render && (
+                <div className="register--speechbubble-innerdiv">
+                  <img
+                    className="register--speechbubble"
+                    src={speechBubble}
+                    alt=""
+                  />
+                  <p className="register--speechbubble-text">{renderTooltip("username")}</p>
+                </div>
+              )}
+              <input
+                type="button"
+                value='?'
+                onMouseEnter={() => {
+                  hideShowTooltip('usernamemsg', true)
+                }}
+                onMouseLeave={() => {
+                  hideShowTooltip('usernamemsg', false)
+                }}
+                id={
+                  (tooltipMessage.usernamemsg.toolong || tooltipMessage.usernamemsg.tooshort)
+                    ? "register--input-tooltip-notallowed"
+                    : "register--input-tooltip-allowed"
+                }
+                className="register--input-tooltip"
+              />
+            </div>
+          </div>
           <label htmlFor="register--email">Enter your email:</label>
-          <input
-            onChange={changeRegisterInput}
-            name="email"
-            type="email"
-            placeholder="Email"
-            id="register--email"
-            className="register--input"
-            required
-          />
-          <label htmlFor="register--password">Create secure password:</label>
-          <input
-            onChange={changeRegisterInput}
-            name="password"
-            type="password"
-            placeholder="Password"
-            id="register--password"
-            className="register--input"
-            required
-          />
+          <div className="register--input-innerdiv">
+            <input
+              onChange={changeRegisterInput}
+              name="email"
+              type="email"
+              placeholder="Email"
+              id="register--email"
+              className="register--input"
+            />
+            <div className="register--tooltip-innerdiv">
+              {tooltipMessage.emailmsg.render && (
+                <div className="register--speechbubble-innerdiv">
+                  <img
+                    className="register--speechbubble"
+                    src={speechBubble}
+                    alt=""
+                  />
+                  <p className="register--speechbubble-text">{renderTooltip("email")}</p>
+                </div>
+              )}
+              <input
+              type="button"
+              value='?'
+              onMouseEnter={() => {
+                hideShowTooltip('emailmsg', true)
+              }}
+              onMouseLeave={() => {
+                hideShowTooltip('emailmsg', false)
+              }}
+                id={
+                  (tooltipMessage.emailmsg.toolong || tooltipMessage.emailmsg.tooshort || tooltipMessage.emailmsg.invalidemail)
+                    ? "register--input-tooltip-notallowed"
+                    : "register--input-tooltip-allowed"
+                }
+                className="register--input-tooltip"
+              />
+            </div>
+          </div>
+          <label htmlFor="register--password">Create strong password:</label>
+          <div className="register--input-innerdiv">
+            <input
+              onChange={changeRegisterInput}
+              name="password"
+              type="password"
+              placeholder="Password"
+              id="register--password"
+              className="register--input"
+            />
+            <div className="register--tooltip-innerdiv">
+              {tooltipMessage.passwordmsg.render && (
+                <div className="register--speechbubble-innerdiv">
+                  <img
+                    className="register--speechbubble"
+                    src={speechBubble}
+                    alt=""
+                  />
+                  <p className="register--speechbubble-text">{renderTooltip("password")}</p>
+                </div>
+              )}
+              <input
+              type="button"
+              value='?'
+              onMouseEnter={() => {
+                hideShowTooltip('passwordmsg', true)
+              }}
+              onMouseLeave={() => {
+                hideShowTooltip('passwordmsg', false)
+              }}
+                id={
+                  (tooltipMessage.passwordmsg.toolong || tooltipMessage.passwordmsg.tooshort)
+                    ? "register--input-tooltip-notallowed"
+                    : "register--input-tooltip-allowed"
+                }
+                className="register--input-tooltip"
+              />
+            </div>
+          </div>
+          <label htmlFor="register--confirm-password">
+            Confirm your password:
+          </label>
+          <div className="register--input-innerdiv">
+            <input
+              onChange={changeRegisterInput}
+              name="confirmpassword"
+              type="password"
+              placeholder="Confirm Your Password"
+              id="register--confirm-password"
+              className="register--input"
+            />
+            <div className="register--tooltip-innerdiv">
+              {tooltipMessage.confirmpasswordmsg.render && (
+                <div className="register--speechbubble-innerdiv">
+                  <img
+                    className="register--speechbubble"
+                    src={speechBubble}
+                    alt=""
+                  />
+                  <p className="register--speechbubble-text">{renderTooltip("confirmpassword")}</p>
+                </div>
+              )}
+              <input
+              type="button"
+              value='?'
+              onMouseEnter={() => {
+                hideShowTooltip('confirmpasswordmsg', true)
+              }}
+              onMouseLeave={() => {
+                hideShowTooltip('confirmpasswordmsg', false)
+              }}
+                id={
+                  (tooltipMessage.confirmpasswordmsg.doesnotmatch)
+                    ? "register--input-tooltip-notallowed"
+                    : "register--input-tooltip-allowed"
+                }
+                className="register--input-tooltip"
+              />
+            </div>
+          </div>
           <button
             type="submit"
             onClick={registerUser}
             id="register--submit"
-            disabled={allowedToSubmit}
+            disabled={notAllowSubmit()}
           >
             Register
           </button>

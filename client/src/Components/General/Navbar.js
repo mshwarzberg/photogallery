@@ -2,8 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Navbar() {
+  
+  useEffect(() => {
+    window.addEventListener("resize", function() {
+    });
+    return () => {
+      window.removeEventListener("resize", function() {
+      });
+    };
+  }, []);
+
   const navigate = useNavigate();
-  const [showNav, setShowNav] = useState(true);
+  const [showNav, setShowNav] = useState(window.innerWidth > 768);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {

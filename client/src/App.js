@@ -9,19 +9,18 @@ import Upload from "./Components/Gallery/Upload";
 import ViewPhotos from "./Components/Gallery/ViewPhotos";
 
 function App() {
-
   return (
-      <BrowserRouter>
+    <BrowserRouter>
       <Navbar />
-        <Routes>
-          <Route element={<ViewPhotos />} path='/gallery' />
-          <Route element={<Upload />} path='/upload' />
-          <Route element={<Home />} path="/" />
-          <Route element={<CreateAccount />} path="/register" />
-          <Route element={<Profile />} path="/profile" />
-          <Route element={<Login />} path="/login" />
-        </Routes>
-      </BrowserRouter>
+      <Routes>
+        <Route element={<ViewPhotos />} path="/gallery" />
+        <Route element={<Upload />} path="/upload" />
+        <Route element={<Home />} path="/" />
+        <Route element={<CreateAccount />} path="/register" />
+        <Route element={<Profile />} path="/profile" />
+        <Route element={<Login />} path="/login" />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

@@ -56,7 +56,7 @@
     background: #44444455;
     color: #444444;
     text-shadow: none;
-    border: none;
+    border: 2px solid #444444;
     animation: none;
     cursor: default;
     box-shadow: none;

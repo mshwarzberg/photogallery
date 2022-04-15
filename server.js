@@ -15,12 +15,12 @@ const db = require("./config/mysql");
 app.use(cors())
 app.use(express.json());
 
-// db.connect((err) => {
-//   if (err) {
-//     console.log(err);
-//   }
-//   console.log("Connected to MYSQL Server");
-// });
+db.connect((err) => {
+  if (err) {
+    console.log(err);
+  }
+  console.log("Connected to MYSQL Server");
+});
 
 app.listen(5000, () => {
   console.log("Now listening on port 5000");
