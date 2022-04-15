@@ -107,7 +107,7 @@ router.post("/one", upload.single("image"), (req, res) => {
       });
 });
 
-router.post("/multiple", upload.array("image", 100), async (req, res) => {
+router.post("/multiple", upload.array("image", 10), async (req, res) => {
   for (let i = 0; i < req.files.length; i++) {
     let dimensions;
     const getDimensions = function getExif() {

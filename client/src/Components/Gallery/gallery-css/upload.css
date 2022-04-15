@@ -40,7 +40,6 @@
     font-weight: bold;
     font-size: 1.3rem;
     cursor: pointer;
-    background: linear-gradient(180deg, #333377cc, #444488bb);
     border: none;
     font-size: 2rem;
     box-shadow: 0 0 0 5px #ffffff00, 0 0 0 6px #222255bb;
@@ -50,6 +49,7 @@
 
 #upload--upload-button:hover {
     animation: 300ms forwards scaleButton;
+    background-color: pink;
 }
 
 #upload--upload-button:disabled {
@@ -92,10 +92,11 @@
 
 .upload--loading-text {
     border-radius: 3rem;
-    padding: 1rem;
-    background-color: #11111177;
+    padding: 2rem 1rem;
+    background-color: #111111cc;
     font-size: 3rem;
     font-family: 'Roboto Slab', serif;
     margin-bottom: 3rem;
     color: white;
+    cursor: default;
 }

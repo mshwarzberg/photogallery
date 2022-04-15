@@ -9,7 +9,7 @@
 
 #viewphotos--page {
     background: #050225;
-    background: linear-gradient(0deg, #050225aa 45%, rgba(34,193,195,1) 85%, rgba(120,120,225,1) 100%);
+    background: linear-gradient(0deg, rgba(34,193,195,1) 10%, rgba(120,120,225,1) 30%, #050225aa 70%, rgba(120,120,225,1) 90%, rgba(34,193,195,1) 100%);
 }
 
 #viewphotos--grid {

@@ -4,18 +4,18 @@ import loadingIcon from "../../images/Loading.gif";
 
 function Upload() {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [message, setMessage] = useState("");
   const [filesNotReady, setFilesNotReady] = useState(true);
   const [files, setFiles] = useState();
 
   useEffect(() => {
     (() => {
-      if (files && files.length > 100) {
+      if (files && files.length > 10) {
         console.log('test');
         setFilesNotReady(true);
         setFiles();
-        setMessage("Too many files selected. You may choose up to 20 images");
+        setMessage("Too many files selected. You may choose up to 10 images");
         return setTimeout(() => {
           setMessage("");
         }, 5000);
@@ -104,7 +104,7 @@ function Upload() {
   }
 
   return (
-    <div className="page">
+    <div className="page" id="upload--page">
       <div className="upload--choose-files">
         <label className="upload--choose-button" htmlFor="upload--choose-one">
           Choose An Image
@@ -120,7 +120,7 @@ function Upload() {
         <label
           className="upload--choose-button"
           htmlFor="upload--choose-multiple"
-          title="You can choose up to 20 images"
+          title="You can choose up to 10 images"
         >
           Choose Multiple Images
         </label>
@@ -154,7 +154,7 @@ function Upload() {
       {isLoading && (
         <div className="upload--loading">
           <h1 className="upload--loading-text">
-            Image is uploading. Please be patient...
+            {!filesNotReady && files.length === undefined ? 'Image is' : 'Images are'} uploading. Please be patient...
           </h1>
           <img className="upload--spinner" src={loadingIcon} alt="loading" />
         </div>
