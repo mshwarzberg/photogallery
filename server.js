@@ -9,8 +9,23 @@ const viewphotos = require("./routes/gallery/viewphotos");
 const managephotos = require('./routes/gallery/managephotos')
 // for troubleshooting purposes only
 const magicalbutton = require('./routes/magical')
+
 const db = require("./config/mysql");
 
+// const whitelist = ['http://localhost:3000', 'http://localhost:5000']
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     console.log("** Origin of request " + origin)
+//     if (whitelist.indexOf(origin) !== -1 || !origin) {
+//       console.log("Origin acceptable")
+//       callback(null, true)
+//     } else {
+//       console.log("Origin rejected")
+//       callback(new Error('Not allowed by CORS'))
+//     }
+//   }
+// }
+// app.use(cors(corsOptions))
 
 app.use(cors())
 app.use(express.json());
