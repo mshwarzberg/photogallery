@@ -1,0 +1,96 @@
+@keyframes showNav {
+    0% {
+        transform: translateY(-4.7rem);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+ @keyframes hideNav {
+    0% {
+        transform: translateY(0rem);
+    }
+    100% {
+        transform: translateY(-4.7rem)
+    }
+}
+
+@keyframes transformNavButton {
+    0% {
+        transform:scaleX(0.8);
+    }
+    100% {
+        transform: scaleX(1.1);
+    }
+}
+
+.navbar--visible, .navbar--hidden {
+    display: flex;
+    flex-direction: column;
+    height: 7rem;
+    border-bottom: 4px solid #000;
+}
+
+.navbar--visible {
+    animation: 400ms linear forwards showNav;
+    background-color: #333377cc;
+}
+
+.navbar--hidden {
+    animation: 400ms linear forwards hideNav;
+    background-color: #111144cc;
+}
+
+.navbar--links {
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing: 2px;
+    color: white;
+    font-size: 2.5rem;
+}
+
+.navbar--links:hover {
+    color: pink;
+    animation: 50ms forwards scaleButton;
+}
+
+#nav--home-link {
+    float: left;
+    margin: 1.7rem auto auto 3rem;
+    text-decoration: none;
+    font-size: 3rem;
+}
+
+#nav--register-link, #nav--login-link, #nav--profile-link, #nav--logout-link, #nav--upload-link {
+    float: right;
+    margin: 2rem 2rem auto auto;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: #00f00000;
+    border: none;
+}
+
+.navbar--bottom {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0;
+}
+
+#navbar--show-hide {
+    position: absolute;
+    bottom: 0;
+    cursor: pointer;
+    background-color: #ffffff00;
+    border: none;
+    color: #ffff00;
+    font-size: 1.5rem;
+    padding-bottom: 6px;
+    width: 5rem;
+}
+
+#navbar--show-hide:hover {
+    animation: transformNavButton 500ms forwards;
+    background-color: #8888ff44;
+    border-radius: 2rem;
+    width: 20%;
+}

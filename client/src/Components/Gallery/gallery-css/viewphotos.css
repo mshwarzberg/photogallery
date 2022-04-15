@@ -1,0 +1,87 @@
+@keyframes focusImage {
+    0% {
+        transform: scale(40%);
+    }
+    100% {
+        transform: scale(100%);
+    }
+}
+
+#viewphotos--page {
+    background: #050225;
+    background: linear-gradient(0deg, rgba(34,193,195,1) 10%, rgba(120,120,225,1) 30%, #050225aa 70%, rgba(120,120,225,1) 90%, rgba(34,193,195,1) 100%);
+}
+
+#viewphotos--grid {
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    grid-gap: 1rem;
+    margin: 1.5rem;
+}
+
+.viewphotos--image-block {
+    position: relative;
+    padding: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #15122588;
+    border-radius: 4px;
+}
+
+.viewphotos--image-block:hover {
+    cursor: pointer;
+    animation: 400ms forwards scaleButton;
+}
+
+.viewphotos--image {
+    max-height: 100%;
+    max-width: 100%;
+    display: flex;
+    position: relative;
+}
+
+#viewphotos--image-wide, #viewphotos--image-ultrawide {
+    grid-column: span 4;
+}
+
+#viewphotos--image-ultrawide {
+    grid-column: span 8;
+}
+
+#viewphotos--image-square {
+    grid-column: span 4;
+    grid-row: span 2;
+}
+
+#viewphotos--image-ultratall, #viewphotos--image-tall {
+    grid-row: span 2;
+    grid-column: span 4;
+}
+
+
+#viewphotos--trash-icon {
+    position: absolute;
+    max-width: 2rem;
+    top: 4px;
+    left: 4px;
+    z-index: 2;
+}
+
+#viewphotos--focus {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #111111ee;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+}
+
+#viewphotos--focus-image {
+    animation: focusImage forwards 1s;
+    max-width: 96%;
+    max-height: 96%;
+}
