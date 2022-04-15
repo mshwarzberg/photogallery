@@ -11,17 +11,18 @@ import ViewPhotos from "./Components/Gallery/ViewPhotos";
 function App() {
 
   return (
-      <BrowserRouter>
-      <Navbar />
-        <Routes>
-          <Route element={<ViewPhotos />} path='/gallery' />
-          <Route element={<Upload />} path='/upload' />
-          <Route element={<Home />} path="/" />
-          <Route element={<CreateAccount />} path="/register" />
-          <Route element={<Profile />} path="/profile" />
-          <Route element={<Login />} path="/login" />
-        </Routes>
-      </BrowserRouter>
+    <div><h1>hello</h1></div>
+      // <BrowserRouter>
+      // <Navbar />
+      //   <Routes>
+      //     <Route element={<ViewPhotos />} path='/gallery' />
+      //     <Route element={<Upload />} path='/upload' />
+      //     <Route element={<Home />} path="/" />
+      //     <Route element={<CreateAccount />} path="/register" />
+      //     <Route element={<Profile />} path="/profile" />
+      //     <Route element={<Login />} path="/login" />
+      //   </Routes>
+      // </BrowserRouter>
   );
 }
 
