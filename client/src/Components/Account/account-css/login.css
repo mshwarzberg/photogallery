@@ -1,5 +1,9 @@
 .login--parent {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .login--block {
@@ -7,16 +11,13 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #33333388;
-    padding: 1rem;
+    background-color: #222222ee;
+    padding: 6rem 4rem;
     border-radius: 2rem 1rem 2rem 1rem;
-    width: 50vw;
-    position: absolute;
-    top: 10vh;
-    right: 25vw;
 }
 
 .login--title {
+    font-family: 'PT Serif', serif;
     color: white;
     text-align: center;
     font-size: 3rem;
@@ -57,9 +58,10 @@
 }
 
 .login--form > label {
+    font-family: 'PT Serif', serif;
     font-size: 1.5rem;
     cursor: default;
-    color: black;
+    color: white;
 }
 
 #login--submit {
@@ -70,14 +72,17 @@
     font-size: 1.5rem;
     border: 2px solid black;
     border-radius: 4px;
-    margin-top: 1rem;
+    margin-top: 3rem;
     margin-bottom: 1rem;
     background-color: #444499;
+    font-family: 'PT Serif', serif;
 }
 
 #login--submit:hover {
     animation: 200ms forwards scaleButton;
-    background-color: #6666bb;
+    background-color: pink;
+    color: black;
+    
 }
 
 #login--submit:disabled {

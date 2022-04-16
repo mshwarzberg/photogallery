@@ -10,6 +10,8 @@ import "./Components/Account/account-css/createaccount.css";
 import "./Components/Account/account-css/login.css";
 import './Components/Gallery/gallery-css/upload.css'
 import './Components/Gallery/gallery-css/viewphotos.css'
+import './Components/Gallery/gallery-css/focusonimage.css'
+import './Components/Gallery/gallery-css/renderimage.css'
 
 const container = document.getElementById("root");
 

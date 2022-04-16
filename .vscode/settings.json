@@ -4,7 +4,7 @@
       "mysqlOptions": {
         "authProtocol": "default"
       },
-      "previewLimit": 100,
+      "previewLimit": 200,
       "server": "localhost",
       "port": 4000,
       "driver": "MySQL",

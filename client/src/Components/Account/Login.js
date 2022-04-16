@@ -24,7 +24,7 @@ function Login() {
 
   function loginUser(e) {
     e.preventDefault();
-
+    
     const fetchOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -34,13 +34,15 @@ function Login() {
     fetch("/api/login", fetchOptions)
       .then(async (res) => {
         const {msg, token} = await res.json()
-        if (
-          msg === "user not found" ||
-          msg === "incorrect password"
-        ) {
-          return setMessage(msg);
+        
+        if (msg === "user not found") {
+          return setMessage("User does not exist");
         }
-        if (msg === "logged in successfully") {
+        if (msg === "incorrect password") {
+          return setMessage("Incorrect password. Please try again.")
+        }
+        if (msg === "MMHURaqxrhtyJR0uauiyXWenHOPyxQPyk9fr6z4hO2sUgtHXrv") {
+          console.log(msg, token);
           setUserSession(token);
           navigate("/profile");
         }

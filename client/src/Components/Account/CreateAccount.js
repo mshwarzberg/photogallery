@@ -3,10 +3,9 @@ import { useNavigate } from "react-router-dom";
 import speechBubble from "../../images/speechbubble.png";
 
 function CreateAccount() {
-  
   const navigate = useNavigate();
 
-  const [error, setError] = useState('')
+  const [error, setError] = useState("");
   const [tooltipMessage, setTooltipMessage] = useState({
     usernamemsg: {
       tooshort: "Username must be at least 3 characters long",
@@ -158,29 +157,31 @@ function CreateAccount() {
   }, [registerInput, setRegisterInput]);
 
   function registerUser(e) {
-
     e.preventDefault();
-    
-    if (notAllowSubmit() === false) {
-      const fetchOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(registerInput),
-      };
-      fetch("/api/register", fetchOptions)
-        .then(async (res) => {
-          const response = await res.json();
-          if (response.err === "duplicate found") {
-            return setError('Username or email already exists')
-          }
-          if (response.msg === "success!") {
-            navigate("/login");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+
+    const fetchOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(registerInput),
+    };
+    fetch("/api/register", fetchOptions)
+      .then(async (res) => {
+        const { err, msg } = await res.json();
+        if (err === "Username taken") {
+          return setError("Username taken. Please choose another");
+        }
+        if (err === "Email taken") {
+          return setError("Email already exists. Please use another email");
+        }
+        if (msg === "VJDx5R4z9z8kYTt7L5h2CQm35IFqURJLoKcVrCVwLS5BXwV3qy") {
+          navigate("/login");
+        } else {
+          return setError("Invalid credentials supplied. Please try again");
+        }
+      })
+      .catch((err) => {
+        return;
+      });
   }
 
   function changeRegisterInput(e) {
@@ -239,18 +240,26 @@ function CreateAccount() {
 
   function hideShowTooltip(inputName, bool) {
     setTooltipMessage((prevtooltipMessage) => {
-      return {...prevtooltipMessage,
-      [inputName]: {
-        ...prevtooltipMessage[inputName],
-        render: bool,
-      }}
+      return {
+        ...prevtooltipMessage,
+        [inputName]: {
+          ...prevtooltipMessage[inputName],
+          render: bool,
+        },
+      };
     });
   }
 
   return (
     <div className="page" id="register--page">
       <div className="register--block">
-        {error ? <h1 className="register--title" id="register--title-error">{error}</h1> : <h1 className="register--title">Create Account</h1>}
+        {error ? (
+          <h1 className="register--title" id="register--title-error">
+            {error}
+          </h1>
+        ) : (
+          <h1 className="register--title">Create Account</h1>
+        )}
         <form onSubmit={registerUser} className="register--form">
           <label htmlFor="register--username">Enter a new username:</label>
           <div className="register--input-innerdiv">
@@ -270,20 +279,23 @@ function CreateAccount() {
                     src={speechBubble}
                     alt=""
                   />
-                  <p className="register--speechbubble-text">{renderTooltip("username")}</p>
+                  <p className="register--speechbubble-text">
+                    {renderTooltip("username")}
+                  </p>
                 </div>
               )}
               <input
                 type="button"
-                value='?'
+                value="?"
                 onMouseEnter={() => {
-                  hideShowTooltip('usernamemsg', true)
+                  hideShowTooltip("usernamemsg", true);
                 }}
                 onMouseLeave={() => {
-                  hideShowTooltip('usernamemsg', false)
+                  hideShowTooltip("usernamemsg", false);
                 }}
                 id={
-                  (tooltipMessage.usernamemsg.toolong || tooltipMessage.usernamemsg.tooshort)
+                  tooltipMessage.usernamemsg.toolong ||
+                  tooltipMessage.usernamemsg.tooshort
                     ? "register--input-tooltip-notallowed"
                     : "register--input-tooltip-allowed"
                 }
@@ -309,20 +321,24 @@ function CreateAccount() {
                     src={speechBubble}
                     alt=""
                   />
-                  <p className="register--speechbubble-text">{renderTooltip("email")}</p>
+                  <p className="register--speechbubble-text">
+                    {renderTooltip("email")}
+                  </p>
                 </div>
               )}
               <input
-              type="button"
-              value='?'
-              onMouseEnter={() => {
-                hideShowTooltip('emailmsg', true)
-              }}
-              onMouseLeave={() => {
-                hideShowTooltip('emailmsg', false)
-              }}
+                type="button"
+                value="?"
+                onMouseEnter={() => {
+                  hideShowTooltip("emailmsg", true);
+                }}
+                onMouseLeave={() => {
+                  hideShowTooltip("emailmsg", false);
+                }}
                 id={
-                  (tooltipMessage.emailmsg.toolong || tooltipMessage.emailmsg.tooshort || tooltipMessage.emailmsg.invalidemail)
+                  tooltipMessage.emailmsg.toolong ||
+                  tooltipMessage.emailmsg.tooshort ||
+                  tooltipMessage.emailmsg.invalidemail
                     ? "register--input-tooltip-notallowed"
                     : "register--input-tooltip-allowed"
                 }
@@ -348,20 +364,23 @@ function CreateAccount() {
                     src={speechBubble}
                     alt=""
                   />
-                  <p className="register--speechbubble-text">{renderTooltip("password")}</p>
+                  <p className="register--speechbubble-text">
+                    {renderTooltip("password")}
+                  </p>
                 </div>
               )}
               <input
-              type="button"
-              value='?'
-              onMouseEnter={() => {
-                hideShowTooltip('passwordmsg', true)
-              }}
-              onMouseLeave={() => {
-                hideShowTooltip('passwordmsg', false)
-              }}
+                type="button"
+                value="?"
+                onMouseEnter={() => {
+                  hideShowTooltip("passwordmsg", true);
+                }}
+                onMouseLeave={() => {
+                  hideShowTooltip("passwordmsg", false);
+                }}
                 id={
-                  (tooltipMessage.passwordmsg.toolong || tooltipMessage.passwordmsg.tooshort)
+                  tooltipMessage.passwordmsg.toolong ||
+                  tooltipMessage.passwordmsg.tooshort
                     ? "register--input-tooltip-notallowed"
                     : "register--input-tooltip-allowed"
                 }
@@ -389,20 +408,22 @@ function CreateAccount() {
                     src={speechBubble}
                     alt=""
                   />
-                  <p className="register--speechbubble-text">{renderTooltip("confirmpassword")}</p>
+                  <p className="register--speechbubble-text">
+                    {renderTooltip("confirmpassword")}
+                  </p>
                 </div>
               )}
               <input
-              type="button"
-              value='?'
-              onMouseEnter={() => {
-                hideShowTooltip('confirmpasswordmsg', true)
-              }}
-              onMouseLeave={() => {
-                hideShowTooltip('confirmpasswordmsg', false)
-              }}
+                type="button"
+                value="?"
+                onMouseEnter={() => {
+                  hideShowTooltip("confirmpasswordmsg", true);
+                }}
+                onMouseLeave={() => {
+                  hideShowTooltip("confirmpasswordmsg", false);
+                }}
                 id={
-                  (tooltipMessage.confirmpasswordmsg.doesnotmatch)
+                  tooltipMessage.confirmpasswordmsg.doesnotmatch
                     ? "register--input-tooltip-notallowed"
                     : "register--input-tooltip-allowed"
                 }

@@ -10,7 +10,7 @@ router.post("/", async (req, res) => {
     console.log("found files");
   });
   console.log(foundFiles.length);
-  const deleteAll = 'DELETE FROM images WHERE id=?'
+  const deleteAll = 'DELETE FROM images'
   db.query(deleteAll, [req.body.id], (err, data) => {
     if (err) console.log(err);
     console.log('deleted everything from db');

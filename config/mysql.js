@@ -5,7 +5,7 @@ var config = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "password",
-  // add after creating database below
+  // add database line after creating database below
   database: "photogallery",
 });
 
@@ -17,16 +17,16 @@ function initialSetup() {
     console.log(result);
   });
   const createCredentialTable =
-    `CREATE TABLE IF NOT EXISTS Credentials(id VARCHAR(255) PRIMARY KEY UNIQUE, username VARCHAR(255) NOT NULL UNIQUE, email VARCHAR(255) NOT NULL UNIQUE,userpass VARCHAR(255) NOT NULL);`
-  config.query(createCredentialTable, (err, res) => {
+    "CREATE TABLE IF NOT EXISTS Credentials(id VARCHAR(255) PRIMARY KEY UNIQUE, username VARCHAR(255) NOT NULL UNIQUE, email VARCHAR(255) NOT NULL UNIQUE,userpass VARCHAR(255) NOT NULL);"
+  config.query(createCredentialTable, (err, result) => {
     if (err) console.log(err);
-    console.log(res);
+    console.log(result);
   });
   const createImagesTable =
-    `CREATE TABLE IF NOT EXISTS Images(imageid VARCHAR(255) NOT NULL PRIMARY KEY,id VARCHAR(255)NOT NULL, FOREIGN KEY (id) REFERENCES Credentials(id), originalname VARCHAR(255) NOT NULL, nameinserver VARCHAR(255) NOT NULL, dimensions VARCHAR(255), filesize INT, filelocation VARCHAR(255));`
-  config.query(createImagesTable, (err, res) => {
+    "CREATE TABLE IF NOT EXISTS Images(imageid VARCHAR(255) NOT NULL PRIMARY KEY,id VARCHAR(255)NOT NULL, FOREIGN KEY (id) REFERENCES Credentials(id), originalname VARCHAR(255) NOT NULL, nameinserver VARCHAR(255) NOT NULL, dimensions VARCHAR(255), filesize INT, filelocation VARCHAR(255) NOT NULL, isintrash BOOLEAN NOT NULL DEFAULT false);"
+  config.query(createImagesTable, (err, result) => {
     if (err) console.log(err);
-    console.log(res);
+    console.log(result);
   })
 }
 

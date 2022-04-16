@@ -1,0 +1,18 @@
+#viewphotos--focus {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #111111ee;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+}
+
+#viewphotos--focus-image {
+  animation: focusImage forwards ease-out 500ms;
+  max-width: 96%;
+  max-height: 96%;
+  object-fit: contain;
+}

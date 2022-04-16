@@ -8,14 +8,13 @@ router.post("/", (req, res) => {
   db.query(comparetodb, [req.body.username], (err, data) => {
     if (err) console.log(err);
     if (data.length === 0) {
-      res.send({msg: "user not found"});
+      return res.status(404).send({err: "User not found"});
     }
-
     if (bcrypt.compareSync(req.body.password, data[0].userpass)) {
-        res.send({msg: 'logged in successfully', token: data[0].id})
+      return res.status(200).send({msg: 'MMHURaqxrhtyJR0uauiyXWenHOPyxQPyk9fr6z4hO2sUgtHXrv', token: data[0].id})
     }
     else {
-        res.send({msg: 'incorrect password'})
+      return res.status(401).send({err: 'Incorrect password'})
     }
   });
 });

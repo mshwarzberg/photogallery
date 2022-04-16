@@ -3,7 +3,9 @@ import { useNavigate } from "react-router-dom";
 import loadingIcon from "../../images/Loading.gif";
 
 function Upload() {
+
   const navigate = useNavigate();
+  
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [filesNotReady, setFilesNotReady] = useState(true);
@@ -11,7 +13,7 @@ function Upload() {
 
   useEffect(() => {
     (() => {
-      if (files && files.length > 10) {
+      if (files && files.length > 100) {
         console.log('test');
         setFilesNotReady(true);
         setFiles();

@@ -1,0 +1,53 @@
+.viewphotos--image-block {
+  position: relative;
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #15122588;
+  border-radius: 4px;
+}
+
+.viewphotos--image-block:hover {
+  cursor: pointer;
+  animation: 400ms forwards scaleButton;
+}
+
+.viewphotos--image {
+  max-height: 100%;
+  max-width: 100%;
+  display: flex;
+  position: relative;
+  animation: loadImage ease-out forwards 500ms;
+}
+
+#viewphotos--image-wide, #viewphotos--image-ultrawide {
+  grid-column: span 4;
+}
+
+#viewphotos--image-ultrawide {
+  grid-column: span 8;
+}
+
+#viewphotos--image-square {
+  grid-column: span 4;
+  grid-row: span 2;
+}
+
+#viewphotos--image-ultratall, #viewphotos--image-tall {
+  grid-row: span 2;
+  grid-column: span 4;
+}
+
+#viewphotos--trash-icon {
+  position: absolute;
+  max-width: 2rem;
+  top: 4px;
+  left: 4px;
+  z-index: 2;
+}
+
+
+@media screen and (max-width: 800px) {
+  
+}
