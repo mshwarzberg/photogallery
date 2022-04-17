@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import homepageIcon from '../../images/homepageicon.png'
 
 function Navbar() {
-  
-
   const navigate = useNavigate();
+
   const [showNav, setShowNav] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -18,8 +18,8 @@ function Navbar() {
   });
 
   return (
-    <nav className={showNav ? "navbar--visible" : "navbar--hidden"}>
-      <div className="navbar--top">
+    <nav id={showNav ? "navbar--visible" : "navbar--hidden"}>
+      {showNav && <div id="navbar--top">
         {/* <a
           id="nav--home-link"
           className="navbar--links"
@@ -39,15 +39,28 @@ function Navbar() {
         >
           Magical Button
         </a> */}
-        <a href="/" id="nav--home-link" className="navbar--links">
-          Home
-        </a>
+        
+        <button
+          onClick={() => {
+            navigate("/");
+          }}
+          id="navbar--home-link"
+          className="navbar--links"
+        >
+         <img id="navbar--home-icon" src={homepageIcon} alt="" /> Home 
+        </button>
         {!isLoggedIn ? (
-          <a href="/login" id="nav--login-link" className="navbar--links">
+          <button
+            onClick={() => {
+              navigate("/login");
+            }}
+            id="nav--login-link"
+            className="navbar--links"
+          >
             Login
-          </a>
+          </button>
         ) : (
-          <div>
+          <div id="navbar--top">
             <button
               onClick={() => {
                 sessionStorage.removeItem("token");
@@ -59,16 +72,28 @@ function Navbar() {
             >
               Logout
             </button>
-            <a href="/upload" id="nav--upload-link" className="navbar--links">
+            <button
+              onClick={() => {
+                navigate("/upload");
+              }}
+              id="nav--upload-link"
+              className="navbar--links"
+            >
               Upload
-            </a>
-            <a href="/profile" id="nav--profile-link" className="navbar--links">
+            </button>
+            <button
+              onClick={() => {
+                navigate("/profile");
+              }}
+              id="nav--profile-link"
+              className="navbar--links"
+            >
               Profile
-            </a>
+            </button>
           </div>
         )}
-      </div>
-      <div className="navbar--bottom">
+      </div>}
+      <div id="navbar--bottom">
         <button
           onClick={() => {
             setShowNav(!showNav);

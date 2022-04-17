@@ -16,6 +16,9 @@ function ViewFocus(props) {
             onClick={() => {
               props.focusOnImage(image.value, false);
             }}
+            // onTouchMove={() => {
+            //   props.focusOnImage(image.value, false)
+            // }}
           >
             <img
               id="viewphotos--focus-image"

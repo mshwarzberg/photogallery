@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();
-
   const [message, setMessage] = useState("");
   const [loginInput, setLoginInput] = useState({
     username: "",
@@ -17,32 +16,31 @@ function Login() {
       [name]: value,
     }));
   }
-
+  
   function setUserSession(token) {
     sessionStorage.setItem("token", token);
   }
 
   function loginUser(e) {
     e.preventDefault();
-    
+
     const fetchOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(loginInput),
-      };
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(loginInput),
+    };
 
     fetch("/api/login", fetchOptions)
       .then(async (res) => {
-        const {msg, token} = await res.json()
-        
-        if (msg === "user not found") {
+        const { msg, token, err } = await res.json();
+
+        if (err === "User not found") {
           return setMessage("User does not exist");
         }
-        if (msg === "incorrect password") {
-          return setMessage("Incorrect password. Please try again.")
+        if (err === "Incorrect password") {
+          return setMessage("Incorrect password. Please try again.");
         }
         if (msg === "MMHURaqxrhtyJR0uauiyXWenHOPyxQPyk9fr6z4hO2sUgtHXrv") {
-          console.log(msg, token);
           setUserSession(token);
           navigate("/profile");
         }
@@ -53,33 +51,79 @@ function Login() {
   }
 
   return (
-    <div className="login--parent">
+    <div className="page" id="login--page">
       <div className="login--block">
         {message ? (
-          <h1 className="login--error">{message}</h1>
+          <h1 className="userform--error">{message}</h1>
         ) : (
-          <h1 className="login--title">Login</h1>
+          <h1 className="userform--title">Login</h1>
         )}
-        <form onSubmit={loginUser} className="login--form">
-          <label htmlFor="login--username">Enter your username: </label>
-          <input
-            type="text"
-            id="login--username"
-            className="login--input"
-            onChange={loginInputChange}
-            name="username"
-            value={loginInput.username}
+        <form onSubmit={loginUser} className="userform--form">
+          <label htmlFor="userform--username">
+            Enter your username or email:
+          </label>
+          <div className="userform--input-innerdiv">
+            <input
+              type="text"
+              id="userform--username"
+              className="userform--input"
+              onChange={loginInputChange}
+              name="username"
+              value={loginInput.username}
+              placeholder="Username or email"
+            />
+            <input
+              type="button"
+              value="?"
+              onMouseEnter={() => {
+                // hideShowTooltip("passwordmsg", true);
+              }}
+              onMouseLeave={() => {
+                // hideShowTooltip("passwordmsg", false);
+              }}
+              id={
+                !loginInput.username
+                  ? "userform--input-tooltip-notallowed"
+                  : "userform--input-tooltip-allowed"
+              }
+              className="userform--input-tooltip"
+            />
+          </div>
+          <label htmlFor="userform--password">Enter your password: </label>
+          <div className="userform--input-innerdiv">
+            <input
+              type="password"
+              id="userform--password"
+              className="userform--input"
+              onChange={loginInputChange}
+              name="password"
+              value={loginInput.password}
+              placeholder="Password"
+            />
+            <input
+            type="button"
+            value="?"
+            onMouseEnter={() => {
+              // hideShowTooltip("passwordmsg", true);
+            }}
+            onMouseLeave={() => {
+              // hideShowTooltip("passwordmsg", false);
+            }}
+            id={
+              !loginInput.password
+                ? "userform--input-tooltip-notallowed"
+                : "userform--input-tooltip-allowed"
+            }
+            className="userform--input-tooltip"
           />
-          <label htmlFor="login--password">Enter your password: </label>
-          <input
-            type="password"
-            id="login--password"
-            className="login--input"
-            onChange={loginInputChange}
-            name="password"
-            value={loginInput.password}
-          />
-          <button type="submit" id="login--submit" onClick={loginUser}>
+          </div>
+          
+          <button
+            type="submit"
+            id="userform--submit"
+            onClick={loginUser}
+            disabled={!loginInput.username || !loginInput.password}
+          >
             Log In
           </button>
         </form>

@@ -3,6 +3,7 @@ import ViewFocus from "./FocusOnImage";
 import RenderImage from "./RenderImage";
 
 function ViewGallery() {
+
   const [currentAPIcalls, setCurrentAPIcalls] = useState(1);
   const [images, setImages] = useState([]);
   const [totalAPIcalls, setTotalAPIcalls] = useState([0]);
@@ -15,15 +16,6 @@ function ViewGallery() {
       filesize: 0,
     },
   ]);
-
-  window.onscroll = function () {
-    if (
-      window.innerHeight + window.scrollY >= document.body.offsetHeight - 1 &&
-      currentAPIcalls === 25
-    ) {
-      setCurrentAPIcalls(0);
-    }
-  };
 
   useEffect(() => {
     setImageData((prevImageData) => {
@@ -99,19 +91,34 @@ function ViewGallery() {
             ]);
           })
           .catch((err) => {
-            console.log('API GET ERROR', err);
+            console.log("API GET ERROR", err);
             return;
           });
-        if (
-          totalAPIcalls[totalAPIcalls.length - 1] / totalChunkCalls + 1 ===
-          25
-        ) {
-          setTotalChunkCalls((prevChunkTotal) => prevChunkTotal + 1);
-        }
+          window.onscroll = function () {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 1) {
+              console.table({
+                current: currentAPIcalls,
+                totalchunk: totalChunkCalls,
+                lentotal: totalAPIcalls.length,
+                math: totalAPIcalls.length / totalChunkCalls,
+              });
+              if (totalAPIcalls.length / totalChunkCalls === 25 && currentAPIcalls === 25) {
+                setTotalChunkCalls((prevChunkTotal) => prevChunkTotal + 1);
+              }
+              setCurrentAPIcalls(0);
+            }
+          };
       }
+
     }
     getImageData();
-  }, [currentAPIcalls, setCurrentAPIcalls, totalAPIcalls, setTotalAPIcalls]);
+  }, [
+    currentAPIcalls,
+    setCurrentAPIcalls,
+    totalAPIcalls,
+    setTotalAPIcalls,
+    totalChunkCalls,
+  ]);
 
   function getImageSize(value) {
     let size;
@@ -141,7 +148,7 @@ function ViewGallery() {
 
   return (
     <div className="page" id="viewgallery--page">
-      <h1>{totalAPIcalls[totalAPIcalls.length - 1]} images loaded</h1>
+      <h1 id="viewgallery--header">{images.length} images loaded</h1>
       <RenderImage
         images={images}
         imageData={imageData}
@@ -150,17 +157,13 @@ function ViewGallery() {
         setImages={setImages}
         getImageSize={getImageSize}
         setTotalAPIcalls={setTotalAPIcalls}
-      >
-
-      </RenderImage>
+      />
       <ViewFocus
         images={images}
         imageData={imageData}
         focusOnImage={focusOnImage}
         getImageSize={getImageSize}
-      >
-
-      </ViewFocus>
+      />
     </div>
   );
 }

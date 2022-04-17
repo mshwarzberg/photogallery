@@ -1,0 +1,12 @@
+#footer--page-shown {
+  position: fixed;
+  bottom: 0;
+  background-color: #333377;
+  width: 100%;
+  z-index: 3;
+  height: 4rem;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+ 
+}

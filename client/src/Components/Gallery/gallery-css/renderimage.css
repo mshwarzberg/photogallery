@@ -9,8 +9,11 @@
 }
 
 .viewphotos--image-block:hover {
+  display: flex;
+  z-index: 1;
   cursor: pointer;
   animation: 400ms forwards scaleButton;
+  background-color: #ffffff00;
 }
 
 .viewphotos--image {
@@ -45,9 +48,4 @@
   top: 4px;
   left: 4px;
   z-index: 2;
-}
-
-
-@media screen and (max-width: 800px) {
-  
 }

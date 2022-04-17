@@ -3,16 +3,15 @@
     100% {background-position: -100%}
 }
 
-.upload--choose-files {
-    margin-top: 5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+
+#upload--page {
+    background-color: #fff;
+    max-height: 100vh;
 }
+/* 
+
 
 .upload--choose-button {
-    margin-bottom: 5rem;
     width: 50rem;
     padding: 2rem;
     display: flex;
@@ -35,14 +34,13 @@
 
 #upload--upload-button {
     padding: 2rem;
-    background-color: #5432ff99;
+    background-color: #34329f99;
     border-radius: 1rem;
     font-weight: bold;
     font-size: 1.3rem;
     cursor: pointer;
     border: none;
     font-size: 2rem;
-    box-shadow: 0 0 0 5px #ffffff00, 0 0 0 6px #222255bb;
     text-shadow: 1px 1px 1px #ccccff, -1px -1px 1px #ccccff;
     color: #111133;
 }
@@ -99,4 +97,4 @@
     margin-bottom: 3rem;
     color: white;
     cursor: default;
-}
+} */

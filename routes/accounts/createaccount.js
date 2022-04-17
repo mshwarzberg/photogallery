@@ -27,7 +27,6 @@ router.post("/", async (req, res) => {
     [id, req.body.username, req.body.email, hashedPass],
     (err, data) => {
       if (err) {
-        console.log(data, err)
         if (err.errno === 1062) {
           if (err.sqlMessage.includes("credentials.username")) {
             return res.status(409).send({ err: "Username taken" });

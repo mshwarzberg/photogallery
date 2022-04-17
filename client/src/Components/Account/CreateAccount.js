@@ -252,34 +252,34 @@ function CreateAccount() {
 
   return (
     <div className="page" id="register--page">
-      <div className="register--block">
+      <div id="register--block">
         {error ? (
-          <h1 className="register--title" id="register--title-error">
+          <h1 className="userform--title" id="userform--title-error">
             {error}
           </h1>
         ) : (
-          <h1 className="register--title">Create Account</h1>
+          <h1 className="userform--title">Create Account</h1>
         )}
-        <form onSubmit={registerUser} className="register--form">
-          <label htmlFor="register--username">Enter a new username:</label>
-          <div className="register--input-innerdiv">
+        <form onSubmit={registerUser} className="userform--form">
+          <label htmlFor="userform--username">Enter a new username:</label>
+          <div className="userform--input-innerdiv">
             <input
               onChange={changeRegisterInput}
               name="username"
               type="text"
               placeholder="Username"
-              id="register--username"
-              className="register--input"
+              id="userform--username"
+              className="userform--input"
             />
-            <div className="register--tooltip-innerdiv">
+            <div className="userform--tooltip-innerdiv">
               {tooltipMessage.usernamemsg.render && (
-                <div className="register--speechbubble-innerdiv">
+                <div className="userform--speechbubble-innerdiv">
                   <img
-                    className="register--speechbubble"
+                    className="userform--speechbubble"
                     src={speechBubble}
                     alt=""
                   />
-                  <p className="register--speechbubble-text">
+                  <p className="userform--speechbubble-text">
                     {renderTooltip("username")}
                   </p>
                 </div>
@@ -296,32 +296,32 @@ function CreateAccount() {
                 id={
                   tooltipMessage.usernamemsg.toolong ||
                   tooltipMessage.usernamemsg.tooshort
-                    ? "register--input-tooltip-notallowed"
-                    : "register--input-tooltip-allowed"
+                    ? "userform--input-tooltip-notallowed"
+                    : "userform--input-tooltip-allowed"
                 }
-                className="register--input-tooltip"
+                className="userform--input-tooltip"
               />
             </div>
           </div>
-          <label htmlFor="register--email">Enter your email:</label>
-          <div className="register--input-innerdiv">
+          <label htmlFor="userform--email">Enter your email:</label>
+          <div className="userform--input-innerdiv">
             <input
               onChange={changeRegisterInput}
               name="email"
               type="email"
               placeholder="Email"
-              id="register--email"
-              className="register--input"
+              id="userform--email"
+              className="userform--input"
             />
-            <div className="register--tooltip-innerdiv">
+            <div className="userform--tooltip-innerdiv">
               {tooltipMessage.emailmsg.render && (
-                <div className="register--speechbubble-innerdiv">
+                <div className="userform--speechbubble-innerdiv">
                   <img
-                    className="register--speechbubble"
+                    className="userform--speechbubble"
                     src={speechBubble}
                     alt=""
                   />
-                  <p className="register--speechbubble-text">
+                  <p className="userform--speechbubble-text">
                     {renderTooltip("email")}
                   </p>
                 </div>
@@ -339,32 +339,32 @@ function CreateAccount() {
                   tooltipMessage.emailmsg.toolong ||
                   tooltipMessage.emailmsg.tooshort ||
                   tooltipMessage.emailmsg.invalidemail
-                    ? "register--input-tooltip-notallowed"
-                    : "register--input-tooltip-allowed"
+                    ? "userform--input-tooltip-notallowed"
+                    : "userform--input-tooltip-allowed"
                 }
-                className="register--input-tooltip"
+                className="userform--input-tooltip"
               />
             </div>
           </div>
-          <label htmlFor="register--password">Create strong password:</label>
-          <div className="register--input-innerdiv">
+          <label htmlFor="userform--password">Create strong password:</label>
+          <div className="userform--input-innerdiv">
             <input
               onChange={changeRegisterInput}
               name="password"
               type="password"
               placeholder="Password"
-              id="register--password"
-              className="register--input"
+              id="userform--password"
+              className="userform--input"
             />
-            <div className="register--tooltip-innerdiv">
+            <div className="userform--tooltip-innerdiv">
               {tooltipMessage.passwordmsg.render && (
-                <div className="register--speechbubble-innerdiv">
+                <div className="userform--speechbubble-innerdiv">
                   <img
-                    className="register--speechbubble"
+                    className="userform--speechbubble"
                     src={speechBubble}
                     alt=""
                   />
-                  <p className="register--speechbubble-text">
+                  <p className="userform--speechbubble-text">
                     {renderTooltip("password")}
                   </p>
                 </div>
@@ -381,34 +381,34 @@ function CreateAccount() {
                 id={
                   tooltipMessage.passwordmsg.toolong ||
                   tooltipMessage.passwordmsg.tooshort
-                    ? "register--input-tooltip-notallowed"
-                    : "register--input-tooltip-allowed"
+                    ? "userform--input-tooltip-notallowed"
+                    : "userform--input-tooltip-allowed"
                 }
-                className="register--input-tooltip"
+                className="userform--input-tooltip"
               />
             </div>
           </div>
-          <label htmlFor="register--confirm-password">
+          <label htmlFor="userform--confirm-password">
             Confirm your password:
           </label>
-          <div className="register--input-innerdiv">
+          <div className="userform--input-innerdiv">
             <input
               onChange={changeRegisterInput}
               name="confirmpassword"
               type="password"
-              placeholder="Confirm Your Password"
-              id="register--confirm-password"
-              className="register--input"
+              placeholder="Confirm Password"
+              id="userform--confirm-password"
+              className="userform--input"
             />
-            <div className="register--tooltip-innerdiv">
+            <div className="userform--tooltip-innerdiv">
               {tooltipMessage.confirmpasswordmsg.render && (
-                <div className="register--speechbubble-innerdiv">
+                <div className="userform--speechbubble-innerdiv">
                   <img
-                    className="register--speechbubble"
+                    className="userform--speechbubble"
                     src={speechBubble}
                     alt=""
                   />
-                  <p className="register--speechbubble-text">
+                  <p className="userform--speechbubble-text">
                     {renderTooltip("confirmpassword")}
                   </p>
                 </div>
@@ -424,17 +424,17 @@ function CreateAccount() {
                 }}
                 id={
                   tooltipMessage.confirmpasswordmsg.doesnotmatch
-                    ? "register--input-tooltip-notallowed"
-                    : "register--input-tooltip-allowed"
+                    ? "userform--input-tooltip-notallowed"
+                    : "userform--input-tooltip-allowed"
                 }
-                className="register--input-tooltip"
+                className="userform--input-tooltip"
               />
             </div>
           </div>
           <button
             type="submit"
             onClick={registerUser}
-            id="register--submit"
+            id="userform--submit"
             disabled={notAllowSubmit()}
           >
             Register

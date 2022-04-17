@@ -4,156 +4,32 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding-top: 5rem;
 }
 
-.register--block {
+#register--block {
     display: flex;
     flex-direction: column;
     justify-content: center;
     background-color: #222222ff;
-    padding: 0 2rem;
+    padding: 2rem;
     border-radius: 0.5rem;
     width:90vw;
     max-width: 600px;
-    min-height: 80vh;
-}
-
-.register--input-innerdiv {
-    margin-top: 1rem;
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-}
-
-.register--title {
-    font-family: 'PT Serif', serif;
-    color: white;
-    text-align: center;
-    font-size: 2.4rem;
-    cursor: default;
-    margin-bottom: 2rem;
-}
-
-#register--title-error {
-    color: red;
-    font-family: 'PT Serif', serif;
-    font-style: italic;
-    font-weight: bold;
-}
-
-.register--form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.register--input {
-    flex-grow: 2;
-    height: 5vh;
-    min-height: 50px;
-    border-radius: 4px;
-    border-style: none;
-    text-indent: 12px;
-    outline: none;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-
-.register--tooltip-innerdiv {
-    position: relative;
-}
-
-#register--input-tooltip-notallowed {
-    background-color: red;
-}
-
-#register--input-tooltip-allowed {
-    background-color: green;
-}
-
-.register--input-tooltip {
-    min-height: 50px;
-    min-width: 50px;
-    background-color: red;
-    border: none;
-    float: right;
-    font-size: 1.2rem;
-    border-radius: 3px;
-}
-
-.register--speechbubble {
-    position: absolute;
-    top: -100px;
-    right: 20px;
-    max-height: 100px;
-}
-
-.register--speechbubble-text {
-    cursor: default;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    background-color: #222222ee;
-    color: white;
-    position: absolute;
-    right: 26px;
-    top: -190%;
-    min-height: 67px;
-    min-width: 193px;
-}
-
-.register--input:focus {
-    border-style: none;
-}
-
-.register--form > label {
-    font-family: 'PT Serif', serif;
-    margin-top: 1rem;
-    cursor: default;
-    color: white;
-}
-
-#register--submit {
-    cursor: pointer;
-    color: white;
-    width: 8rem;
-    height: 4rem;
-    font-size: 1.5rem;
-    border: 2px solid black;
-    border-radius: 4px;
-    margin-top: 3rem;
-    margin-bottom: 1rem;
-    background-color: #444499;
-    font-family: 'PT Serif', serif;
-}
-
-#register--submit:hover {
-    animation: 200ms forwards scaleButton;
-    color: black;
-    background-color: pink;
-}
-
-#register--submit:disabled {
-    background: #44444455;
-    color: #444444;
-    border: 2px solid #444444;
-    cursor: default;
-    animation: none;
+    min-height: 70vh;
 }
 
 @media screen and (max-width: 800px) {
-    
+    #register--page {
+        padding-top: 6rem;
+    }
     .register--block {
         margin-top: -4.7rem;
         position: sticky;
         padding: 2rem 1rem 6rem 1rem;
     }
 
-    .register--title {
+    .userform--title {
         margin-bottom: 12px;
         font-size: 2rem;
     }

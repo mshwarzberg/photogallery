@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import loadingIcon from "../../images/Loading.gif";
+import loadingIcon from "../../images/loading.gif";
 
 function Upload() {
 
@@ -14,7 +14,6 @@ function Upload() {
   useEffect(() => {
     (() => {
       if (files && files.length > 100) {
-        console.log('test');
         setFilesNotReady(true);
         setFiles();
         setMessage("Too many files selected. You may choose up to 10 images");
@@ -107,8 +106,7 @@ function Upload() {
 
   return (
     <div className="page" id="upload--page">
-      <div className="upload--choose-files">
-        <label className="upload--choose-button" htmlFor="upload--choose-one">
+        <label id="upload--choose-button" htmlFor="upload--choose-one">
           Choose An Image
         </label>
         <input
@@ -118,7 +116,6 @@ function Upload() {
           type="file"
           style={{ visibility: "hidden" }}
         />
-
         <label
           className="upload--choose-button"
           htmlFor="upload--choose-multiple"
@@ -134,7 +131,6 @@ function Upload() {
           type="file"
           style={{ visibility: "hidden" }}
         />
-      </div>
       <button
         id="upload--upload-button"
         type="submit"
@@ -154,11 +150,11 @@ function Upload() {
         </h3>
       )}
       {isLoading && (
-        <div className="upload--loading">
-          <h1 className="upload--loading-text">
+        <div id="upload--loading">
+          <h1 id="upload--loading-text">
             Image(s) are uploading. Please be patient...
           </h1>
-          <img className="upload--spinner" src={loadingIcon} alt="loading" />
+          <img id="upload--spinner" src={loadingIcon} alt="loading" />
         </div>
       )}
     </div>

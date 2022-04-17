@@ -1,60 +1,153 @@
 @keyframes showNav {
     0% {
-        transform: translateY(-4.7rem);
+        transform: translateY(-2rem);
+        background-color: #99999922;
     }
     100% {
         transform: translateY(0);
+        background-color: #333377;
     }
 }
 
  @keyframes hideNav {
     0% {
         transform: translateY(0rem);
+        background-color: #333377;
     }
     100% {
-        transform: translateY(-4.7rem)
+        transform: translateY(-2rem);
+        background-color: #99999922;
     }
 }
 
 @keyframes transformNavButton {
     0% {
-        transform:scaleX(0.8);
+        transform:scaleX(0.3);
     }
     100% {
         transform: scaleX(1.1);
     }
 }
 
-.navbar--visible, .navbar--hidden {
-    max-width: 100vw;
-    display: flex;
-    flex-direction: column;
-    height: 7rem;
-    border-bottom: 4px solid #000;
-}
-
-.navbar--visible {
-    animation: 400ms linear forwards showNav;
+#navbar--visible, #navbar--hidden {
     background-color: #333377;
-    position: relative;
-    z-index: 1;
+    position: fixed;
+    width: 100%;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 5rem;
 }
 
-.navbar--hidden {
-    animation: 400ms linear forwards hideNav;
-    background-color: #111144cc;
+#navbar--visible {
+    animation: 300ms linear forwards showNav;
+}
+
+#navbar--hidden {
+    animation: 300ms linear forwards hideNav;
 }
 
 .navbar--links {
     font-family: 'Bebas Neue', cursive;
     letter-spacing: 2px;
+    font-size: 1.3rem;
     color: white;
-    font-size: 2.5rem;
+    cursor: pointer;
+    border: none;
+    float: right;
+    margin-right: 3%;
+    background-color: #00000000;
+    padding: 5px;
+}
+
+.navbar--links:hover {
+    animation: 50ms forwards scaleButton;
+    font-size: 2rem;
+    color: pink;
+}
+
+#navbar--home-link {
+    width: 120px;
+    height: 70%;
+    font-size: 2rem;
+    position: absolute;
+    top: 15%;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 3px;
+}
+
+#navbar--home-link:hover {
+    font-size: 3rem;
+    max-width: 50px;
+}
+
+#navbar--home-icon {
+    max-width: 40px;
+}
+
+#navbar--bottom {
+    display: flex;
+    justify-content: center;
+}
+
+#navbar--show-hide {
+    cursor: pointer;
+    position: absolute;
+    bottom: 4px;
+    color: pink;
+    border: none;
+    background-color: #ffffff00;
+    font-size: 2rem;
+}
+
+#navbar--show-hide:hover {
+    animation: transformNavButton 500ms forwards;
+    background-color: #8888ff44;
+    border-radius: 2rem;
+    width: 40%;
+}
+@media screen and (max-width: 800px) {
+    #navbar--visible, #navbar--hidden {
+        height: 6rem;
+    }
+    .navbar--links {
+        margin-right: 1px;
+        height: 3rem;
+    }
+    #navbar--show-hide {
+        font-size: 3rem;
+        bottom: -8px;
+    }
+    #navbar--show-hide:hover {
+        background-color: #00000000;
+    }
+}
+/* .navbar--visible, .navbar--hidden {
+    position: fixed;
+    top: 0;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    height: 7rem;
+    border-bottom: 4px solid #000;
+    width: 100%;
+}
+
+.navbar--links {
+    vertical-align: middle;
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing: 2px;
+    color: white;
+    font-size: 2rem;
 }
 
 .navbar--links:hover {
     color: pink;
-    animation: 50ms forwards scaleButton;
+    
 }
 
 #nav--home-link {
@@ -92,8 +185,22 @@
 }
 
 #navbar--show-hide:hover {
-    animation: transformNavButton 500ms forwards;
-    background-color: #8888ff44;
-    border-radius: 2rem;
-    width: 20%;
-}
+    
+} */
+
+
+/* @media screen and (max-width:800px) {
+    .navbar--top {
+        display: flex;
+        position: relative;
+        z-index: -3;
+        background-color: green;
+        flex-direction: row;
+    }
+    .navbar--links {
+        position: absolute;
+        margin: 0;
+        font-size: 1rem;
+        right: 0;
+    }
+} */

@@ -27,4 +27,5 @@ html, body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding-top: 3.1rem;
 }
