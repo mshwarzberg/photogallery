@@ -8,6 +8,7 @@ function ViewGallery() {
   const [images, setImages] = useState([]);
   const [totalAPIcalls, setTotalAPIcalls] = useState([0]);
   const [totalChunkCalls, setTotalChunkCalls] = useState(1);
+
   const [imageData, setImageData] = useState([
     {
       imageid: "",
@@ -31,7 +32,7 @@ function ViewGallery() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            id: sessionStorage.getItem("token"),
+            id: localStorage.getItem("id"),
             currentcalls: currentAPIcalls,
             totalcalls: totalChunkCalls - 1,
           }),
@@ -96,12 +97,6 @@ function ViewGallery() {
           });
           window.onscroll = function () {
             if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 1) {
-              console.table({
-                current: currentAPIcalls,
-                totalchunk: totalChunkCalls,
-                lentotal: totalAPIcalls.length,
-                math: totalAPIcalls.length / totalChunkCalls,
-              });
               if (totalAPIcalls.length / totalChunkCalls === 25 && currentAPIcalls === 25) {
                 setTotalChunkCalls((prevChunkTotal) => prevChunkTotal + 1);
               }

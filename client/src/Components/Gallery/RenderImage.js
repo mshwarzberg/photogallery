@@ -1,12 +1,12 @@
-import React from 'react'
+import React from "react";
 import Trash from "../../images/Trash.png";
 
 function RenderImage(props) {
-
-  const imageData = props.imageData
-  const setImageData = props.setImageData
-  const images = props.images
-  const setImages = props.setImages
+  
+  const imageData = props.imageData;
+  const setImageData = props.setImageData;
+  const images = props.images;
+  const setImages = props.setImages;
 
   function viewIcons(value, bool) {
     setImageData((prevImageData) => {
@@ -59,7 +59,7 @@ function RenderImage(props) {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({
-                    id: sessionStorage.getItem("token"),
+                    id: localStorage.getItem("id"),
                     servername: imageData[image.value].servername,
                   }),
                 })
@@ -122,10 +122,10 @@ function RenderImage(props) {
     return "";
   });
   return (
-    <div className='page' id="viewphotos--grid">
+    <div className="page" id="viewphotos--grid">
       {renderImages}
     </div>
-  )
+  );
 }
 
-export default RenderImage
+export default RenderImage;

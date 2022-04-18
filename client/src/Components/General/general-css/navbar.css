@@ -29,6 +29,37 @@
     }
 }
 
+@keyframes mobileHideNav {
+    0% {
+        transform: translateX(-50vw) rotate(0deg);
+        color: yellow;
+    }
+    100% {
+        transform: translateX(0) rotate(90deg) ;
+        color: black;
+    }
+}
+
+@keyframes mobileShowNav {
+    0% {
+        height: auto;
+        opacity: 0;
+        width: 1%;
+        color:auto;
+        transform: translateY(0) translateX(45vw) rotate(270deg);
+        color: black;
+       
+    }
+    100% {
+        height: 0.5rem;
+        width: 100%;
+        opacity: 1;
+        color: #00000000;
+        background-color: white;
+        transform: translateY(2rem) translateX(0vw)  rotate(180deg);
+    }
+}
+
 #navbar--visible, #navbar--hidden {
     background-color: #333377;
     position: fixed;
@@ -48,7 +79,7 @@
     animation: 300ms linear forwards hideNav;
 }
 
-.navbar--links {
+.navbar--links, #navbar--home-text {
     font-family: 'Bebas Neue', cursive;
     letter-spacing: 2px;
     font-size: 1.3rem;
@@ -61,16 +92,14 @@
     padding: 5px;
 }
 
-.navbar--links:hover {
+.navbar--links:hover, #navbar--home-text:hover {
     animation: 50ms forwards scaleButton;
-    font-size: 2rem;
     color: pink;
 }
 
 #navbar--home-link {
     width: 120px;
     height: 70%;
-    font-size: 2rem;
     position: absolute;
     top: 15%;
     left: 0;
@@ -80,36 +109,43 @@
     border-radius: 3px;
 }
 
-#navbar--home-link:hover {
-    font-size: 3rem;
-    max-width: 50px;
+#navbar--home-text {
+    font-size: 2rem;
 }
 
 #navbar--home-icon {
-    max-width: 40px;
+    max-width: 4rem;
 }
 
 #navbar--bottom {
     display: flex;
     justify-content: center;
+    background-color: green;
 }
 
-#navbar--show-hide {
+#navbar--toggle-visible, #navbar--toggle-hidden {
     cursor: pointer;
     position: absolute;
-    bottom: 4px;
-    color: pink;
     border: none;
+    position: absolute;
+    bottom: 3px;
     background-color: #ffffff00;
-    font-size: 2rem;
 }
 
-#navbar--show-hide:hover {
+#navbar--toggle-arrow-visible, #navbar--toggle-arrow-hidden {
+    font-size: 2rem;
+    bottom: 4px;
+    color: yellow;
+    font-weight: bold;
+}
+
+#navbar--toggle-visible:hover {
     animation: transformNavButton 500ms forwards;
     background-color: #8888ff44;
     border-radius: 2rem;
-    width: 40%;
+    width: 30%;
 }
+
 @media screen and (max-width: 800px) {
     #navbar--visible, #navbar--hidden {
         height: 6rem;
@@ -118,89 +154,32 @@
         margin-right: 1px;
         height: 3rem;
     }
-    #navbar--show-hide {
-        font-size: 3rem;
-        bottom: -8px;
+    
+    #navbar--home-text {
+        visibility: hidden;
     }
-    #navbar--show-hide:hover {
+
+    #navbar--toggle-visible {
+        position: absolute;
+        height: 1rem;
+        font-size: 2.5rem;
+        bottom: 2rem;
+        border-radius: 0 !important;
+        animation: mobileShowNav 500ms ease-out forwards !important;
+    }
+    
+    #navbar--toggle-visible:hover {
         background-color: #00000000;
     }
-}
-/* .navbar--visible, .navbar--hidden {
-    position: fixed;
-    top: 0;
-    z-index: 5;
-    display: flex;
-    flex-direction: column;
-    height: 7rem;
-    border-bottom: 4px solid #000;
-    width: 100%;
-}
 
-.navbar--links {
-    vertical-align: middle;
-    font-family: 'Bebas Neue', cursive;
-    letter-spacing: 2px;
-    color: white;
-    font-size: 2rem;
-}
-
-.navbar--links:hover {
-    color: pink;
-    
-}
-
-#nav--home-link {
-    float: left;
-    margin: 1.7rem auto auto 3rem;
-    text-decoration: none;
-    font-size: 3rem;
-}
-
-#nav--register-link, #nav--login-link, #nav--profile-link, #nav--logout-link, #nav--upload-link {
-    float: right;
-    margin: 2rem 2rem auto auto;
-    text-decoration: none;
-    cursor: pointer;
-    background-color: #00f00000;
-    border: none;
-}
-
-.navbar--bottom {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 0;
-}
-
-#navbar--show-hide {
-    position: absolute;
-    bottom: 0;
-    cursor: pointer;
-    background-color: #ffffff00;
-    border: none;
-    color: #ffff00;
-    font-size: 1.5rem;
-    padding-bottom: 6px;
-    width: 5rem;
-}
-
-#navbar--show-hide:hover {
-    
-} */
-
-
-/* @media screen and (max-width:800px) {
-    .navbar--top {
-        display: flex;
-        position: relative;
-        z-index: -3;
-        background-color: green;
-        flex-direction: row;
-    }
-    .navbar--links {
+    #navbar--toggle-hidden {
         position: absolute;
-        margin: 0;
-        font-size: 1rem;
+        top: 25px;
         right: 0;
+        animation: mobileHideNav 500ms linear forwards;
+        font-size: 4rem;
     }
-} */
+    #navbar--toggle-arrow-visible {
+        visibility: hidden;
+    }
+}

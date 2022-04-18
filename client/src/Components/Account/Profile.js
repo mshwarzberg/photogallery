@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Profile() {
+  
   const navigate = useNavigate();
 
   const [userInfo, setUserInfo] = useState({
@@ -11,6 +12,58 @@ function Profile() {
     numberofimages: 0,
     averagesize: 0,
   });
+
+  useEffect(() => {
+    fetch("/auth/profile/", {
+      method: "POST",
+      headers: {
+        Authorization: localStorage.getItem("accessToken"),
+      },
+      body: JSON.stringify({
+        id: localStorage.getItem("id"),
+      }),
+    })
+      .then(async (res) => {
+        const response = await res.json();
+        
+        if (response.err) {
+          localStorage.clear()
+          return navigate("/login");
+        }
+
+        let overall = shortenSizeWord(response.data.username);
+        let average = shortenSizeWord(response.data.email);
+        setUserInfo((prevInfo) => ({
+          ...prevInfo,
+          username: overall,
+          email: average,
+        }));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    fetch("/api/profile/getinfo", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        token: localStorage.getItem("id"),
+      }),
+    })
+      .then(async (res) => {
+        const response = await res.json();
+        let overall = shortenSizeWord(response.dataConsumed);
+        let average = shortenSizeWord(response.averagesize);
+        setUserInfo((prevInfo) => ({
+          ...prevInfo,
+          storageused: overall,
+          numberofimages: response.amountofphotos,
+          averagesize: average,
+        }));
+      })
+      .catch((err) => console.log(err));
+    // eslint-disable-next-line
+  }, []);
 
   function shortenSizeWord(value) {
     let data = value;
@@ -29,49 +82,6 @@ function Profile() {
       return (data += "GB");
     }
   }
-
-  useEffect(() => {
-    fetch("/api/profile/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        token: sessionStorage.getItem("token"),
-      }),
-    })
-      .then(async (res) => {
-        const response = await res.json();
-          let overall = shortenSizeWord(response.data.username);
-          let average = shortenSizeWord(response.data.email);
-          setUserInfo((prevInfo) => ({
-            ...prevInfo,
-            username: overall,
-            email: average
-          }));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    fetch("/api/profile/getinfo", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        token: sessionStorage.getItem("token"),
-      }),
-    })
-      .then(async (res) => {
-        const response = await res.json();
-          let overall = shortenSizeWord(response.dataConsumed);
-          let average = shortenSizeWord(response.averagesize);
-          setUserInfo((prevInfo) => ({
-            ...prevInfo,
-            storageused: overall,
-            numberofimages: response.amountofphotos,
-            averagesize: average,
-          }));
-      })
-      .catch((err) => console.log(err));
-  }, []);
 
   return (
     <div className="page">

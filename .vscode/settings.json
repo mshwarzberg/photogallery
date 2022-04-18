@@ -6,7 +6,7 @@
       },
       "previewLimit": 200,
       "server": "localhost",
-      "port": 4000,
+      "port": 6000,
       "driver": "MySQL",
       "name": "MYSQL",
       "database": "photogallery",

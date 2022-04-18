@@ -1,0 +1,31 @@
+@keyframes scaleButton {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+* {
+  font: 1rem arial;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  background: #23128a55;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 3.1rem;
+}

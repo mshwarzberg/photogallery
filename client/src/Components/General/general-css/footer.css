@@ -1,12 +1,62 @@
-#footer--page-shown {
+@keyframes showFooter {
+  0% {
+    opacity: 0;
+    transform: translateY(4rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0rem);
+  }
+}
+
+@keyframes hideFooter {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(4rem);
+  }
+}
+
+#footer--page-shown, #footer--page-hidden {
   position: fixed;
   bottom: 0;
-  background-color: #333377;
+  background-color: #33337777;
   width: 100%;
   z-index: 3;
   height: 4rem;
   display: flex;
   flex-direction: row;
   text-align: center;
- 
+  align-items: center;
+  justify-content: center;
 }
+
+#footer--page-hidden {
+  animation: hideFooter forwards linear 100ms;
+}
+
+#footer--page-shown {
+  animation: showFooter forwards linear 100ms;
+}
+
+.footer--buttons-shown, .footer--buttons-hidden {
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing: 2px;
+    font-size: 1.3rem;
+    color: white;
+    cursor: pointer;
+    border: none;
+    float: right;
+    margin-right: 3%;
+    background-color: #00000000;
+    padding: 5px;
+}
+
+.footer--buttons-shown:hover {
+    animation: 50ms forwards scaleButton;
+    color: pink;
+}
+

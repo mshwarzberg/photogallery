@@ -41,7 +41,7 @@ function Upload() {
   }
 
   function uploadFiles() {
-    if (!sessionStorage.getItem("token")) {
+    if (!localStorage.getItem("id")) {
       return navigate("/");
     }
 
@@ -50,7 +50,7 @@ function Upload() {
     fetch("/api/upload/getid", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: sessionStorage.getItem("token") }),
+      body: JSON.stringify({ id: localStorage.getItem("id") }),
     })
       .then(async (res) => {
         const response = await res.json();

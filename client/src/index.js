@@ -2,8 +2,10 @@ import React from "react";
 import * as ReactDOMClient from "react-dom/client";
 import App from "./App";
 
+import './index.css'
+import './fonts/fonts.css'
+
 import "./Components/General/general-css/navbar.css";
-import "./Components/General/general-css/index.css";
 import './Components/General/general-css/home.css'
 import "./Components/Account/account-css/profile.css";
 import "./Components/Account/account-css/createaccount.css";

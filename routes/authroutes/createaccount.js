@@ -1,20 +1,20 @@
 const express = require("express");
 const fs = require("fs");
-const path = require('path')
+const path = require("path");
 const db = require("../../config/mysql");
 const bcrypt = require("bcrypt");
 const router = express.Router();
-function generateUUID(length = 50) {
-  let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+function generateUUID(length = 100) {
+  let chars =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
   let str = "";
   for (let i = 0; i < length; i++) {
     str += chars.charAt(Math.floor(Math.random() * chars.length));
   }
-
   return str;
-};
-
+}
 
 router.post("/", async (req, res) => {
   const id = generateUUID();
@@ -35,15 +35,15 @@ router.post("/", async (req, res) => {
             return res.status(409).send({ err: "Email taken" });
           }
           if (data === undefined) {
-            return res.status(400).send({ err: "Invalid request"})
+            return res.status(400).send({ err: "Invalid request" });
           }
-         
         }
-      }
-      else {
-        const newPath = `./images/${id}/trash`
-        res.status(200).send({ msg: "VJDx5R4z9z8kYTt7L5h2CQm35IFqURJLoKcVrCVwLS5BXwV3qy" });
-        fs.mkdirSync(newPath, { recursive: true })
+      } else {
+        const newPath = `./images/${id}/trash`;
+        fs.mkdirSync(newPath, { recursive: true });
+        res
+          .status(200)
+          .send({ msg: "VJDx5R4z9z8kYTt7L5h2CQm35IFqURJLoKcVrCVwLS5BXwV3qy" });
       }
     }
   );

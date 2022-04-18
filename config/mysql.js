@@ -1,7 +1,7 @@
 const mysql = require("mysql");
 
 var config = mysql.createConnection({
-  port: 4000,
+  port: 6000,
   host: "localhost",
   user: "root",
   password: "password",
@@ -17,7 +17,7 @@ function initialSetup() {
     console.log(result);
   });
   const createCredentialTable =
-    "CREATE TABLE IF NOT EXISTS Credentials(id VARCHAR(255) PRIMARY KEY UNIQUE, username VARCHAR(255) NOT NULL UNIQUE, email VARCHAR(255) NOT NULL UNIQUE,userpass VARCHAR(255) NOT NULL);"
+    "CREATE TABLE IF NOT EXISTS Credentials(id VARCHAR(255) PRIMARY KEY UNIQUE, username VARCHAR(255) NOT NULL UNIQUE, email VARCHAR(255) NOT NULL UNIQUE,userpass VARCHAR(255) NOT NULL, refreshtoken TEXT) ;"
   config.query(createCredentialTable, (err, result) => {
     if (err) console.log(err);
     console.log(result);

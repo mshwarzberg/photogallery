@@ -8,12 +8,14 @@ let currentcalls;
 let totalcalls
 
 router.post("/getid", (req, res) => {
+
   id = req.body.id;
   currentcalls = req.body.currentcalls;
   totalcalls = req.body.totalcalls
-  console.log(totalcalls, currentcalls);
+  
   const getImages =
     `SELECT imageid,originalname,nameinserver,dimensions, filesize from images WHERE id=? ORDER BY filesize DESC LIMIT 25${totalcalls === 0 ? '': ', ?'};`
+
   db.query(getImages, [id, totalcalls*25], (err, data) => {
     if (err) console.log(err);
     for (let i = 0; i <= data.length; i++) {

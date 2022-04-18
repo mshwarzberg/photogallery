@@ -1,107 +1,87 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import homepageIcon from '../../images/homepageicon.png'
+
+import homepageIcon from "../../images/homepageicon.png";
+import AuthContext from "../../Context/AuthContext";
 
 function Navbar() {
   const navigate = useNavigate();
 
   const [showNav, setShowNav] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    function authUser() {
-      if (sessionStorage.getItem("token") !== null) {
-        setIsLoggedIn(true);
-      }
-    }
-    return authUser();
-  });
+  const { checkAuth } = useContext(AuthContext);
 
   return (
     <nav id={showNav ? "navbar--visible" : "navbar--hidden"}>
-      {showNav && <div id="navbar--top">
-        {/* <a
-          id="nav--home-link"
-          className="navbar--links"
-          onClick={() => {
-            fetch("/api/magical", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ id: sessionStorage.getItem("token") }),
-            })
-              .then((res) => {
-                console.log(res);
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          }}
-        >
-          Magical Button
-        </a> */}
-        
-        <button
-          onClick={() => {
-            navigate("/");
-          }}
-          id="navbar--home-link"
-          className="navbar--links"
-        >
-         <img id="navbar--home-icon" src={homepageIcon} alt="" /> Home 
-        </button>
-        {!isLoggedIn ? (
+      {showNav && (
+        <div id="navbar--top">
           <button
             onClick={() => {
-              navigate("/login");
+              navigate("/");
             }}
-            id="nav--login-link"
+            id="navbar--home-link"
             className="navbar--links"
           >
-            Login
+            <img id="navbar--home-icon" src={homepageIcon} alt="" />
+            <p id="navbar--home-text">HOME</p>
           </button>
-        ) : (
-          <div id="navbar--top">
+          {!checkAuth ? (
             <button
               onClick={() => {
-                sessionStorage.removeItem("token");
-                setIsLoggedIn(false);
-                navigate("/");
+                navigate("/login");
               }}
-              className="navbar--links"
-              id="nav--logout-link"
-            >
-              Logout
-            </button>
-            <button
-              onClick={() => {
-                navigate("/upload");
-              }}
-              id="nav--upload-link"
+              id="nav--login-link"
               className="navbar--links"
             >
-              Upload
+              LOGIN
             </button>
-            <button
-              onClick={() => {
-                navigate("/profile");
-              }}
-              id="nav--profile-link"
-              className="navbar--links"
-            >
-              Profile
-            </button>
-          </div>
-        )}
-      </div>}
-      <div id="navbar--bottom">
+          ) : (
+            <div id="navbar--top">
+              <button
+                onClick={() => {
+                  localStorage.clear()
+                  navigate("/");
+                  return window.location.reload(true)
+                }}
+                className="navbar--links"
+                id="nav--logout-link"
+              >
+                LOGOUT
+              </button>
+              <button
+                onClick={() => {
+                  navigate("/upload");
+                }}
+                id="nav--upload-link"
+                className="navbar--links"
+              >
+                UPLOAD
+              </button>
+              <button
+                onClick={() => {
+                  navigate("/profile");
+                }}
+                id="nav--profile-link"
+                className="navbar--links"
+              >
+                PROFILE
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+      <div
+        id="navbar--bottom"
+        onClick={() => {
+          setShowNav(!showNav);
+        }}
+      >
         <button
-          onClick={() => {
-            setShowNav(!showNav);
-          }}
           title="Show/Hide navigation bar"
-          id="navbar--show-hide"
+          id={
+            showNav ? "navbar--toggle-visible" : "navbar--toggle-hidden"
+          }
         >
-          {showNav ? "↑" : "↓"}
+          {showNav ? <p id="navbar--toggle-arrow-visible">↑</p> : <p id="navbar--toggle-arrow-hidden">↓</p>}
         </button>
       </div>
     </nav>
