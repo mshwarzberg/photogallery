@@ -101,15 +101,13 @@
 }
 
 #navbar--home-link {
-    width: 120px;
     height: 70%;
     position: absolute;
     top: 15%;
-    left: 0;
+    left: 1rem;
     display: flex;
     flex-direction: row;
     align-items: center;
-    border-radius: 3px;
 }
 
 #navbar--home-text {

@@ -4,7 +4,7 @@ const router = express.Router();
 const db = require("../../config/mysql");
 
 router.post("/", (req, res) => {
-
+  
   const getImageData = "SELECT * FROM images WHERE id=? and isintrash=false";
   
   db.query(getImageData, [req.body.id], (err, data) => {
@@ -18,7 +18,7 @@ router.post("/", (req, res) => {
           originalname: data[i].originalname,
           filesize: data[i].filesize,
           dimensions: data[i].dimensions,
-          value: i,
+          value: req.body.currentindex,
           filestoload: data.length
         }
       }

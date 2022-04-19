@@ -5,10 +5,10 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 
 // current date plus 10min
-let currentDate = Math.floor(Date.now() / 1000) + (10 * 60)
+let tenMinutes = Math.floor(Date.now() / 1000) + (10 * 60)
 
 function generateAccessToken(user) {
-  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn:  currentDate});
+  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn:  '15s'});
 }
 
 router.post("/", (req, res) => {
@@ -44,7 +44,7 @@ router.post("/", (req, res) => {
         id: data[0].id,
         accessToken: accessToken,
         refreshToken: refreshToken,
-        expiresIn: currentDate // plus 10min
+        expiresIn: '15s'
       });
     } else {
       return res.status(401).send({ err: "Incorrect password" });

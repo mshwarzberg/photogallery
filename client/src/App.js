@@ -14,7 +14,43 @@ import Footer from "./Components/General/Footer";
 import AuthContext from "./Context/AuthContext";
 
 function App() {
-  
+  const [showNav, setShowNav] = useState(false);
+
+  function myTokens() {
+    console.log("tokening");
+    // fetch("/auth/verify", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     authorization: localStorage.getItem("accessToken"),
+    //   },
+    //   body: JSON.stringify({checkingtoken: true, loggingout: false, refreshingtoken: false})
+    // })
+    //   .then(async (res) => {
+    //     const response = await res.json();
+    //     if (response.err) {
+    //       console.log(response.err);
+    //       fetch("/auth/newtoken", {
+    //         method: "POST",
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //           authorization: localStorage.getItem("accessToken"),
+    //         },
+    //         body: JSON.stringify({id: localStorage.getItem('id'), checkingtoken: false, loggingout: false, refreshingtoken: true})
+    //       }).then(async (res) =>  {
+    //         const response = await res.json()
+    //         localStorage.setItem('accessToken', response.accessToken)
+    //         console.log('jklsfadkjldsfakjl;');
+    //       }).catch(err => {
+    //         console.log(err);
+    //       })
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+  }
+
   const [checkAuth, setCheckAuth] = useState(
     localStorage.getItem("isAuth") === "true"
   );
@@ -23,19 +59,28 @@ function App() {
 
   return (
     <AuthContext.Provider value={authValue}>
-        <BrowserRouter>
-          <Navbar />
-          <Routes>
-            <Route element={<Home />} path="/" />
-            <Route element={<Privacy />} path="/yourprivacy" />
-            <Route element={<CreateAccount />} path="/register" />
-            <Route element={<Login />} path="/login" />
-            <Route element={<ViewGallery />} path="/gallery" />
-            <Route element={<Upload />} path="/upload" />
-            <Route element={<Profile />} path="/profile" />
-          </Routes>
-          <Footer />
-        </BrowserRouter>
+      <BrowserRouter>
+        <Navbar showNav={showNav} setShowNav={setShowNav} />
+        <Routes>
+          <Route element={<Home />} path="/" />
+          <Route element={<Privacy />} path="/yourprivacy" />
+          <Route element={<CreateAccount />} path="/register" />
+          <Route element={<Login />} path="/login" />
+          <Route
+            element={
+              <ViewGallery
+                myTokens={myTokens}
+                showNav={showNav}
+                setShowNav={setShowNav}
+              />
+            }
+            path="/gallery"
+          />
+          <Route element={<Upload myTokens={myTokens} />} path="/upload" />
+          <Route element={<Profile myTokens={myTokens} />} path="/profile" />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
     </AuthContext.Provider>
   );
 }

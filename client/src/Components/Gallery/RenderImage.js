@@ -53,14 +53,13 @@ function RenderImage(props) {
                 method: "DELETE",
                 headers: {
                   "Content-Type": "application/json",
-                  Authorization: localStorage.getItem("accessToken"),
                 },
                 body: JSON.stringify({
                   nameinserver: images[image.value].nameinserver,
                   id: localStorage.getItem("id"),
                 }),
               })
-                .then(async (res) => {
+                .then((res) => {
                   
                   props.setImages((prevImages) => {
                     prevImages.splice(image.value, 1);

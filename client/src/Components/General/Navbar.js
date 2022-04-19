@@ -1,13 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import homepageIcon from "../../images/homepageicon.png";
 import AuthContext from "../../Context/AuthContext";
 
-function Navbar() {
+function Navbar(props) {
+  const { showNav, setShowNav } = props
   const navigate = useNavigate();
 
-  const [showNav, setShowNav] = useState(false);
   const { checkAuth } = useContext(AuthContext);
 
   return (
@@ -41,7 +41,7 @@ function Navbar() {
                   fetch("auth/logout", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ id: localStorage.getItem("id") }),
+                    body: JSON.stringify({ id: localStorage.getItem("id"), loggingout: true }),
                   })
                     .then(async (res) => {
                       const response = await res.json();

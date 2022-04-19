@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Profile() {
+function Profile(props) {
   const navigate = useNavigate();
-
+  const { myTokens } = props
   const [userInfo, setUserInfo] = useState({
     username: "",
     email: "",
@@ -13,12 +13,15 @@ function Profile() {
   });
 
   useEffect(() => {
-    setTimeout(() => {
+    myTokens()
+    return myTokens()
+  }, [myTokens])
+
+  useEffect(() => {
       fetch("/api/profile/getinfo", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: localStorage.getItem("accessToken"),
         },
         body: JSON.stringify({
           id: localStorage.getItem("id"),
@@ -30,7 +33,6 @@ function Profile() {
           return fetch("/auth/newtoken", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            Authorization: localStorage.getItem("refreshToken"),
           }).then(async (res) => {
 
             const response = await res.json();
@@ -49,9 +51,8 @@ function Profile() {
           username: response.username,
           email: response.email,
         });
-      }, 5000);
     })
-  }, [navigate]);
+  }, [navigate, props]);
 
   function shortenSizeWord(value) {
     let data = value;

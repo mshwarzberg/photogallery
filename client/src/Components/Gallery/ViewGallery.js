@@ -3,7 +3,9 @@ import RenderImage from "./RenderImage";
 import FocusOnImage from "./FocusOnImage";
 import { useNavigate } from "react-router-dom";
 
-function ViewGallery() {
+function ViewGallery(props) {
+
+  const myTokens = props
 
   const navigate = useNavigate()
   
@@ -11,12 +13,12 @@ function ViewGallery() {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
-    
+
+
     fetch("/api/profile/getinfo", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: localStorage.getItem("accessToken"),
       },
       body: JSON.stringify({
         id: localStorage.getItem("id"),
@@ -25,15 +27,15 @@ function ViewGallery() {
       .then(async (res) => {
         const response = await res.json();
         if (response.err) {
-          localStorage.clear()
-          return navigate("/");
+          console.log('viewgallery', response);
         }
       })
       .catch((err) => console.log(err));
-  }, [navigate])
+      return () => {}
+  }, [navigate, myTokens])
 
   useEffect(() => {
-    console.log(images);
+    
     fetch("api/gallery", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -46,7 +48,6 @@ function ViewGallery() {
         const response = await res.blob();
         const imageURL = URL.createObjectURL(response);
         if (!res.headers) {
-          console.log('screw you');
           return
         }
         let imageRatio =
@@ -118,7 +119,7 @@ function ViewGallery() {
 
   return (
     <div className="page" id="viewgallery--page">
-      <h1 id="viewgallery--header">{images.length} images loaded</h1>
+      <div id="viewgallery--info-header"><h1 id={props.showNav ? "viewgallery--header-text-shown" : "viewgallery--header-text-hidden"}>{images.length} images loaded</h1></div>
       <RenderImage
         images={images}
         focusOnImage={focusOnImage}

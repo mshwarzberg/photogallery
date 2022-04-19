@@ -5,7 +5,7 @@ const fs = require('fs')
 const db = require('../../config/mysql')
 const JsonWebToken = require('../JsonWebToken')
 
-router.delete('/delete', JsonWebToken.authenticateToken, (req, res) => {
+router.delete('/delete', (req, res) => {
   
   const moveToTrash = 'UPDATE images SET isintrash=true WHERE id=? and nameinserver=?'
 
@@ -19,4 +19,5 @@ router.delete('/delete', JsonWebToken.authenticateToken, (req, res) => {
     res.send({res: 'success'})
   })
 })
+
 module.exports = router
