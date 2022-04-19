@@ -1,11 +1,11 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const register = require("./routes/authroutes/createaccount");
-const login = require("./routes/authroutes/login");
-const profile = require("./routes/authroutes/profile");
+const register = require("./routes/accountroutes/createaccount");
+const login = require("./routes/accountroutes/login");
+const profile = require("./routes/accountroutes/profile");
 const upload = require("./routes/galleryroutes/upload");
-const viewphotos = require("./routes/galleryroutes/viewphotos");
+const viewphotos = require("./routes/galleryroutes/viewgallery");
 const managephotos = require("./routes/galleryroutes/managephotos");
 
 const db = require("./config/mysql");

@@ -1,32 +1,29 @@
 @keyframes showFooter {
   0% {
-    opacity: 0;
-    transform: translateY(4rem);
+    transform: translateY(5rem);
   }
   100% {
-    opacity: 1;
-    transform: translateY(0rem);
+    transform: translateY(0);
   }
 }
 
 @keyframes hideFooter {
   0% {
-    opacity: 1;
     transform: translateY(0);
   }
   100% {
-    opacity: 0;
-    transform: translateY(4rem);
+    transform: translateY(calc(5rem - 5px));
   }
 }
 
 #footer--page-shown, #footer--page-hidden {
   position: fixed;
   bottom: 0;
-  background-color: #33337777;
+  left: 0;
+  background-color: #333377cc;
   width: 100%;
   z-index: 3;
-  height: 4rem;
+  height: 5rem;
   display: flex;
   flex-direction: row;
   text-align: center;
@@ -40,6 +37,14 @@
 
 #footer--page-shown {
   animation: showFooter forwards linear 100ms;
+}
+
+#footer--top-empty {
+  background-color: #fff;
+  height: 5px;
+  width: 100vw;
+  position: absolute;
+  top: 0;
 }
 
 .footer--buttons-shown, .footer--buttons-hidden {
@@ -60,3 +65,15 @@
     color: pink;
 }
 
+#footer--copyright {
+  font-size: 0.8rem;
+  position: absolute;
+  right: 5px;
+}
+
+#footer--copyright:hover {
+  cursor: default;
+  animation: none;
+  color: white;
+  
+}

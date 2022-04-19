@@ -7,7 +7,7 @@ function Footer() {
 
   const [isScrolling, setIsScrolling] = useState(false)
 
-  window.onscroll = function(e) {  
+  window.onscroll = function() {  
     setIsScrolling(true)
     const scrollTimer = setTimeout(() => {
       setIsScrolling(false)
@@ -18,8 +18,13 @@ function Footer() {
   } 
 
   return (
-    <div>
+    <div className="page">
         <div id={isScrolling ? "footer--page-hidden" :"footer--page-shown"}>
+        <div id="footer--top-empty" onClick={() => {
+          setIsScrolling(!isScrolling)
+        }}>
+              
+        </div>
           <button
             className={isScrolling ? "footer--buttons-hidden": "footer--buttons-shown"}
             onClick={() => {
@@ -44,6 +49,7 @@ function Footer() {
           >
             GITHUB
           </a>
+          <p className={isScrolling ? "footer--buttons-hidden": "footer--buttons-shown"} id="footer--copyright">&copy;2022</p>
         </div>
     </div>
   );

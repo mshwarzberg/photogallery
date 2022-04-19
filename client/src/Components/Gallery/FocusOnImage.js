@@ -1,47 +1,39 @@
-import React from 'react'
+import React from "react";
 
-function ViewFocus(props) {
-
-  const images = props.images
-  const imageData = props.imageData
+function FocusOnImage(props) {
+  const images = props.images;
 
   const renderFocus = images.map((image) => {
-    if (imageData[image.value]) {
-      const size = props.getImageSize(imageData[image.value].filesize);
-      if (imageData[image.value].active) {
-        return (
-          <div
-            key={image.imageURL}
-            id="viewphotos--focus"
-            onClick={() => {
-              props.focusOnImage(image.value, false);
-            }}
-            // onTouchMove={() => {
-            //   props.focusOnImage(image.value, false)
-            // }}
-          >
-            <img
-              id="viewphotos--focus-image"
-              src={image.imageURL}
-              alt="focus"
-              title={
-                "Name: " +
-                imageData[image.value].name +
-                "\nDimensions: " +
-                imageData[image.value].dimensions +
-                "\nSize: " +
-                size
-              }
-            />
-          </div>
-        );
-      }
+    const size = props.getImageSize(images[image.value].size);
+    if (images[image.value].focused) {
+      return (
+        <div
+          key={image.imageURL}
+          id="focusonimage--focus"
+          onClick={() => {
+            props.focusOnImage(image.value, false);
+          }}
+        >
+          <img
+            id="focusonimage--focus-image"
+            src={image.imageURL}
+            alt="focus"
+            title={
+              "Name: " +
+              images[image.value].name +
+              "\nDimensions: " +
+              images[image.value].dimensions +
+              "\nSize: " +
+              size
+            }
+          />
+        </div>
+      );
     }
     return "";
   });
-  return (
-    <div className="page">{renderFocus}</div>
-  )
+
+  return <div className="page">{renderFocus}</div>;
 }
 
-export default ViewFocus
+export default FocusOnImage;

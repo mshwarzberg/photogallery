@@ -29,7 +29,6 @@ function Login() {
       .then(async (res) => {
         const response = await res.json();
 
-        console.log(response);
         if (response.err) {
           if (response.err === "User not found"){
           return setMessage("User does not exist")}

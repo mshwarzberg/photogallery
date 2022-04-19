@@ -106,7 +106,7 @@ function Upload() {
 
   return (
     <div className="page" id="upload--page">
-        <label id="upload--choose-button" htmlFor="upload--choose-one">
+        <label id="upload--choose-button" htmlFor="upload--choose-one" className="upload--choose-button">
           Choose An Image
         </label>
         <input
@@ -131,6 +131,7 @@ function Upload() {
           type="file"
           style={{ visibility: "hidden" }}
         />
+        {!files ? '' : <p id="upload--number-of-files">You have {files[0] ? `${files.length} images` : 'one image'}   ready to upload</p>}
       <button
         id="upload--upload-button"
         type="submit"

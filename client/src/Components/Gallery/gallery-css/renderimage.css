@@ -1,4 +1,24 @@
-.viewphotos--image-block {
+@keyframes hoverImage {
+  0% {
+    background-color: #15122588;
+    transform: scale(1);
+  }
+  100% {
+    background-color: yellow;
+    transform: scale(1.1);
+  }
+}
+#renderimage--grid {
+  position: relative;
+  height: 100%;
+  width: 95%;
+  display: grid;
+  grid-template-columns: repeat(16, 1fr);
+  grid-gap: 1rem;
+  margin: 1.5rem;
+}
+
+.renderimage--image-block {
   position: relative;
   padding: 3px;
   display: flex;
@@ -8,15 +28,7 @@
   border-radius: 4px;
 }
 
-.viewphotos--image-block:hover {
-  display: flex;
-  z-index: 1;
-  cursor: pointer;
-  animation: 400ms forwards scaleButton;
-  background-color: #ffffff00;
-}
-
-.viewphotos--image {
+.renderimage--image {
   max-height: 100%;
   max-width: 100%;
   display: flex;
@@ -24,28 +36,61 @@
   animation: loadImage ease-out forwards 500ms;
 }
 
-#viewphotos--image-wide, #viewphotos--image-ultrawide {
+#renderimage--image-wide,
+#renderimage--image-ultrawide {
   grid-column: span 4;
 }
 
-#viewphotos--image-ultrawide {
+#renderimage--image-ultrawide {
   grid-column: span 8;
 }
 
-#viewphotos--image-square {
+#renderimage--image-square {
   grid-column: span 4;
   grid-row: span 2;
 }
 
-#viewphotos--image-ultratall, #viewphotos--image-tall {
+#renderimage--image-ultratall,
+#renderimage--image-tall {
   grid-row: span 2;
   grid-column: span 4;
 }
 
-#viewphotos--trash-icon {
+#renderimage--trash-icon {
   position: absolute;
   max-width: 2rem;
   top: 4px;
   left: 4px;
   z-index: 2;
+}
+
+.renderimage--image-block:hover {
+  display: flex;
+  z-index: 1;
+  cursor: pointer;
+  animation: 400ms forwards hoverImage;
+  padding: 2px;
+}
+
+#renderimage--trash-icon {
+  position: absolute;
+  max-width: 2rem;
+  top: 4px;
+  left: 4px;
+  z-index: 2;
+}
+
+@media screen and (max-width: 1200px) {
+  #renderimage--grid {
+    grid-template-columns: repeat(12, 1fr);
+    grid-gap: 1px;
+    margin: 0.8rem;
+  }
+}
+@media screen and (max-width: 800px) {
+  #renderimage--grid {
+    grid-template-columns: repeat(8, 1fr);
+    grid-gap: 3px;
+    margin: 5px;
+  }
 }

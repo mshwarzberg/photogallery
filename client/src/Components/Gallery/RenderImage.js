@@ -2,14 +2,10 @@ import React from "react";
 import Trash from "../../images/Trash.png";
 
 function RenderImage(props) {
-  
-  const imageData = props.imageData;
-  const setImageData = props.setImageData;
   const images = props.images;
-  const setImages = props.setImages;
 
   function viewIcons(value, bool) {
-    setImageData((prevImageData) => {
+    props.setImages((prevImageData) => {
       const newData = prevImageData.map((newImageData) =>
         newImageData.value === value
           ? { ...newImageData, showicon: bool }
@@ -20,109 +16,80 @@ function RenderImage(props) {
   }
 
   const renderImages = images.map((image) => {
-    if (imageData[image.value]) {
-      const size = props.getImageSize(imageData[image.value].filesize);
-      const htmlclass = `viewphotos--image-${
-        imageData[image.value].imageratio
-      }`;
-      return (
-        <div
-          className="viewphotos--image-block"
-          id={htmlclass}
-          title={
-            "Name: " +
-            imageData[image.value].name +
-            "\nDimensions: " +
-            imageData[image.value].dimensions +
-            "\nSize: " +
-            size
-          }
-          onDoubleClick={() => {
-            props.focusOnImage(image.value, true);
-          }}
-          onMouseEnter={() => {
-            viewIcons(image.value, true);
-          }}
-          onMouseLeave={() => {
-            viewIcons(image.value, false);
-          }}
-          key={image.imageURL}
-        >
-          {imageData[image.value].showicon && (
-            <img
-              src={Trash}
-              alt="trash"
-              id="viewphotos--trash-icon"
-              title="Put in trash"
-              onClick={(event) => {
-                fetch("/api/manage/delete", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({
-                    id: localStorage.getItem("id"),
-                    servername: imageData[image.value].servername,
-                  }),
-                })
-                  .then((res) => {
-                    setImageData((prevImageData) => {
-                      const newData = prevImageData.map((data) => ({
-                        ...data,
-                        value:
-                          data.value > images[image.value].value
-                            ? data.value - 1
-                            : data.value,
-                      }));
-                      return newData;
-                    });
-                    setImages((prevImages) => {
-                      const newData = prevImages.map((data) => ({
-                        ...data,
-                        value:
-                          data.value > images[image.value].value
-                            ? data.value - 1
-                            : data.value,
-                      }));
-                      return newData;
-                    });
-                    props.setTotalAPIcalls((prevTotalAPIcalls) => [
-                      ...prevTotalAPIcalls,
-                      prevTotalAPIcalls[prevTotalAPIcalls.length - 1] - 1,
-                    ]);
-                    for (let i = 0; i < imageData.length; i++) {
-                      if (
-                        imageData[i].servername ===
-                        imageData[image.value].servername
-                      ) {
-                        setImageData((prevImageData) => {
-                          prevImageData.splice(i, 1);
-                          return prevImageData;
-                        });
-                        setImages((prevImages) => {
-                          prevImages.splice(i, 1);
-                          return prevImages;
-                        });
-                      }
-                    }
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                  });
-                event.stopPropagation();
-              }}
-            />
-          )}
+    const size = props.getImageSize(images[image.value].size);
+    const htmlclass = `renderimage--image-${images[image.value].imageratio}`;
+    return (
+      <div
+        key={image.imageURL}
+        className="renderimage--image-block"
+        id={htmlclass}
+        title={
+          "Name: " +
+          images[image.value].name +
+          "\nDimensions: " +
+          images[image.value].dimensions +
+          "\nSize: " +
+          size
+        }
+        onDoubleClick={() => {
+          props.focusOnImage(image.value, true);
+        }}
+        onMouseEnter={() => {
+          viewIcons(image.value, true);
+        }}
+        onMouseLeave={() => {
+          viewIcons(image.value, false);
+        }}
+      >
+        {images[image.value].showicon && (
           <img
-            alt="gallery"
-            src={image.imageURL}
-            className="viewphotos--image"
+            src={Trash}
+            alt="trash"
+            id="renderimage--trash-icon"
+            title="Put in trash"
+            onClick={() => {
+              
+              fetch("api/manage/delete", {
+                method: "DELETE",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: localStorage.getItem("accessToken"),
+                },
+                body: JSON.stringify({
+                  nameinserver: images[image.value].nameinserver,
+                  id: localStorage.getItem("id"),
+                }),
+              })
+                .then(async (res) => {
+                  
+                  props.setImages((prevImages) => {
+                    prevImages.splice(image.value, 1);
+                    const newData = prevImages.map((newimage) => {
+                      
+                      return {
+                        ...newimage,
+                        value:
+                              newimage.value > image.value
+                                ? newimage.value - 1
+                                : newimage.value,
+                      };
+                    });
+                    return newData;
+                  });
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            }}
           />
-        </div>
-      );
-    }
-    return "";
+        )}
+        <img src={image.imageURL} alt="myimg" className="renderimage--image" />
+      </div>
+    );
   });
+
   return (
-    <div className="page" id="viewphotos--grid">
+    <div className="page" id="renderimage--grid">
       {renderImages}
     </div>
   );

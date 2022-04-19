@@ -1,4 +1,15 @@
-#viewphotos--focus {
+@keyframes focusImage {
+  0% {
+      opacity: 0;
+      transform: scale(40%);
+  }
+  100% {
+      opacity: 1;
+      transform: scale(100%);
+  }
+}
+
+#focusonimage--focus {
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -11,7 +22,7 @@
   z-index: 2;
 }
 
-#viewphotos--focus-image {
+#focusonimage--focus-image {
   animation: focusImage forwards ease-out 500ms;
   max-width: 96%;
   max-height: 96%;

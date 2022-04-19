@@ -1,122 +1,97 @@
 import React, { useEffect, useState } from "react";
-import ViewFocus from "./FocusOnImage";
 import RenderImage from "./RenderImage";
+import FocusOnImage from "./FocusOnImage";
+import { useNavigate } from "react-router-dom";
 
 function ViewGallery() {
 
-  const [currentAPIcalls, setCurrentAPIcalls] = useState(1);
+  const navigate = useNavigate()
+  
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [images, setImages] = useState([]);
-  const [totalAPIcalls, setTotalAPIcalls] = useState([0]);
-  const [totalChunkCalls, setTotalChunkCalls] = useState(1);
-
-  const [imageData, setImageData] = useState([
-    {
-      imageid: "",
-      name: "",
-      dimensions: "",
-      filesize: 0,
-    },
-  ]);
 
   useEffect(() => {
-    setImageData((prevImageData) => {
-      prevImageData = prevImageData.splice(1, prevImageData.length - 1);
-      return prevImageData;
-    });
-  }, []);
+    
+    fetch("/api/profile/getinfo", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("accessToken"),
+      },
+      body: JSON.stringify({
+        id: localStorage.getItem("id"),
+      }),
+    })
+      .then(async (res) => {
+        const response = await res.json();
+        if (response.err) {
+          localStorage.clear()
+          return navigate("/");
+        }
+      })
+      .catch((err) => console.log(err));
+  }, [navigate])
 
   useEffect(() => {
-    function getImageData() {
-      if (currentAPIcalls < 25 && totalAPIcalls) {
-        fetch("api/gallery/getid", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            id: localStorage.getItem("id"),
-            currentcalls: currentAPIcalls,
-            totalcalls: totalChunkCalls - 1,
-          }),
-        })
-          .then(async (res) => {
-            const response = await res.json();
-            let imageRatio =
-              response.dimensions.split("x")[0] /
-              response.dimensions.split("x")[1];
-            if (imageRatio <= 0.6) {
-              imageRatio = "ultratall";
-            } else if (imageRatio <= 0.85) {
-              imageRatio = "tall";
-            } else if (imageRatio <= 1.15) {
-              imageRatio = "square";
-            } else if (imageRatio <= 1.9) {
-              imageRatio = "wide";
-            } else {
-              imageRatio = "ultrawide";
-            }
-            setImageData((prevImageData) => [
-              ...prevImageData,
-              {
-                imageratio: imageRatio,
-                showicon: false,
-                active: false,
-                value: totalAPIcalls[totalAPIcalls.length - 1],
-                imageid: response.imageid,
-                name: response.name,
-                servername: response.servername,
-                dimensions: response.dimensions,
-                filesize: response.filesize,
-              },
-            ]);
-          })
-          .catch((err) => {
-            console.error("API POST ERROR", err);
-            return setCurrentAPIcalls(1000);
-          });
+    console.log(images);
+    fetch("api/gallery", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id: localStorage.getItem("id"),
+        currentindex: currentIndex,
+      }),
+    })
+      .then(async (res) => {
+        const response = await res.blob();
+        const imageURL = URL.createObjectURL(response);
+        if (!res.headers) {
+          console.log('screw you');
+          return
+        }
+        let imageRatio =
+          res.headers.get("dimensions").split("x")[0] /
+          res.headers.get("dimensions").split("x")[1];
+        if (imageRatio <= 0.6) {
+          imageRatio = "ultratall";
+        } else if (imageRatio <= 0.85) {
+          imageRatio = "tall";
+        } else if (imageRatio <= 1.15) {
+          imageRatio = "square";
+        } else if (imageRatio <= 1.9) {
+          imageRatio = "wide";
+        } else {
+          imageRatio = "ultrawide";
+        }
 
-        fetch("api/gallery", {
-          method: "GET",
-        })
-          .then(async (res) => {
-            const response = await res.blob();
-            const imageURL = URL.createObjectURL(response);
-            setImages((prevImages) => [
-              ...prevImages,
-              { imageURL, value: totalAPIcalls[totalAPIcalls.length - 1] },
-            ]);
-            setCurrentAPIcalls(
-              (prevCurrentAPIcalls) => prevCurrentAPIcalls + 1
-            );
-            setTotalAPIcalls((prevTotalAPIcalls) => [
-              ...prevTotalAPIcalls,
-              prevTotalAPIcalls[prevTotalAPIcalls.length - 1] + 1,
-            ]);
-          })
-          .catch((err) => {
-            console.log("API GET ERROR", err);
-            return;
-          });
-          window.onscroll = function () {
-            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 1) {
-              if (totalAPIcalls.length / totalChunkCalls === 25 && currentAPIcalls === 25) {
-                setTotalChunkCalls((prevChunkTotal) => prevChunkTotal + 1);
-              }
-              setCurrentAPIcalls(0);
-            }
-          };
-      }
+        setImages((prevImages) => [
+          ...prevImages,
+          {
+            imageURL,
+            name: res.headers.get("originalname"),
+            dimensions: res.headers.get("dimensions"),
+            size: res.headers.get("filesize"),
+            value: res.headers.get("value"),
+            nameinserver: res.headers.get("nameinserver"),
+            focused: false,
+            imageratio: imageRatio,
+            showicon: false,
+          },
+        ]);
+        if (currentIndex < res.headers.get("filestoload")) {
+          setCurrentIndex((prevCurrentIndex) => prevCurrentIndex + 1);
+        }
+      })
+      .catch((err) => {
+        return
+      });
 
-    }
-    getImageData();
-  }, [
-    currentAPIcalls,
-    setCurrentAPIcalls,
-    totalAPIcalls,
-    setTotalAPIcalls,
-    totalChunkCalls,
-  ]);
+    return () => {};
+  }, [currentIndex, setCurrentIndex]);
 
   function getImageSize(value) {
     let size;
+
     if (value > 1000 && value < 950000) {
       size = value / 1000;
       size = size.toString().slice(0, 3);
@@ -131,11 +106,11 @@ function ViewGallery() {
   }
 
   function focusOnImage(value, bool) {
-    setImageData((prevImageData) => {
-      const newData = prevImageData.map((newImageData) =>
-        newImageData.value === value
-          ? { ...newImageData, active: bool }
-          : { ...newImageData, active: false }
+    setImages((prevImageData) => {
+      const newData = prevImageData.map((newimage) =>
+        newimage.value === value
+          ? { ...newimage, focused: bool }
+          : { ...newimage, focused: false }
       );
       return newData;
     });
@@ -146,16 +121,12 @@ function ViewGallery() {
       <h1 id="viewgallery--header">{images.length} images loaded</h1>
       <RenderImage
         images={images}
-        imageData={imageData}
-        setImageData={setImageData}
         focusOnImage={focusOnImage}
         setImages={setImages}
         getImageSize={getImageSize}
-        setTotalAPIcalls={setTotalAPIcalls}
       />
-      <ViewFocus
+      <FocusOnImage
         images={images}
-        imageData={imageData}
         focusOnImage={focusOnImage}
         getImageSize={getImageSize}
       />

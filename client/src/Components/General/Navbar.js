@@ -38,9 +38,25 @@ function Navbar() {
             <div id="navbar--top">
               <button
                 onClick={() => {
-                  localStorage.clear()
-                  navigate("/");
-                  return window.location.reload(true)
+                  fetch("auth/logout", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ id: localStorage.getItem("id") }),
+                  })
+                    .then(async (res) => {
+                      const response = await res.json();
+                      if (
+                        (response.res =
+                          "RHKp946ZyBp2g6XNj45BKn7tF58syiFVvCx3wSdONwT6J4IdJU")
+                      ) {
+                        localStorage.clear();
+                        navigate("/");
+                        return window.location.reload(true);
+                      }
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
                 }}
                 className="navbar--links"
                 id="nav--logout-link"
@@ -77,11 +93,13 @@ function Navbar() {
       >
         <button
           title="Show/Hide navigation bar"
-          id={
-            showNav ? "navbar--toggle-visible" : "navbar--toggle-hidden"
-          }
+          id={showNav ? "navbar--toggle-visible" : "navbar--toggle-hidden"}
         >
-          {showNav ? <p id="navbar--toggle-arrow-visible">↑</p> : <p id="navbar--toggle-arrow-hidden">↓</p>}
+          {showNav ? (
+            <p id="navbar--toggle-arrow-visible">↑</p>
+          ) : (
+            <p id="navbar--toggle-arrow-hidden">...</p>
+          )}
         </button>
       </div>
     </nav>

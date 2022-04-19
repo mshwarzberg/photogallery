@@ -5,18 +5,18 @@
     }
     100% {
         transform: translateY(0);
-        background-color: #333377;
+        background-color: #333377cc;
     }
 }
 
  @keyframes hideNav {
     0% {
         transform: translateY(0rem);
-        background-color: #333377;
+        background-color: #333377cc;
     }
     100% {
         transform: translateY(-2rem);
-        background-color: #99999922;
+        background-color: #99999900;
     }
 }
 
@@ -31,38 +31,41 @@
 
 @keyframes mobileHideNav {
     0% {
-        transform: translateX(-50vw) rotate(0deg);
-        color: yellow;
+        width: 100%;
+        color: #00000000;
+        background-color: white;
+        transform: translateX(0vw)
     }
     100% {
-        transform: translateX(0) rotate(90deg) ;
+        width: 0;
+        color:auto;
+        transform: translateX(45vw) ;
         color: black;
     }
 }
 
 @keyframes mobileShowNav {
     0% {
-        height: auto;
+        width: 0;
         opacity: 0;
-        width: 1%;
-        color:auto;
-        transform: translateY(0) translateX(45vw) rotate(270deg);
+        transform: translateX(50vw) ;
         color: black;
-       
     }
     100% {
-        height: 0.5rem;
         width: 100%;
+        height: 5px;
         opacity: 1;
         color: #00000000;
         background-color: white;
-        transform: translateY(2rem) translateX(0vw)  rotate(180deg);
+        transform: translateX(0vw);
     }
 }
 
 #navbar--visible, #navbar--hidden {
     background-color: #333377;
     position: fixed;
+    top:0;
+    left: 0;
     width: 100%;
     z-index: 5;
     display: flex;
@@ -120,12 +123,11 @@
 #navbar--bottom {
     display: flex;
     justify-content: center;
-    background-color: green;
+    background-color: #fff;
 }
 
 #navbar--toggle-visible, #navbar--toggle-hidden {
     cursor: pointer;
-    position: absolute;
     border: none;
     position: absolute;
     bottom: 3px;
@@ -135,7 +137,7 @@
 #navbar--toggle-arrow-visible, #navbar--toggle-arrow-hidden {
     font-size: 2rem;
     bottom: 4px;
-    color: yellow;
+    color: black;
     font-weight: bold;
 }
 
@@ -148,11 +150,10 @@
 
 @media screen and (max-width: 800px) {
     #navbar--visible, #navbar--hidden {
-        height: 6rem;
+        height: 8rem;
     }
     .navbar--links {
         margin-right: 1px;
-        height: 3rem;
     }
     
     #navbar--home-text {
@@ -161,24 +162,23 @@
 
     #navbar--toggle-visible {
         position: absolute;
-        height: 1rem;
-        font-size: 2.5rem;
-        bottom: 2rem;
+        bottom: 0;
         border-radius: 0 !important;
         animation: mobileShowNav 500ms ease-out forwards !important;
+        height: 5px;
     }
     
     #navbar--toggle-visible:hover {
         background-color: #00000000;
     }
-
+    
     #navbar--toggle-hidden {
+        height: 5px;
         position: absolute;
-        top: 25px;
-        right: 0;
+        bottom: 0;
         animation: mobileHideNav 500ms linear forwards;
-        font-size: 4rem;
     }
+    
     #navbar--toggle-arrow-visible {
         visibility: hidden;
     }

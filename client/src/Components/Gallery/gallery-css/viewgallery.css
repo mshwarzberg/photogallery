@@ -1,14 +1,3 @@
-@keyframes focusImage {
-    0% {
-        opacity: 0;
-        transform: scale(40%);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(100%);
-    }
-}
-
 @keyframes loadImage {
     0% {
         opacity: 0;
@@ -17,16 +6,12 @@
         opacity: 1;
     }
 }
-#viewphotos--page {
-    background: #050225;
-    background: linear-gradient(0deg, rgba(34,193,195,1) 10%, rgba(120,120,225,1) 30%, #050225aa 70%, rgba(120,120,225,1) 90%, rgba(34,193,195,1) 100%);
-}
 
-#viewphotos--grid {
-    display: grid;
-    grid-template-columns: repeat(16, 1fr);
-    grid-gap: 1rem;
-    margin: 1.5rem;
+#viewgallery--page {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
 }
 
 #viewgallery--header {
@@ -41,19 +26,4 @@
     text-align: center;
     font-family: 'Bitter', serif;
     font-weight: bold;
-}
-
-@media screen and (max-width: 1200px) {
-    #viewphotos--grid {
-        grid-template-columns: repeat(12, 1fr);
-        grid-gap: 1px;
-        margin: 0.8rem;
-    }
-}
-@media screen and (max-width: 800px) {
-    #viewphotos--grid {
-        grid-template-columns: repeat(8, 1fr);
-        grid-gap: 3px;
-        margin: 5px;
-    }
 }

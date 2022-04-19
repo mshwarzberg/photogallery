@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Profile() {
-  
   const navigate = useNavigate();
 
   const [userInfo, setUserInfo] = useState({
@@ -14,56 +13,45 @@ function Profile() {
   });
 
   useEffect(() => {
-    fetch("/auth/profile/", {
-      method: "POST",
-      headers: {
-        Authorization: localStorage.getItem("accessToken"),
-      },
-      body: JSON.stringify({
-        id: localStorage.getItem("id"),
-      }),
-    })
-      .then(async (res) => {
+    setTimeout(() => {
+      fetch("/api/profile/getinfo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({
+          id: localStorage.getItem("id"),
+        }),
+      }).then(async (res) => {
         const response = await res.json();
         
         if (response.err) {
-          localStorage.clear()
-          return navigate("/login");
+          return fetch("/auth/newtoken", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            Authorization: localStorage.getItem("refreshToken"),
+          }).then(async (res) => {
+
+            const response = await res.json();
+
+            if (response.err) {
+              console.log(response.err);
+            }
+          }).catch((err) => console.log(err));
         }
-
-        let overall = shortenSizeWord(response.data.username);
-        let average = shortenSizeWord(response.data.email);
-        setUserInfo((prevInfo) => ({
-          ...prevInfo,
-          username: overall,
-          email: average,
-        }));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    fetch("/api/profile/getinfo", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        token: localStorage.getItem("id"),
-      }),
-    })
-      .then(async (res) => {
-        const response = await res.json();
-        let overall = shortenSizeWord(response.dataConsumed);
+        let overall = shortenSizeWord(response.totaldataconsumed);
         let average = shortenSizeWord(response.averagesize);
-        setUserInfo((prevInfo) => ({
-          ...prevInfo,
+        setUserInfo({
           storageused: overall,
           numberofimages: response.amountofphotos,
           averagesize: average,
-        }));
-      })
-      .catch((err) => console.log(err));
-    // eslint-disable-next-line
-  }, []);
+          username: response.username,
+          email: response.email,
+        });
+      }, 5000);
+    })
+  }, [navigate]);
 
   function shortenSizeWord(value) {
     let data = value;

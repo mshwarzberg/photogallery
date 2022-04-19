@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import CreateAccount from "./Components/Account/CreateAccount";
@@ -14,9 +14,7 @@ import Footer from "./Components/General/Footer";
 import AuthContext from "./Context/AuthContext";
 
 function App() {
-  const { fetch: originalFetch } = window
   
-
   const [checkAuth, setCheckAuth] = useState(
     localStorage.getItem("isAuth") === "true"
   );

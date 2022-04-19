@@ -4,8 +4,8 @@ const db = require("../../config/mysql");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 
-// current date plus half an hour
-let currentDate = Math.floor(Date.now() / 1000) + (30 * 60)
+// current date plus 10min
+let currentDate = Math.floor(Date.now() / 1000) + (10 * 60)
 
 function generateAccessToken(user) {
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn:  currentDate});
@@ -24,12 +24,13 @@ router.post("/", (req, res) => {
     if (bcrypt.compareSync(req.body.password, data[0].userpass)) {
 
       const userInfo = {
-        username: req.body.username,
+        username: data[0].username,
         email: data[0].email,
         id: data[0].id,
       };
+      
       const accessToken = generateAccessToken(userInfo);
-      const refreshToken = jwt.sign(userInfo, process.env.ACCESS_TOKEN_SECRET);
+      const refreshToken = jwt.sign(userInfo, process.env.REFRESH_TOKEN_SECRET);
 
       const addRefreshToDB = 'UPDATE credentials SET refreshtoken=? WHERE id=?'
 
@@ -43,7 +44,7 @@ router.post("/", (req, res) => {
         id: data[0].id,
         accessToken: accessToken,
         refreshToken: refreshToken,
-        expiresIn: currentDate // plus half an hour
+        expiresIn: currentDate // plus 10min
       });
     } else {
       return res.status(401).send({ err: "Incorrect password" });

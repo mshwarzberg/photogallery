@@ -3,53 +3,65 @@
         background-color: #ffffff00;
     }
     100% {
-        background-color: #44444455;
+        background-color: #44444477;
     }
 }
 
-.home--page {
+#home--page {
+    border: 4px solid black;
+    position: relative;
 }
 
-.home--page:hover {
+#home--page:hover {
+    animation: homePageHover 200ms ease-out forwards;
 }
 
 #home--title {
-    font-family: 'Lato', sans-serif;
-    padding-top: 6rem;
+    font-family: 'Akshar';
+    font-weight: 1000;
     font-size: 4rem;
-    font-style: italic;
     text-align: center;
-}
-
-#home--description {
-    font-family: 'Lato', sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    line-height: 5rem;
-    margin: 2rem 5%;
-    text-align: center;
-    font-size: 2rem;
+    position: absolute;
+    top: 0;
     cursor: default;
 }
 
+#home--description {
+    font-family: 'Akshar', sans-serif;
+    font-weight: 800;
+    line-height: 5rem;
+    text-align: center;
+    font-size: 2rem;
+    cursor: default;
+    margin: 5rem;
+}
+
 #home--register-link {
+    font-family: 'Lato', sans-serif;
+    font-style: none;
     font-weight: bold;
-    color: pink;
+    color: #2424b9c5;
     cursor: pointer;
     font-size: 2rem;
     background-color: #ffffff00;
 }
 
+#home--register-link:hover {
+    color: pink;
+    animation: scaleButton 200ms ease-out forwards;
+}
+
 @media screen and (max-width: 800px) {
+    #home--page  {
+        margin: 0.6rem;
+    }
     #home--title {
         font-size: 2.5rem;
-        margin-bottom: 1rem;
-        padding-top: 3.5rem;
     }
     #home--description {
-        margin: 0;
         font-size: 1.5rem;
         line-height: normal;
+        margin: 3px;
     }
     #home--register-link {
         font-size: 1.5rem;
