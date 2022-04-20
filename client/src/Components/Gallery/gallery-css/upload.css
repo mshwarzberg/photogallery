@@ -23,14 +23,14 @@
     text-align: center;
     cursor: pointer;
     background-color: #333377cc;
-    color: #111133;
-    text-shadow: 1px 1px 1px #ccccff, -1px -1px 1px #ccccff;
+    color: #000033ee;
     font-weight: bold;
     border-radius: 1rem;
     border: 4px  solid white;
 }
 
 .upload--choose-button:hover {
+    color: black;
     background-color: pink;
 }
 
@@ -39,6 +39,7 @@
     margin-bottom: 2rem;
     font-family: 'Jakarta';
 }
+
 #upload--upload-button {
     font-family: 'Akshar';
     margin-top: 2rem;

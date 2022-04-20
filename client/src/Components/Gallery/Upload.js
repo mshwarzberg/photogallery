@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import loadingIcon from "../../images/loading.gif";
+import loadingIcon from "../../images/Loading.gif";
 
 function Upload() {
 

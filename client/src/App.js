@@ -51,6 +51,7 @@ function App() {
           <Route element={<Privacy />} path="/yourprivacy" />
           <Route element={<CreateAccount />} path="/register" />
           <Route element={<Login />} path="/login" />
+
           <Route
             element={
               <Gallery

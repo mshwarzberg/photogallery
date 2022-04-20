@@ -3,8 +3,7 @@ import RenderGalleryPage from "./RenderGalleryPage";
 
 function Gallery(props) {
 
-  const [isTrash, setIsTrash] = useState()
-  const [isFavorites, setIsFavorites] = useState()
+  const [page, setPage] = useState()
   const [images, setImages] = useState([]);
   const [resetNumber, setResetNumber] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -12,23 +11,27 @@ function Gallery(props) {
   const { showNav } = props
 
   useEffect(() => {
-    if (window.location.href.includes('trash')) {
-      setIsTrash('trash')
+
+    if (window.location.href.includes('trash') ) {
+      setPage('isintrash')
     } else if (window.location.href.includes('favorites')) {
-      setIsFavorites('favorites')
+      setPage('isinfavorites')
+    } else {
+      setPage('gallery')
     }
+    
   }, [])
 
   useEffect(() => {
-    if (currentIndex < 25) {
-      fetch("api/gallery", {
+    if (currentIndex < 25 && page) {
+      fetch("/api/gallery", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           id: localStorage.getItem("id"),
           currentindex: currentIndex,
           resetnumber: resetNumber,
-          category: isTrash || isFavorites
+          category: page
         }),
       })
         .then(async (res) => {
@@ -73,7 +76,7 @@ function Gallery(props) {
         });
     }
     return () => {};
-  }, [currentIndex, setCurrentIndex]);
+  }, [currentIndex, setCurrentIndex, images.length, page, resetNumber]);
 
   return (
     <div>
@@ -85,6 +88,7 @@ function Gallery(props) {
         resetNumber={resetNumber}
         setResetNumber={setResetNumber}
         showNav={showNav}
+        page={page}
       />
     </div>
   );

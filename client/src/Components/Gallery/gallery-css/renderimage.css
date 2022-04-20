@@ -4,7 +4,7 @@
     transform: scale(1);
   }
   100% {
-    background-color: yellow;
+    background-color: white;
     transform: scale(1.1);
   }
 }
@@ -22,11 +22,10 @@
 #renderimage--grid {
   position: relative;
   height: 100%;
-  width: 95%;
+  width: 97%;
   display: grid;
   grid-template-columns: repeat(16, 1fr);
   grid-gap: 1rem;
-  margin: 1.5rem;
 }
 
 .renderimage--image-block {
@@ -36,7 +35,7 @@
   align-items: center;
   justify-content: center;
   background-color: #15122588;
-  border-radius: 4px;
+  border-radius: 2px;
 }
 
 .renderimage--image {
@@ -81,14 +80,6 @@
   cursor: pointer;
   animation: 400ms forwards hoverImage;
   padding: 2px;
-}
-
-#renderimage--trash-icon {
-  position: absolute;
-  max-width: 2rem;
-  top: 4px;
-  left: 4px;
-  z-index: 2;
 }
 
 @media screen and (max-width: 1200px) {

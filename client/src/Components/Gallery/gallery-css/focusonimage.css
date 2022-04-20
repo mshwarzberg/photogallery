@@ -15,11 +15,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #111111ee;
+  background-color: #0f0f0ff4;
   width: 100vw;
   height: 100vh;
   top: 0;
-  z-index: 5;
+  z-index: 6;
 }
 
 #focusonimage--focus-image {

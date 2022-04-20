@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+
 import RenderImage from "./RenderImage";
 import FocusOnImage from "./FocusOnImage";
-import { useNavigate } from "react-router-dom";
 
 function RenderGalleryPage(props) {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ function RenderGalleryPage(props) {
     currentIndex,
     setCurrentIndex,
     setResetNumber,
-    showNav,
+    page,
   } = props;
 
   function getImageSize(value) {
@@ -46,11 +47,21 @@ function RenderGalleryPage(props) {
     <div className="page" id="rendergallerypage--page">
       <div id="rendergallerypage--header-area">
         <select id="rendergallerypage--header-sort">
-          <option value="none" selected disabled hidden>Sort Images By ↓</option>
-          <option value="name" className="rendergallerypage--header-option">Name</option>
-          <option value="date" className="rendergallerypage--header-option">Date Added</option>
-          <option value="size" className="rendergallerypage--header-option">File Size</option>
-          <option value="random" className="rendergallerypage--header-option">Randomly</option>
+          <option selected disabled hidden>
+            SORT IMAGES BY ↓
+          </option>
+          <option value="name" className="rendergallerypage--header-option">
+            Name
+          </option>
+          <option value="date" className="rendergallerypage--header-option">
+            Date Added
+          </option>
+          <option value="size" className="rendergallerypage--header-option">
+            File Size
+          </option>
+          <option value="random" className="rendergallerypage--header-option">
+            Randomly
+          </option>
         </select>
         <h1 id="rendergallerypage--header-text">
           {images.length
@@ -58,7 +69,7 @@ function RenderGalleryPage(props) {
             : "NOTHING HERE. UPLOAD IMAGES TO VIEW THEM HERE"}
         </h1>
         <div id="rendergallerypage--header-buttons">
-          {!window.location.href.includes("/trash") && (
+          {!window.location.href.includes("trash") && (
             <button
               id="rendergallerypage--header-trash"
               onClick={() => {
@@ -69,7 +80,7 @@ function RenderGalleryPage(props) {
               TRASH
             </button>
           )}
-          {!window.location.href.includes("/favorites") && (
+          {!window.location.href.includes("favorites") && (
             <button
               id="rendergallerypage--header-favorites"
               onClick={() => {
@@ -87,6 +98,7 @@ function RenderGalleryPage(props) {
         focusOnImage={focusOnImage}
         setImages={setImages}
         getImageSize={getImageSize}
+        page={page}
       />
       <FocusOnImage
         images={images}
