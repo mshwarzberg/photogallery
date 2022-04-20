@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Profile(props) {
+
   const navigate = useNavigate();
-  const { myTokens } = props
+  
   const [userInfo, setUserInfo] = useState({
     username: "",
     email: "",
@@ -13,45 +14,41 @@ function Profile(props) {
   });
 
   useEffect(() => {
-    myTokens()
-    return myTokens()
-  }, [myTokens])
+    fetch("/api/profile/getinfo", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: localStorage.getItem("id"),
+      }),
+    }).then(async (res) => {
+      const response = await res.json();
 
-  useEffect(() => {
-      fetch("/api/profile/getinfo", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: localStorage.getItem("id"),
-        }),
-      }).then(async (res) => {
-        const response = await res.json();
-        
-        if (response.err) {
-          return fetch("/auth/newtoken", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-          }).then(async (res) => {
-
+      if (response.err) {
+        return fetch("/auth/newtoken", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+        })
+          .then(async (res) => {
             const response = await res.json();
 
             if (response.err) {
               console.log(response.err);
             }
-          }).catch((err) => console.log(err));
-        }
-        let overall = shortenSizeWord(response.totaldataconsumed);
-        let average = shortenSizeWord(response.averagesize);
-        setUserInfo({
-          storageused: overall,
-          numberofimages: response.amountofphotos,
-          averagesize: average,
-          username: response.username,
-          email: response.email,
-        });
-    })
+          })
+          .catch((err) => console.log(err));
+      }
+      let overall = shortenSizeWord(response.totaldataconsumed);
+      let average = shortenSizeWord(response.averagesize);
+      setUserInfo({
+        storageused: overall,
+        numberofimages: response.amountofphotos,
+        averagesize: average,
+        username: response.username,
+        email: response.email,
+      });
+    });
   }, [navigate, props]);
 
   function shortenSizeWord(value) {

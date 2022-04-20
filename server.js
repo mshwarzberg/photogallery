@@ -5,7 +5,7 @@ const register = require("./routes/accountroutes/createaccount");
 const login = require("./routes/accountroutes/login");
 const profile = require("./routes/accountroutes/profile");
 const upload = require("./routes/galleryroutes/upload");
-const viewphotos = require("./routes/galleryroutes/viewgallery");
+const viewphotos = require("./routes/galleryroutes/renderimages");
 const managephotos = require("./routes/galleryroutes/managephotos");
 
 const db = require("./config/mysql");

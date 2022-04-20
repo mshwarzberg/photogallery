@@ -2,6 +2,7 @@ import React from "react";
 import Trash from "../../images/Trash.png";
 
 function RenderImage(props) {
+  
   const images = props.images;
 
   function viewIcons(value, bool) {
@@ -16,8 +17,10 @@ function RenderImage(props) {
   }
 
   const renderImages = images.map((image) => {
+
     const size = props.getImageSize(images[image.value].size);
     const htmlclass = `renderimage--image-${images[image.value].imageratio}`;
+    
     return (
       <div
         key={image.imageURL}

@@ -5,7 +5,8 @@ const db = require("../../config/mysql");
 router.post("/getinfo", (req, res) => {
   const getData = "SELECT nameinserver,filesize FROM images where id=?";
   db.query(getData, [req.body.id], (err, data) => {
-    if (err) return res.send({ err: "Unknown error" });
+    if (err) {
+      return res.send({ err: err });}
     else {
       let totalDataConsumed = 0;
       let amountofphotos = 0;
@@ -19,7 +20,7 @@ router.post("/getinfo", (req, res) => {
       const getUserInfo = "SELECT username, email FROM credentials WHERE id=?";
 
       db.query(getUserInfo, [req.body.id], (err, data) => {
-        if (err) return res.send({ err: "Unknown error" });
+        if (err) return res.send({ err: err });
         else {
           let username = data[0].username;
           let email = data[0].email;

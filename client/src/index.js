@@ -11,7 +11,7 @@ import "./Components/Account/account-css/profile.css";
 import "./Components/Account/account-css/createaccount.css";
 import "./Components/Account/account-css/login.css";
 import './Components/Gallery/gallery-css/upload.css'
-import './Components/Gallery/gallery-css/viewgallery.css'
+import './Components/Gallery/gallery-css/rendergallerypage.css'
 import './Components/Gallery/gallery-css/focusonimage.css'
 import './Components/Gallery/gallery-css/renderimage.css'
 import './Components/General/general-css/footer.css'

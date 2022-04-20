@@ -6,6 +6,7 @@ import AuthContext from "../../Context/AuthContext";
 
 function Navbar(props) {
   const { showNav, setShowNav } = props
+  
   const navigate = useNavigate();
 
   const { checkAuth } = useContext(AuthContext);
@@ -98,7 +99,7 @@ function Navbar(props) {
           {showNav ? (
             <p id="navbar--toggle-arrow-visible">↑</p>
           ) : (
-            <p id="navbar--toggle-arrow-hidden">...</p>
+            <p id="navbar--toggle-arrow-hidden">↓</p>
           )}
         </button>
       </div>

@@ -1,0 +1,86 @@
+#rendergallerypage--page {
+  position: absolute;
+  left: 0;
+  top: 5rem;
+  width: 100%;
+  background-color: #101033;
+  height: fit-content;
+}
+
+#rendergallerypage--header-area {
+  position: fixed;
+  top: 5rem;
+  z-index: 5;
+  background-color: #111155ee;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 3rem;
+  border: 2.5px solid white;
+}
+
+#rendergallerypage--header-text {
+  cursor: default;
+  font-family: 'Jakarta';
+  font-size: 1.4rem;
+  margin-left: 3%;
+}
+
+#rendergallerypage--header-buttons {
+  height: 100%;
+  position: absolute;
+  right: 0;
+}
+
+#rendergallerypage--header-favorites, #rendergallerypage--header-trash {
+  font-family: 'Jakarta';
+  font-weight: 600;
+  border: none;
+  height: 100%;
+  padding: 0 1rem;
+  font-size: 1.3rem;
+  background-color: #555599;
+  color: white;
+  cursor: pointer;
+}
+
+#rendergallerypage--header-trash:hover, #rendergallerypage--header-favorites:hover {
+  background-color: pink;
+  color: black;
+}
+
+#rendergallerypage--loadmore {
+  font-family: 'Jakarta';
+  position: absolute;
+  bottom: 90px;
+  z-index: 5;
+}
+
+#rendergallerypage--header-sort {
+  position: absolute;
+  height: 100%;
+  padding: 0 1rem;
+  left: 0;
+  cursor: pointer;
+  border: none;
+  font-weight: bold;
+  font-family: 'Jakarta';
+  background-color: #555599;
+  color: white;
+}
+
+
+.rendergallerypage--header-option:nth-child(even) {
+  background-color: #111155ee;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: none;
+}
+
