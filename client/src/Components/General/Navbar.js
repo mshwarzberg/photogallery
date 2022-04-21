@@ -39,7 +39,7 @@ function Navbar(props) {
             <div id="navbar--top">
               <button
                 onClick={() => {
-                  fetch("auth/logout", {
+                  fetch("/auth/logout", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ id: localStorage.getItem("id"), loggingout: true }),

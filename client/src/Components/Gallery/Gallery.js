@@ -13,9 +13,9 @@ function Gallery(props) {
   useEffect(() => {
 
     if (window.location.href.includes('trash') ) {
-      setPage('isintrash')
+      setPage('trash')
     } else if (window.location.href.includes('favorites')) {
-      setPage('isinfavorites')
+      setPage('favorites')
     } else {
       setPage('gallery')
     }
@@ -37,22 +37,9 @@ function Gallery(props) {
         .then(async (res) => {
           const response = await res.blob();
           const imageURL = URL.createObjectURL(response);
-          if (!res.headers) {
+
+          if (!res.headers || response.type === 'application/json; charset=utf-8') {
             return;
-          }
-          let imageRatio =
-            res.headers.get("dimensions").split("x")[0] /
-            res.headers.get("dimensions").split("x")[1];
-          if (imageRatio <= 0.6) {
-            imageRatio = "ultratall";
-          } else if (imageRatio <= 0.85) {
-            imageRatio = "tall";
-          } else if (imageRatio <= 1.15) {
-            imageRatio = "square";
-          } else if (imageRatio <= 1.9) {
-            imageRatio = "wide";
-          } else {
-            imageRatio = "ultrawide";
           }
 
           setImages((prevImages) => [
@@ -62,10 +49,10 @@ function Gallery(props) {
               name: res.headers.get("originalname"),
               dimensions: res.headers.get("dimensions"),
               size: res.headers.get("filesize"),
-              value: images.length || 0,
               nameinserver: res.headers.get("nameinserver"),
+              isfavorited: res.headers.get('isfavorited') === '1',
+              value: images.length,
               focused: false,
-              imageratio: imageRatio,
               showicon: false,
             },
           ]);

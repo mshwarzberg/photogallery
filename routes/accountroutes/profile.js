@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../../config/mysql");
+const authandsecurity = require('../authandsecurity')
 
-router.post("/getinfo", (req, res) => {
+router.post("/getinfo", authandsecurity.tokenAuthentication, (req, res) => {
   const getData = "SELECT nameinserver,filesize FROM images where id=?";
   db.query(getData, [req.body.id], (err, data) => {
     if (err) {

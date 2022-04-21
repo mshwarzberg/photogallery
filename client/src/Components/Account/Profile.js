@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Profile(props) {
-
   const navigate = useNavigate();
-  
+
   const [userInfo, setUserInfo] = useState({
     username: "",
     email: "",
@@ -28,11 +27,15 @@ function Profile(props) {
       if (response.err) {
         return fetch("/auth/newtoken", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            authorization: localStorage.getItem("refreshToken"),
+          },
+          body: JSON.stringify({ id: localStorage.getItem('id') })
         })
           .then(async (res) => {
             const response = await res.json();
-
+            console.log(response);
             if (response.err) {
               console.log(response.err);
             }

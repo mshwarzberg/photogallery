@@ -64,42 +64,106 @@ function RenderGalleryPage(props) {
           </option>
         </select>
         <h1 id="rendergallerypage--header-text">
-          {images.length
-            ? `${images.length} IMAGES LOADED`
-            : "NOTHING HERE. UPLOAD IMAGES TO VIEW THEM HERE"}
+          {images.length ? `${images.length} IMAGES LOADED` : ""}
         </h1>
-        <div id="rendergallerypage--header-buttons">
-          {!window.location.href.includes("trash") && (
-            <button
-              id="rendergallerypage--header-trash"
-              onClick={() => {
-                navigate("/gallery/trash");
-                return window.location.reload(true);
-              }}
-            >
-              TRASH
-            </button>
-          )}
-          {!window.location.href.includes("favorites") && (
-            <button
-              id="rendergallerypage--header-favorites"
-              onClick={() => {
-                navigate("/gallery/favorites");
-                return window.location.reload(true);
-              }}
-            >
-              FAVORITES
-            </button>
-          )}
-        </div>
+
+        {(() => {
+          if (page === "gallery") {
+            return (
+              <div id="rendergallerypage--header-buttons">
+                <button
+                  id="rendergallerypage--header-one"
+                  onClick={() => {
+                    navigate("/gallery/trash");
+                    return window.location.reload(true);
+                  }}
+                >
+                  TRASH
+                </button>
+                <button
+                  id="rendergallerypage--header-two"
+                  onClick={() => {
+                    navigate("/gallery/favorites");
+                    return window.location.reload(true);
+                  }}
+                >
+                  FAVORITES
+                </button>
+              </div>
+            );
+          } else if (page === "trash") {
+            return (
+              <div id="rendergallerypage--header-buttons">
+                <button
+                  id="rendergallerypage--header-one"
+                  onClick={() => {
+                    navigate("/gallery");
+                    return window.location.reload(true);
+                  }}
+                >
+                  BACK TO GALLERY
+                </button>
+                <button
+                  id="rendergallerypage--header-two"
+                  onClick={() => {
+                    navigate("/gallery/favorites");
+                    return window.location.reload(true);
+                  }}
+                >
+                  FAVORITES
+                </button>
+              </div>
+            );
+          } else if (page === "favorites") {
+            return (
+              <div id="rendergallerypage--header-buttons">
+                <button
+                  id="rendergallerypage--header-one"
+                  onClick={() => {
+                    navigate("/gallery/trash");
+                    return window.location.reload(true);
+                  }}
+                >
+                  TRASH
+                </button>
+                <button
+                  id="rendergallerypage--header-two"
+                  onClick={() => {
+                    navigate("/gallery");
+                    return window.location.reload(true);
+                  }}
+                >
+                  BACK TO GALLERY
+                </button>
+              </div>
+            );
+          }
+        })()}
       </div>
-      <RenderImage
-        images={images}
-        focusOnImage={focusOnImage}
-        setImages={setImages}
-        getImageSize={getImageSize}
-        page={page}
-      />
+      {images.length > 0 ? (
+        <RenderImage
+          images={images}
+          focusOnImage={focusOnImage}
+          setImages={setImages}
+          getImageSize={getImageSize}
+          page={page}
+        />
+      ) : (
+        <h1 id="rendergallery--nothing-here">
+          NOTHING HERE. 
+          {(() => {
+            if (page === "gallery") {
+              return " UPLOAD IMAGES TO VIEW THEM HERE";
+            }
+            if (page === "trash") {
+              return " DELETED IMAGES WILL SHOW UP HERE";
+            }
+            if (page === "favorites") {
+              return " LIKED IMAGES WILL SHOW UP HERE";
+            }
+          })()}
+        </h1>
+      )}
       <FocusOnImage
         images={images}
         focusOnImage={focusOnImage}

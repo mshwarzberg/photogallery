@@ -86,7 +86,7 @@ function Login() {
                 // hideShowTooltip("passwordmsg", false);
               }}
               id={
-                loginInput.username.length < 5
+                loginInput.username.length < 4
                   ? "userform--input-tooltip-notallowed"
                   : "userform--input-tooltip-allowed"
               }
@@ -126,7 +126,7 @@ function Login() {
             type="submit"
             id="userform--submit"
             onClick={loginUser}
-            disabled={loginInput.username.length < 5  || loginInput.password.length < 5}
+            disabled={loginInput.username.length < 4  || loginInput.password.length < 5}
           >
             Log In
           </button>

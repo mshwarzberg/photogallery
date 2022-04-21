@@ -7,7 +7,7 @@ const sizeOf = require("image-size");
 const ExifImage = require("exif").ExifImage;
 
 let id;
-const JsonWebToken = require('../JsonWebToken')
+const authandsecurity = require('../authandsecurity')
 
 function addArrToDB(id, originalname, nameinserver, path, dimensions, size) {
   const imageID = generateImageID();

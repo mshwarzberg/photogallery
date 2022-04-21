@@ -7,10 +7,6 @@ const jwt = require("jsonwebtoken");
 // current date plus 10min
 let tenMinutes = Math.floor(Date.now() / 1000) + (10 * 60)
 
-function generateAccessToken(user) {
-  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn:  '15s'});
-}
-
 router.post("/", (req, res) => {
   const comparetodb =
     "SELECT userpass, id, email FROM Credentials WHERE username=? or email=?";

@@ -1,9 +1,8 @@
 import React from "react";
-import Trash from "../../images/Trash.png";
+import HoverButtons from "./HoverButtons";
 
 function RenderImage(props) {
-  
-  const images = props.images;
+  const { images, setImages, getImageSize, focusOnImage, page } = props;
 
   function viewIcons(value, bool) {
     props.setImages((prevImageData) => {
@@ -16,83 +15,65 @@ function RenderImage(props) {
     });
   }
 
-  const renderImages = images.map((image) => {
+  function renderImages(val) {
+    const column = images.map((image) => {
+      const size = getImageSize(images[image.value].size);
 
-    const size = props.getImageSize(images[image.value].size);
-    const htmlclass = `renderimage--image-${images[image.value].imageratio}`;
-    
-    return (
-      <div
-        key={image.imageURL}
-        className="renderimage--image-block"
-        id={htmlclass}
-        title={
-          "Name: " +
-          images[image.value].name +
-          "\nDimensions: " +
-          images[image.value].dimensions +
-          "\nSize: " +
-          size
-        }
-        onDoubleClick={() => {
-          props.focusOnImage(image.value, true);
-        }}
-        onMouseEnter={() => {
-          viewIcons(image.value, true);
-        }}
-        onMouseLeave={() => {
-          viewIcons(image.value, false);
-        }}
-      >
-        {images[image.value].showicon && (
-          <img
-            src={Trash}
-            alt="trash"
-            id="renderimage--trash-icon"
-            title="Put in trash"
-            onClick={() => {
-              
-              fetch("api/manage/delete", {
-                method: "DELETE",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  nameinserver: images[image.value].nameinserver,
-                  id: localStorage.getItem("id"),
-                }),
-              })
-                .then((res) => {
-                  
-                  props.setImages((prevImages) => {
-                    prevImages.splice(image.value, 1);
-                    const newData = prevImages.map((newimage) => {
-                      
-                      return {
-                        ...newimage,
-                        value:
-                              newimage.value > image.value
-                                ? newimage.value - 1
-                                : newimage.value,
-                      };
-                    });
-                    return newData;
-                  });
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
+      if ((image.value % 3) + 1 === val) {
+        return (
+          <div
+            key={image.imageURL}
+            className="renderimage--image-block"
+            title={
+              "Name: " +
+              images[image.value].name +
+              "\nDimensions: " +
+              images[image.value].dimensions +
+              "\nSize: " +
+              size
+            }
+            onDoubleClick={() => {
+              focusOnImage(image.value, true);
             }}
-          />
-        )}
-        <img src={image.imageURL} alt="myimg" className="renderimage--image" />
-      </div>
-    );
-  });
+            onMouseEnter={() => {
+              viewIcons(image.value, true);
+            }}
+            onMouseLeave={() => {
+              viewIcons(image.value, false);
+            }}
+          >
+            {images[image.value].showicon && (
+              <HoverButtons
+                images={images}
+                image={image}
+                setImages={setImages}
+                page={page}
+              />
+            )}
+            <img
+              src={image.imageURL}
+              alt="myimg"
+              className="renderimage--image"
+            />
+          </div>
+        );
+      }
+      return "";
+    });
+    return column;
+  }
 
   return (
-    <div className="page" id="renderimage--grid">
-      {renderImages}
+    <div id="renderimage--container">
+      <div className="renderimage--column" id="renderimage--column1">
+        {renderImages(1)}
+      </div>
+      <div className="renderimage--column" id="renderimage--column2">
+        {renderImages(2)}
+      </div>
+      <div className="renderimage--column" id="renderimage--column3">
+        {renderImages(3)}
+      </div>
     </div>
   );
 }

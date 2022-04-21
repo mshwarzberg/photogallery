@@ -6,7 +6,7 @@ import Profile from "./Components/Account/Profile";
 import Login from "./Components/Account/Login";
 import Home from "./Components/General/Home";
 import Navbar from "./Components/General/Navbar";
-import Upload from "./Components/Gallery/Upload";
+import Upload from './Components/Account/Upload'
 import Gallery from "./Components/Gallery/Gallery";
 import Privacy from "./Components/General/Privacy";
 import Footer from "./Components/General/Footer";
@@ -14,14 +14,8 @@ import Footer from "./Components/General/Footer";
 import AuthContext from "./Context/AuthContext";
 
 function App() {
-  const [showNav, setShowNav] = useState(false);
-  const [isTrash, setIsTrash] = useState(false)
 
-  useEffect(() => {
-      if (window.location.href.includes('/trash')) {
-        setIsTrash(true)
-      }
-    }, [])
+  const [showNav, setShowNav] = useState(false);
 
   const [checkAuth, setCheckAuth] = useState(
     localStorage.getItem("isAuth") === "true"
@@ -57,8 +51,6 @@ function App() {
               <Gallery
                 showNav={showNav}
                 setShowNav={setShowNav}
-                isTrash={isTrash}
-                setIsTrash={setIsTrash}
               />
             }
             path={"/gallery"}

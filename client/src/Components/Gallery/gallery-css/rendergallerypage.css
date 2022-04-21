@@ -6,12 +6,12 @@
   width: 100%;
   background-color: #101033;
   height: fit-content;
-  min-height: 100%;
 }
 
 #rendergallerypage--header-area {
   position: sticky;
   top: 0;
+  bottom: calc(100vh - 5rem);
   z-index: 5;
   background-color: #111155ee;
   color: white;
@@ -38,7 +38,7 @@
   right: 0;
 }
 
-#rendergallerypage--header-favorites, #rendergallerypage--header-trash {
+#rendergallerypage--header-one, #rendergallerypage--header-two {
   font-family: 'Jakarta';
   border: none;
   height: 100%;
@@ -49,7 +49,7 @@
   cursor: pointer;
 }
 
-#rendergallerypage--header-trash:hover, #rendergallerypage--header-favorites:hover {
+#rendergallerypage--header-one:hover, #rendergallerypage--header-two:hover {
   background-color: pink;
   color: black;
 }
@@ -64,6 +64,10 @@
   font-family: 'Jakarta';
   background-color: #555599;
   color: white;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: none;
 }
 
 #rendergallerypage--header-sort:hover {
@@ -74,11 +78,10 @@
   background-color: #111155ee;
 }
 
-select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-image: none;
+#rendergallery--nothing-here {
+  font-size: 2rem;
+  color: white;
+  font-family: 'Jakarta';
 }
 
 #rendergallerypage--loadmore {
@@ -104,7 +107,7 @@ select {
 }
 
 #rendergallerypage--loadmore:disabled {
-  background: #44444455;
+    background: #44444455;
     color: #444444;
     text-shadow: none;
     border: none;
